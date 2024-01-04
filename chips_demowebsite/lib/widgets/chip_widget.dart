@@ -21,6 +21,10 @@ class ChipWidget extends StatelessWidget {
   final String nestedImageURL;
   final bool showYoutube;
   final String youtubeURL;
+  final int likeCount;
+  final int commentCount;
+  final int sharedBy;
+  final int savedBy;
 
   const ChipWidget({
     super.key,
@@ -39,6 +43,10 @@ class ChipWidget extends StatelessWidget {
     this.youtubeURL = 'null',
     required this.name,
     required this.timeAdded,
+    this.likeCount= 100,
+    this.commentCount= 20,
+    this.savedBy=0,
+    this.sharedBy=0
   });
 
   @override
@@ -254,23 +262,70 @@ class ChipWidget extends StatelessWidget {
                 ? const SizedBox()
                 : YoutubeChip(youtubeURL: youtubeURL),
             const SizedBox(height: 20),
-          ]),
-
-      // const SizedBox(height: 10),
-
-      //  showRSVP == false
-      //      ? const SizedBox()
-      //      : Padding(
-      //          padding: const EdgeInsets.only(left: 20, right: 20),
-      //        child: PillButton(
-      //            onTap: () {},
-      //            text: "RSVP",
-      //            textColor: ColorConst.secondaryText,
-      //            backGroundColor: ColorConst.primaryBackground,
-      //            borderColor: ColorConst.secondaryText,
-      //            width: MediaQuery.of(context).size.width,
-      //          ),
-      //        ),
+            Row( 
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                      // Handle favorite icon tap
+                  },
+                    child: Icon(Icons.favorite_border),
+                  ),
+                  Text(
+                    likeCount.toString(),
+                     style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white54,
+                    ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle comment icon tap
+                    },
+                    child: Icon(Icons.comment),
+                  ),
+                   Text(
+                    commentCount.toString(),
+                     style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white54,
+                    ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle share icon tap
+                    },
+                    child: Icon(Icons.share),
+                  ),
+                   Text(
+                    sharedBy.toString(),
+                     style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white54,
+                    ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle download icon tap
+                    },
+                    child: Icon(Icons.download),
+                  ), Text(
+                    savedBy.toString(),
+                     style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white54,
+                    ),
+                  ),
+                  const Spacer(),
+              ]
+               
+            )
+          ],
+      )
     );
   }
 }
