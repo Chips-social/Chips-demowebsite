@@ -66,8 +66,40 @@ class Home extends StatelessWidget {
                   ),
                 )
             ],
-          )
-          
+          ),
+          DefaultTabController(
+                  length: 7,
+                  //isScrollable: true,
+                  child: Column(
+                    children: [
+                      TabBar(
+                    tabs: [
+                      Tab(
+                        text: 'Food & Drinks'
+                      ),
+                      Tab(
+                        text: 'Entertainment'
+                      ),
+                      Tab(
+                        text: 'Science & Tech'
+                      ),
+                      Tab(
+                        text: 'Art & Design'
+                      ),
+                      Tab(
+                        text: 'Interiors & Lifestyle'
+                      ),
+                      Tab(
+                        text: 'Travel'
+                      ),
+                      Tab(
+                        text: 'Fashion & Beauty'
+                      ),                     
+                  ],
+                  ),
+                      ]
+                    )
+                  ),
         ]
       )
       )   
