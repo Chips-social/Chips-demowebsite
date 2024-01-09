@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/widgets/tab_widget.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -102,24 +103,25 @@ class Home extends StatelessWidget {
                       child: TabBarView(
                     controller: homeController.tabController,
                     children: [
-                      getTabWidget(title: 'Food & Drinks'),
-                      getTabWidget(title: 'Entertainment'),
-                      getTabWidget(title: 'Science & Tech'),
-                      getTabWidget(title: 'Art & Design'),
-                      getTabWidget(title: 'Interiors & Lifestyle'),
-                      getTabWidget(title: 'Travel'),
-                      getTabWidget(title: 'Fashion & Beauty'),
+                      TabWidget(title: 'Food & Drinks'),
+                      TabWidget(title: 'Entertainment'),
+                      TabWidget(title: 'Science & Tech'),
+                      TabWidget(title: 'Art & Design'),
+                      TabWidget(title: 'Interiors & Lifestyle'),
+                      TabWidget(title: 'Travel'),
+                      TabWidget(title: 'Fashion & Beauty'),
                     ],
                   ))
                 ])));
   }
 }
 
-Widget getTabWidget({required String title}) {
-  return Center(
-      child: Text(
+/* Widget getTabWidget({required String title}) {
+  return Container(
+    
+    child: Text(
     title,
     style: const TextStyle(
         fontSize: 24, fontWeight: FontWeight.bold, color: ColorConst.primary),
   ));
-}
+} */

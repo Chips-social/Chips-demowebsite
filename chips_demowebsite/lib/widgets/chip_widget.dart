@@ -53,7 +53,9 @@ class ChipWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // final ChipWidgetController chipWidgetController = Get.put(ChipWidgetController());
 
-    return Card(
+  return Container(
+    width:250,
+    child: Card(
       color: ColorConst.chipBackground,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       child: Column(
@@ -326,6 +328,7 @@ class ChipWidget extends StatelessWidget {
             )
           ],
       )
+    )
     );
   }
 }
