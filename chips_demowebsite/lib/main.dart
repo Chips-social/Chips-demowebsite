@@ -15,14 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Chips.Social',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: ColorConst.primary),
-        textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
-        useMaterial3: true,
-      ),
-      home: const Home()
-    );
+        title: 'Chips.Social',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: ColorConst.primary),
+          textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
+          useMaterial3: true,
+        ),
+        home: Home());
   }
 }
-

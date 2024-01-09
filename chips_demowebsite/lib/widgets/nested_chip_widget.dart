@@ -1,4 +1,4 @@
-import 'package:chips_social/constants/color_constants.dart';
+import '../constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
 class NestedChip extends StatelessWidget {
