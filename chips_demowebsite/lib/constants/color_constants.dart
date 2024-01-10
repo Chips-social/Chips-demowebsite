@@ -18,4 +18,5 @@ class ColorConst {
   static const Color tagTextColor = Color(0xffD7C6FF);
   static const Color iconBackgroundColor = Color(0xff1D1B20);
   static const Color textFieldColor = Color(0xffCAC4D0);
+  static const Color iconButtonColor = Color(0xffEADDFF);
 }
