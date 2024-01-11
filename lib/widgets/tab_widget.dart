@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,22 +59,6 @@ class TabWidget extends StatelessWidget {
                           ]),
                     ],
                   )),
-              // Align(
-              //   alignment: Alignment.centerRight,
-              //   child: Row(
-              //     children: [
-              //       Container(
-              //         decoration: BoxDecoration(
-              //           color: ColorConst.iconButtonColor,
-              //           borderRadius: BorderRadius.circular(12),
-              //         ),
-              //         child: IconButton(
-              //             onPressed: () {},
-              //             icon: Icon(Icons.add, color: ColorConst.buttonText)),
-              //       ),
-              //     ],
-              //   ),
-              // )
               Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
@@ -103,35 +88,47 @@ class TabWidget extends StatelessWidget {
                                     color: ColorConst.buttonText)),
                           ),
                           const SizedBox(width: 16),
-                           Container(
-                            decoration: BoxDecoration(
-                              color: ColorConst.iconButtonColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child:ElevatedButton(
-                              onPressed: (){},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorConst.iconButtonColor, // Set the background color
-                                fixedSize: Size(120, 40), // Set the height and width
+                          Container(
+                              decoration: BoxDecoration(
+                                color: ColorConst.iconButtonColor,
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.save),
-                                  //SizedBox(width: 4), 
-                                  Text('Save',
-                                    style: TextStyle(
-                                      color: ColorConst.selectedTabHeadingColor,
-                                      fontSize:16
-                                      )
+                              child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorConst
+                                        .iconButtonColor, // Set the background color
+                                    fixedSize: Size(
+                                        120, 40), // Set the height and width
                                   ),
-                                ],
-                              )
-                            )
-                           )
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.save),
+                                      //SizedBox(width: 4),
+                                      Text('Save',
+                                          style: TextStyle(
+                                              color: ColorConst
+                                                  .selectedTabHeadingColor,
+                                              fontSize: 16)),
+                                    ],
+                                  )))
                         ],
                       )))
-            ])
+            ]),
+            Expanded(
+                child: TabBarView(
+              controller: homeController.curationList,
+              children: [
+                ChipDemo(),
+                Container(
+                  child: Text('a'),
+                ),
+                Container(
+                  child: Text('a'),
+                ),
+              ],
+            ))
           ],
         ));
   }
