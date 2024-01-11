@@ -21,10 +21,10 @@ class ChipWidget extends StatelessWidget {
   final String nestedImageURL;
   final bool showYoutube;
   final String youtubeURL;
-  final int likeCount;
+/*   final int likeCount;
   final int commentCount;
   final int sharedBy;
-  final int savedBy;
+  final int savedBy; */
 
   const ChipWidget({
     super.key,
@@ -43,10 +43,10 @@ class ChipWidget extends StatelessWidget {
     this.youtubeURL = 'null',
     required this.name,
     required this.timeAdded,
-    this.likeCount= 100,
+/*     this.likeCount= 100,
     this.commentCount= 20,
     this.savedBy=0,
-    this.sharedBy=0
+    this.sharedBy=0 */
   });
 
   @override
@@ -54,7 +54,7 @@ class ChipWidget extends StatelessWidget {
     // final ChipWidgetController chipWidgetController = Get.put(ChipWidgetController());
 
   return Container(
-    width:250,
+    width:270,
     child: Card(
       color: ColorConst.chipBackground,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -264,7 +264,7 @@ class ChipWidget extends StatelessWidget {
                 ? const SizedBox()
                 : YoutubeChip(youtubeURL: youtubeURL),
             const SizedBox(height: 20),
-            Row( 
+           /*  Row( 
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -325,7 +325,7 @@ class ChipWidget extends StatelessWidget {
                   const Spacer(),
               ]
                
-            )
+            ) */
           ],
       )
     )

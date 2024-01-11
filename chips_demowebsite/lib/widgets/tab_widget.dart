@@ -103,6 +103,32 @@ class TabWidget extends StatelessWidget {
                                     color: ColorConst.buttonText)),
                           ),
                           const SizedBox(width: 16),
+                           Container(
+                            decoration: BoxDecoration(
+                              color: ColorConst.iconButtonColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child:ElevatedButton(
+                              onPressed: (){},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorConst.iconButtonColor, // Set the background color
+                                fixedSize: Size(120, 40), // Set the height and width
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.save),
+                                  //SizedBox(width: 4), 
+                                  Text('Save',
+                                    style: TextStyle(
+                                      color: ColorConst.selectedTabHeadingColor,
+                                      fontSize:16
+                                      )
+                                  ),
+                                ],
+                              )
+                            )
+                           )
                         ],
                       )))
             ])

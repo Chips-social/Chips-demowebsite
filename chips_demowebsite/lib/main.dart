@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/pages/home.dart';
+import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,6 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
           useMaterial3: true,
         ),
-        home: Home());
+        home: ChipDemo());
   }
 }
