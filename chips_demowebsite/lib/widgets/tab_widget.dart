@@ -1,120 +1,112 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
-import 'package:chips_demowebsite/widgets/pill_button.dart';
+import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TabWidget extends StatelessWidget {
   final String title;
-  TabWidget({
-    super.key,
-    required this.title
-    });
+  TabWidget({super.key, required this.title});
   final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.only(left: 25, right: 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-        const SizedBox(height:32),
-        Stack(
-          alignment: Alignment.center,
-          children:[
+            const SizedBox(height: 32),
+            Stack(alignment: Alignment.center, children: [
               Align(
-                alignment:Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold, color: ColorConst.primary),
-                    ),
-                    TabBar(
-                      controller: homeController.curationList,
-                      isScrollable: true,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: ColorConst.primary,
-                      indicatorColor: ColorConst.primary,
-                      tabs: [
-                        Tab(
-                          child: PillButton(
-                          onTap: () async {},
-                          text: 'All',
-                          textColor: ColorConst.buttonText,
-                          backGroundColor: ColorConst.primary,
-                          borderColor: ColorConst.primary,
-                        ),
-                        ),
-                        //Tab(text:'All'),
-                        Tab(text: 'Blr Food Scenes'),
-                        Tab(text: 'Wine & Dine Blr'),
-                  ]),
-                ],
-                )
-              ),
-              Align(
-                alignment:Alignment.centerRight,
-                child: Container(
-                        decoration: BoxDecoration(
-                          color:ColorConst.iconButtonColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.add,
-                            color:ColorConst.buttonText
-                            )
-                        ),
-                      ),
-                )
-              /* Align(
-                alignment: Alignment.centerRight,
-                child:  Padding(
-                  padding: const EdgeInsets.all(8),
-                  child:Row(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color:ColorConst.iconButtonColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.add,
-                            color:ColorConst.buttonText
-                            )
-                        ),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConst.primary),
                       ),
-                      const SizedBox(width:16), 
-                       Container(
-                        decoration: BoxDecoration(
-                          color:ColorConst.iconButtonColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.send_outlined,
-                            color:ColorConst.buttonText
-                            )
-                        ),
-                      ),
-                      const SizedBox(width:16),
-                    ],)
-                )
-                ) */
-            ]
-          )
-      ],
-    )
-      ) 
-    );
+                      TabBar(
+                          controller: homeController.curationList,
+                          isScrollable: true,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: ColorConst.primary,
+                          labelPadding: const EdgeInsets.only(left: 16),
+                          indicatorColor: ColorConst.primary,
+                          dividerColor: Colors.transparent,
+                          tabs: const [
+                            Tab(
+                              child: CurationTabHeading(
+                                  curationName: 'All', isSelected: true),
+                            ),
+                            //Tab(text:'All'),
+                            Tab(
+                              child: CurationTabHeading(
+                                  curationName: 'Blr Food Scenes',
+                                  isSelected: false),
+                            ),
+                            Tab(
+                              child: CurationTabHeading(
+                                  curationName: 'Wine & Dine Blr',
+                                  isSelected: false),
+                            ),
+                          ]),
+                    ],
+                  )),
+              // Align(
+              //   alignment: Alignment.centerRight,
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         decoration: BoxDecoration(
+              //           color: ColorConst.iconButtonColor,
+              //           borderRadius: BorderRadius.circular(12),
+              //         ),
+              //         child: IconButton(
+              //             onPressed: () {},
+              //             icon: Icon(Icons.add, color: ColorConst.buttonText)),
+              //       ),
+              //     ],
+              //   ),
+              // )
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: ColorConst.iconButtonColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.add,
+                                    color: ColorConst.buttonText)),
+                          ),
+                          const SizedBox(width: 16),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: ColorConst.iconButtonColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.send_outlined,
+                                    color: ColorConst.buttonText)),
+                          ),
+                          const SizedBox(width: 16),
+                        ],
+                      )))
+            ])
+          ],
+        ));
   }
 }

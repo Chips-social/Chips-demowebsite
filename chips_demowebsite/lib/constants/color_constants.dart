@@ -19,4 +19,5 @@ class ColorConst {
   static const Color iconBackgroundColor = Color(0xff1D1B20);
   static const Color textFieldColor = Color(0xffCAC4D0);
   static const Color iconButtonColor = Color(0xffEADDFF);
+  static const Color selectedTabHeadingColor = Color(0xff21005D);
 }
