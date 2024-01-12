@@ -65,6 +65,7 @@ class Home extends StatelessWidget {
                             textColor: ColorConst.buttonText,
                             backGroundColor: ColorConst.primary,
                             borderColor: ColorConst.primary,
+                            height:40,
                             width: 160,
                           ),
                         )
