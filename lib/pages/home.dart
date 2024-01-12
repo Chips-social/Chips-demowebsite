@@ -66,52 +66,75 @@ class Home extends StatelessWidget {
                       )
                     ],
                   ),
-                  Stack(
-                    alignment: Alignment.center,
+                  Row(
                     children: [
-                      // #Home
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: SizedBox(
-                          child: TabBar(
-                              controller: homeController.tabController,
-                              isScrollable: false,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              labelColor: ColorConst.primary,
-                              indicatorColor: ColorConst.primary,
-                              tabs: const [
-                                Tab(text: 'Food & Drinks'),
-                                Tab(text: 'Entertainment'),
-                                Tab(text: 'Science & Tech'),
-                                Tab(text: 'Art & Design'),
-                                Tab(text: 'Interiors & Lifestyle'),
-                                Tab(text: 'Travel'),
-                                Tab(text: 'Fashion & Beauty'),
-                              ]),
-                        ),
-                      ),
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.navigate_next_rounded,
-                          color: ColorConst.primary,
-                        ),
-                      )
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height - 120,
+                            color: Colors.amber,
+                          )),
+                      Expanded(
+                          flex: 6,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height - 120,
+                            child: Column(
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    // #Home
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: SizedBox(
+                                        child: TabBar(
+                                            controller:
+                                                homeController.tabController,
+                                            isScrollable: false,
+                                            indicatorSize:
+                                                TabBarIndicatorSize.label,
+                                            labelColor: ColorConst.primary,
+                                            indicatorColor: ColorConst.primary,
+                                            tabs: const [
+                                              Tab(text: 'Food & Drinks'),
+                                              Tab(text: 'Entertainment'),
+                                              Tab(text: 'Science & Tech'),
+                                              Tab(text: 'Art & Design'),
+                                              Tab(
+                                                  text:
+                                                      'Interiors & Lifestyle'),
+                                              Tab(text: 'Travel'),
+                                              Tab(text: 'Fashion & Beauty'),
+                                            ]),
+                                      ),
+                                    ),
+                                    const Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.navigate_next_rounded,
+                                        color: ColorConst.primary,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Expanded(
+                                    child: TabBarView(
+                                  controller: homeController.tabController,
+                                  children: [
+                                    TabWidget(title: 'Food & Drinks'),
+                                    TabWidget(title: 'Entertainment'),
+                                    TabWidget(title: 'Science & Tech'),
+                                    TabWidget(title: 'Art & Design'),
+                                    TabWidget(title: 'Interiors & Lifestyle'),
+                                    TabWidget(title: 'Travel'),
+                                    TabWidget(title: 'Fashion & Beauty'),
+                                  ],
+                                ))
+                              ],
+                            ),
+                          )),
                     ],
                   ),
-                  Expanded(
-                      child: TabBarView(
-                    controller: homeController.tabController,
-                    children: [
-                      TabWidget(title: 'Food & Drinks'),
-                      TabWidget(title: 'Entertainment'),
-                      TabWidget(title: 'Science & Tech'),
-                      TabWidget(title: 'Art & Design'),
-                      TabWidget(title: 'Interiors & Lifestyle'),
-                      TabWidget(title: 'Travel'),
-                      TabWidget(title: 'Fashion & Beauty'),
-                    ],
-                  ))
                 ])));
   }
 }

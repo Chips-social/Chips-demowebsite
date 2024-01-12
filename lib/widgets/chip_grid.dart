@@ -72,7 +72,10 @@ class ChipDemo extends StatelessWidget {
     ChipWidget(
       text: 'Hello this is my new chip 6',
       dateTimeUrl: false,
-      imageURLS: ["https://picsum.photos/seed/picsum/200/300"],
+      imageURLS: [
+        "https://picsum.photos/seed/picsum/200/300",
+        "https://picsum.photos/id/237/200/300",
+      ],
       showRSVP: false,
       showNestedCard: false,
       showYoutube: false,
