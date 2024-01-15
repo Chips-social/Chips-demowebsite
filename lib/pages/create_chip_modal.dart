@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
@@ -33,6 +34,7 @@ class CreateChipModal extends StatelessWidget {
                         const Spacer(),
                         ElevatedButton(
                             onPressed: () async {
+                              saveChipAs(context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorConst.primary,
@@ -197,3 +199,12 @@ class CreateChipModal extends StatelessWidget {
     );
   }
 }
+
+void saveChipAs(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SaveChipAsModal();
+      },
+    );
+  }
