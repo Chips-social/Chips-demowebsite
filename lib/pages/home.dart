@@ -7,7 +7,6 @@ import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
-  
   Home({super.key});
   final HomeController homeController = Get.put(HomeController());
   var parser = EmojiParser();
@@ -53,8 +52,8 @@ class Home extends StatelessWidget {
                                       borderSide: BorderSide.none,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    contentPadding:
-                                        const EdgeInsets.symmetric(vertical: 16),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 16),
                                   ),
                                 ))),
                         Align(
@@ -65,7 +64,7 @@ class Home extends StatelessWidget {
                             textColor: ColorConst.buttonText,
                             backGroundColor: ColorConst.primary,
                             borderColor: ColorConst.primary,
-                            height:40,
+                            height: 40,
                             width: 160,
                           ),
                         )
@@ -76,80 +75,163 @@ class Home extends StatelessWidget {
                         Expanded(
                             flex: 1,
                             child: Container(
-                              height: MediaQuery.of(context).size.height - 120,
-                              //color: Colors.amber,
-                              child: Column(
-                                children: [
-                                  SizedBox(height:12),
-                                  Text('Home', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 20,fontWeight: FontWeight.w700),),
-                                  SizedBox(height:5),
-                                  Divider(
-                                    color: ColorConst.dividerLine,
-                                  ),
-                                  SizedBox(height: 40),
-                                  Container(
-                                    height:200,
-                                    width:200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color:ColorConst.websiteHomeBox
+                                padding: const EdgeInsets.only(left: 20),
+                                height:
+                                    MediaQuery.of(context).size.height - 120,
+                                //color: Colors.amber,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      'Home',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
                                     ),
-                                    child:Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    const SizedBox(height: 5),
+                                    const Divider(
+                                      color: ColorConst.dividerLine,
+                                    ),
+                                    const SizedBox(height: 40),
+                                    Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: ColorConst.websiteHomeBox),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Image.asset(
+                                                'assets/website/website_card.png',
+                                                height: 50,
+                                                width: 200),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 16, right: 16),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                            'Welcome to Chips 👋',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700)),
+                                                        // parser.get('👋');
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    const Text(
+                                                        'Save your favourites and Curate Your Internet.',
+                                                        style: TextStyle(
+                                                            color: ColorConst
+                                                                .primary,
+                                                            fontSize: 14)),
+                                                    const SizedBox(height: 10),
+                                                    PillButton(
+                                                        onTap: () async {},
+                                                        text: 'Start curating',
+                                                        textColor: Colors.black,
+                                                        width: 150,
+                                                        height: 30,
+                                                        backGroundColor:
+                                                            ColorConst.primary)
+                                                  ],
+                                                ))
+                                          ]),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    const Text(
+                                      'Explore',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Trending',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 12),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Around you',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 12),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/website/website_card.png',
-                                          height:50,
-                                          width:200
-                                          ),
-                                        Padding(
-                                          padding:EdgeInsets.only(left:16,right:16),
-                                          child:Column(
-                                            children: [
-                                              Row(children: [
-                                               Text('Welcome to Chips', style:TextStyle(color:Colors.white,fontSize: 16,fontWeight: FontWeight.w700)),
-                                               //parser.get('👋');
-                                              ],),
-                                              const SizedBox(height:10),
-                                              Text('Save your favourites and Curate Your Internet.', style:TextStyle(color:ColorConst.primary,fontSize: 14)),
-                                              SizedBox(height:10),
-                                              PillButton(onTap: ()async {}, text: 'Start curating', textColor: Colors.black,width: 150,height: 30,backGroundColor:ColorConst.primary)
-                                            ],
-                                          ) )  
-                                      ]
+                                        Text(
+                                          'view more',
+                                          style: TextStyle(
+                                              color: ColorConst.textFieldColor,
+                                              fontSize: 12),
+                                        ),
+                                        Icon(Icons.keyboard_arrow_down,
+                                            color: ColorConst.textFieldColor)
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(height:16),
-                                  const Text('Explore', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 16,fontWeight: FontWeight.w700),),
-                                  const SizedBox(height:10),
-                                  Text('Trending', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 12),),
-                                  const SizedBox(height:10),
-                                  Text('Around you', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 12),),
-                                  const SizedBox(height:10),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                    Text('view more', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 12),),
-                                    Icon(Icons.keyboard_arrow_down,color:ColorConst.textFieldColor )
-                                  ],),
-
-                                  Divider(
-                                    color: ColorConst.dividerLine,
-                                  ),
-                                  Text('Join Community', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 16,fontWeight: FontWeight.w700),),
-                                  const SizedBox(height:10),
-                                  Text('Creators', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 12),),
-                                  const SizedBox(height:10),
-                                  Text('Chips.social', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 12),),
-                                  Divider(
-                                    color: ColorConst.dividerLine,
-                                  ),
-                                  Text('About', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 16,fontWeight: FontWeight.w700),),
-                                  Divider(
-                                    color: ColorConst.dividerLine,
-                                  ),
-                                  Text('Say Hi!', style: TextStyle(color:ColorConst.textFieldColor, fontSize: 16,fontWeight: FontWeight.w700),),
-                                ],)
-                            )),
+                                    const Divider(
+                                      color: ColorConst.dividerLine,
+                                    ),
+                                    const Text(
+                                      'Join Community',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Creators',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 12),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Chips.social',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 12),
+                                    ),
+                                    const Divider(
+                                      color: ColorConst.dividerLine,
+                                    ),
+                                    const Text(
+                                      'About',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    const Divider(
+                                      color: ColorConst.dividerLine,
+                                    ),
+                                    const Text(
+                                      'Say Hi!',
+                                      style: TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                ))),
                         const SizedBox(width: 24),
                         Expanded(
                             flex: 6,
@@ -171,7 +253,8 @@ class Home extends StatelessWidget {
                                               indicatorSize:
                                                   TabBarIndicatorSize.label,
                                               labelColor: ColorConst.primary,
-                                              indicatorColor: ColorConst.primary,
+                                              indicatorColor:
+                                                  ColorConst.primary,
                                               tabs: const [
                                                 Tab(text: 'Food & Drinks'),
                                                 Tab(text: 'Entertainment'),

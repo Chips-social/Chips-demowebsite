@@ -23,6 +23,6 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
           useMaterial3: true,
         ),
-        home: const Model());
+        home: Home());
   }
 }
