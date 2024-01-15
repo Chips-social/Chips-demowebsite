@@ -2,6 +2,8 @@ import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
+import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
+import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,7 +74,9 @@ class TabWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                   createChip(context);
+                                },
                                 icon: const Icon(Icons.add,
                                     color: ColorConst.buttonText)),
                           ),
@@ -133,3 +137,21 @@ class TabWidget extends StatelessWidget {
         ));
   }
 }
+
+void createChip(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CreateChipModal();
+      },
+    );
+  }
+
+void saveChipAs(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SaveChipAsModal();
+      },
+    );
+  }
