@@ -1,7 +1,11 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/pages/create_chip_modal.dart';
+import 'package:chips_demowebsite/pages/login_modal.dart';
+import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/widgets/tab_widget.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
+import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:get/get.dart';
@@ -59,7 +63,9 @@ class Home extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: PillButton(
-                            onTap: () async {},
+                            onTap: () async {
+                               _showLoginDialog(context);
+                            },
                             text: 'Login or Sign up',
                             textColor: ColorConst.buttonText,
                             backGroundColor: ColorConst.primary,
@@ -299,6 +305,35 @@ class Home extends StatelessWidget {
             )));
   }
 }
+
+void _showLoginDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Modal();
+      },
+    );
+  }
+
+void createChip(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CreateChipModal();
+      },
+    );
+  }
+
+void saveChipAs(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SaveChipAsModal();
+      },
+    );
+  }
+
+
 
 /* Widget getTabWidget({required String title}) {
   return Container(
