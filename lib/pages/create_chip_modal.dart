@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
+import 'package:chips_demowebsite/widgets/chip_widget.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CreateChipModal extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -199,3 +201,33 @@ void saveChipAs(BuildContext context) {
     },
   );
 }
+  Widget getPreview({required String caption}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal:18),
+      child: ChipWidget(
+      text: caption,
+      dateTimeUrl: false,
+      imageURLS: [],
+      showRSVP: false,
+      showNestedCard: false,
+      showYoutube: false,
+      name:'Meenakshi',
+      //name: '${authController.getCurrentUser()["name"] ?? "User Name"}',
+      timeAdded: DateTime.now(),
+    )
+    );
+  }
+
+  void _getImagefromGallery() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: true,
+        allowedExtensions: ['png', 'jpg', 'jpeg']);
+    if (result != null) {
+   /*    addChipController.files =
+          List.from(result.paths.map((path) => File(path!)).toList());
+      if (addChipController.files.isNotEmpty) {
+        addChipController.showImagePreview.value = true;
+      } */
+    }
+  }

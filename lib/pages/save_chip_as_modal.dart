@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
+import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
 class SaveChipAsModal extends StatelessWidget {
 
@@ -10,11 +11,13 @@ class SaveChipAsModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: ColorConst.primaryBackground,
+      surfaceTintColor: ColorConst.primaryBackground,
       content:Stack(
         children: [
           Container(
-            height:400,
-            width: 300,
+             height: MediaQuery.of(context).size.height - 200,
+            width: MediaQuery.of(context).size.width * 0.4,
             color: ColorConst.primaryBackground,
             child:Padding(
               padding:EdgeInsets.all(20),
@@ -52,7 +55,8 @@ class SaveChipAsModal extends StatelessWidget {
                         //padding: EdgeInsets.all(8.0),
                         child: IconButton(
                           onPressed: () {
-                           // Get.to(() => NewCuration());
+                            newCurationModal(context);
+                            //Get.to(() => NewCuration());
                           },
                           icon: const Icon(
                             Icons.add,
@@ -74,26 +78,9 @@ class SaveChipAsModal extends StatelessWidget {
                     fontSize: 14)),
                   ],),
                 const SizedBox(height:50),
-                const Divider(
+               /*  const Divider(
                   color: ColorConst.dividerLine,
-                ),
-                const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Save to Queue',
-                              style: TextStyle(
-                                  color: ColorConst.primary,
-                                  fontSize: 18,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.normal)),
-                           Icon(
-                                  Icons.arrow_forward,
-                                  color: ColorConst.primary,
-                                  size: 24,
-                                ),
-                        ],
-                      )
-
+                ), */
                 ]
               )
             )
@@ -101,4 +88,13 @@ class SaveChipAsModal extends StatelessWidget {
         ],)
     );
   }
+}
+
+void newCurationModal(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return NewCurationModal();
+    },
+  );
 }
