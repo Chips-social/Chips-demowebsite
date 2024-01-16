@@ -214,10 +214,27 @@ class ChipWidget extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Center(
-                                    child: Container(
-                                      height: 200,
-                                      child: Image.network(imageURLS[0]),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child:Container(
+                                        height: 200,
+                                         decoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    child: Image.network(
+                                                      imageURLS[0],
+                                                      fit: BoxFit.cover,
+                                                    )),
+                                        //child: Image.network(imageURLS[0]),
                                     ),
+                                      )
+                                     
                                   ),
                                   const SizedBox(height: 10)
                                 ],
