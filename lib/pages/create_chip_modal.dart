@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:chips_demowebsite/widgets/pill_button.dart';
-import 'package:chips_demowebsite/widgets/text_field.dart';
 
 class CreateChipModal extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -14,49 +10,49 @@ class CreateChipModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Stack(
-        children: [
-          Container(
-            height:400,
-            width: 300,
+        backgroundColor: ColorConst.primaryBackground,
+        surfaceTintColor: ColorConst.primaryBackground,
+        content: Container(
+            height: MediaQuery.of(context).size.height - 200,
+            width: MediaQuery.of(context).size.width * 0.4,
             color: ColorConst.primaryBackground,
-            child:Padding(
-              padding:EdgeInsets.all(20),
+            child: Padding(
+              padding: EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(children: [
-                     const Text(
-                          "New Chip",
-                          style: TextStyle(
-                              color: ColorConst.primaryText, fontSize: 20),
+                    const Text(
+                      "New Chip",
+                      style: TextStyle(
+                          color: ColorConst.primaryText, fontSize: 20),
+                    ),
+                    const Spacer(),
+                    ElevatedButton(
+                        onPressed: () async {
+                          saveChipAs(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorConst.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          padding: EdgeInsets.only(
+                              left: 24.0, right: 24, top: 10, bottom: 10),
                         ),
-                        const Spacer(),
-                        ElevatedButton(
-                            onPressed: () async {
-                              saveChipAs(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorConst.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
-                              ),
-                              padding: EdgeInsets.only(
-                                  left: 24.0, right: 24, top: 10, bottom: 10),
-                            ),
-                            child: const Text(
-                              "Save",
-                              style: TextStyle(
-                                  color: ColorConst.buttonText, fontSize: 14),
-                            )),
-                      ]),
-                    const SizedBox(height:10),
-                    Row(
+                        child: const Text(
+                          "Save",
+                          style: TextStyle(
+                              color: ColorConst.buttonText, fontSize: 14),
+                        )),
+                  ]),
+                  const SizedBox(height: 10),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width:60,
+                        width: 60,
                         //width: MediaQuery.of(context).size.width * 0.18,
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -84,7 +80,7 @@ class CreateChipModal extends StatelessWidget {
                               firstDate: DateTime(1970),
                               lastDate: DateTime(2030),
                             );
-            
+
                             if (selectedDate != null) {
                               final TimeOfDay? selectedTime =
                                   await showTimePicker(
@@ -117,13 +113,13 @@ class CreateChipModal extends StatelessWidget {
                             size: 20,
                           ),
                           onPressed: () {
-                           // _getImagefromGallery();
+                            // _getImagefromGallery();
                           },
                         ),
                       ),
                       const Spacer(),
                       Container(
-                        width:60,
+                        width: 60,
                         //width: MediaQuery.of(context).size.width * 0.18,
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -145,13 +141,13 @@ class CreateChipModal extends StatelessWidget {
                           ),
                           onPressed: () {
                             //controller
-                           // addChipController.showLocationField.value = true;
+                            // addChipController.showLocationField.value = true;
                           },
                         ),
                       ),
                       const Spacer(),
                       Container(
-                        width:60,
+                        width: 60,
                         //width: MediaQuery.of(context).size.width * 0.18,
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -173,38 +169,33 @@ class CreateChipModal extends StatelessWidget {
                           ),
                           onPressed: () {
                             //controller
-                           // addChipController.showUrl.value = true;
+                            // addChipController.showUrl.value = true;
                           },
                         ),
                       ),
                     ],
                   ),
-                const SizedBox(height:10),
-                TextField(
-                  //controller: addChipController.captionController,
-                  maxLength: 500,
-                  maxLines: null,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                      labelText: "Write the Caption",
-                      contentPadding: EdgeInsets.only(top: 5)),
-                  onChanged: (value) {}
-                ), 
-            
-              ],),
-            )
-          )
-        ],
-      )
-    );
+                  const SizedBox(height: 10),
+                  TextField(
+                      //controller: addChipController.captionController,
+                      maxLength: 500,
+                      maxLines: null,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                          labelText: "Write the Caption",
+                          contentPadding: EdgeInsets.only(top: 5)),
+                      onChanged: (value) {}),
+                ],
+              ),
+            )));
   }
 }
 
 void saveChipAs(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SaveChipAsModal();
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SaveChipAsModal();
+    },
+  );
+}
