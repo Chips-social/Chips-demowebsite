@@ -1,4 +1,5 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/pages/login_modal.dart';
@@ -12,6 +13,8 @@ import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
+
+  final AuthController authController = Get.put(AuthController());
   final HomeController homeController = Get.put(HomeController());
   var parser = EmojiParser();
 
@@ -62,17 +65,23 @@ class Home extends StatelessWidget {
                                 ))),
                         Align(
                           alignment: Alignment.centerRight,
-                          child: PillButton(
-                            onTap: () async {
-                               _showLoginDialog(context);
-                            },
-                            text: 'Login or Sign up',
-                            textColor: ColorConst.buttonText,
-                            backGroundColor: ColorConst.primary,
-                            borderColor: ColorConst.primary,
-                            height: 40,
-                            width: 160,
-                          ),
+                          child: Obx(() => authController.isLoggedIn.value
+                              ? Container(
+                                  height: 40,
+                                  width: 40,
+                                  color: Colors.amber,
+                                )
+                              : PillButton(
+                                  onTap: () async {
+                                    _showLoginDialog(context);
+                                  },
+                                  text: 'Login or Sign up',
+                                  textColor: ColorConst.buttonText,
+                                  backGroundColor: ColorConst.primary,
+                                  borderColor: ColorConst.primary,
+                                  height: 40,
+                                  width: 160,
+                                )),
                         )
                       ],
                     ),
@@ -307,31 +316,31 @@ class Home extends StatelessWidget {
 }
 
 void _showLoginDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Modal();
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Modal();
+    },
+  );
+}
 
 void createChip(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CreateChipModal();
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CreateChipModal();
+    },
+  );
+}
 
 void saveChipAs(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SaveChipAsModal();
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SaveChipAsModal();
+    },
+  );
+}
 
 
 

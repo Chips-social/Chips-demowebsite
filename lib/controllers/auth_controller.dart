@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
   final box = GetStorage("chips_user");
+  final isLoggedIn = false.obs;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   var currentUser = {};
@@ -50,5 +51,12 @@ class AuthController extends GetxController {
   authenticateUser() async {
     var response =
         await postRequestUnAuthenticated(endpoint: '/auth', data: {});
+
+    if (response["success"]) {
+      saveAuthToken(response["auth_token"]);
+      setCurrentUser(response["user"]);
+      loginUser();
+      isLoggedIn.value = true;
+    } else {}
   }
 }
