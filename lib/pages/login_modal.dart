@@ -112,8 +112,7 @@ class Modal extends StatelessWidget {
                               const SizedBox(height: 12),
                               PillButton(
                                 onTap: () async {
-                                  authController.isLoggedIn.value =
-                                      !authController.isLoggedIn.value;
+                                  authController.authenticateUser();
                                 },
                                 text: 'Start curating',
                                 textColor: ColorConst.buttonText,

@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:get/get.dart';
+import 'dart:typed_data';
+import 'dart:io';
 
 class CreateChipModal extends StatelessWidget {
+
+  CreateChipModal({
+    super.key,
+    FilePickerResult? result,
+    List? File,
+    });
+
+  final ChipController chipController = Get.put(ChipController());
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-
-  CreateChipModal({super.key});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -115,7 +126,7 @@ class CreateChipModal extends StatelessWidget {
                             size: 20,
                           ),
                           onPressed: () {
-                            // _getImagefromGallery();
+                             _getImagefromGallery();
                           },
                         ),
                       ),
@@ -179,28 +190,51 @@ class CreateChipModal extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   TextField(
-                      //controller: addChipController.captionController,
+                      controller: chipController.captionController,
                       maxLength: 500,
                       maxLines: null,
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
                           labelText: "Write the Caption",
                           contentPadding: EdgeInsets.only(top: 5)),
-                      onChanged: (value) {}),
+                      onChanged: (value) {
+                         if (value.trim().isEmpty) {
+                      chipController.setPreview(false);
+                      chipController.setPreview(value.trim().isNotEmpty);
+                    } else {
+                      chipController.setPreview(false);
+                      chipController.setPreview(true);
+                    }
+                      }),
+                 Obx(() => chipController.showImagePreview.value
+                ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (var i = 0;
+                              i < chipController.imageBytesList.length;
+                              i++)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8),
+                              child: getImagePreview(
+                                 bytes: chipController.imageBytesList[i], index: i),
+                            ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox()), 
+                Obx(() => chipController.showPreview.value
+                ? getPreview(caption: chipController.captionController.text)
+                : const SizedBox()),
                 ],
               ),
             )));
   }
-}
 
-void saveChipAs(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return SaveChipAsModal();
-    },
-  );
-}
   Widget getPreview({required String caption}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal:18),
@@ -223,11 +257,62 @@ void saveChipAs(BuildContext context) {
         type: FileType.custom,
         allowMultiple: true,
         allowedExtensions: ['png', 'jpg', 'jpeg']);
-    if (result != null) {
-   /*    addChipController.files =
-          List.from(result.paths.map((path) => File(path!)).toList());
-      if (addChipController.files.isNotEmpty) {
-        addChipController.showImagePreview.value = true;
-      } */
+      if (result != null) {
+        List<PlatformFile> files = result.files;
+
+        for (PlatformFile file in files) {
+          Uint8List bytes = file.bytes!; // Use the bytes property for web
+          chipController.imageBytesList.add(bytes);
+        }
+        if (chipController.imageBytesList.isNotEmpty) {
+        chipController.files = List.from(chipController.imageBytesList.map((bytes) => File.fromRawPath(bytes)).toList());
+        chipController.showImagePreview.value = true;
+      }
     }
+  /*   if (result != null) {
+       chipController.files =
+          List.from(result.paths.map((path) => File(path!)).toList());
+      if (chipController.files.isNotEmpty) {
+        chipController.showImagePreview.value = true;
+      }
+    } */
   }
+
+  Widget getImagePreview({required Uint8List bytes, required int index}) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: 150,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0), // Set desired radius
+            child: Image.memory(bytes),
+          ),
+        ), // Change to container
+        Positioned(
+          top: 0,
+          right: 0,
+          child: GestureDetector(
+            onTap: () {
+              chipController.removeImage(index);
+            },
+            child: Icon(
+              Icons.cancel,
+              color: Colors.white70,
+            ),
+          ),
+        ),
+      ],
+    );
+  } 
+}
+
+void saveChipAs(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SaveChipAsModal();
+    },
+  );
+}
+ 

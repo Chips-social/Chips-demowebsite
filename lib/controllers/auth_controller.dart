@@ -1,15 +1,16 @@
 import 'package:chips_demowebsite/services/rest.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
   final box = GetStorage("chips_user");
-  final isLoggedIn = false.obs;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   var currentUser = {};
 
+ final isLoggedIn = false.obs;
   bool get isAuthenticated => box.read('is_authenticated') ?? false;
 
   Future<bool> saveAuthToken(String? token) async {
@@ -49,14 +50,24 @@ class AuthController extends GetxController {
 
   //Create a function which sends a POST request with email and name to the end point
   authenticateUser() async {
-    var response =
-        await postRequestUnAuthenticated(endpoint: '/auth', data: {});
-
-    if (response["success"]) {
-      saveAuthToken(response["auth_token"]);
-      setCurrentUser(response["user"]);
-      loginUser();
-      isLoggedIn.value = true;
-    } else {}
+    var data ={
+      "email":emailController.text,
+      "name":nameController.text
+    };
+    var response = await postRequestUnAuthenticated(endpoint: '/auth', data: data);
+    if(response["success"]){
+      isLoggedIn.value=true;
+      saveAuthToken(response['auth_token']);
+      setCurrentUser(response['user']);
+    }
+    else{
+      isLoggedIn.value=false;
+      showErrorSnackBar(
+          heading: 'Error',
+          message: response["message"],
+          icon: Icons.error,
+          color: Colors.redAccent);
+    }
+    print(response["message"]);
   }
 }
