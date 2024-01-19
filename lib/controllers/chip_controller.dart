@@ -88,13 +88,18 @@ createChip() async{
   }
 
  addChipsAllTabCase(String curationId, String chipId )async{
-  
+
     if(curationController.newCurationCheck.value == true){
       String? curationId = await curationController.addCuration();
-    }
-    if(curationId != Null){
+      if(curationId != Null){
+      String? chipId = await createChip();
+      }
+    } else{
+      // have to make newCurationCheck value false in existing curation list on tap property
+      // fetch curation id from the curation list's gesture detector , and then create the chip
       String? chipId = await createChip();
     }
+    
     var data = {
       "chip_id": chipId,
       "curation_id":curationId
