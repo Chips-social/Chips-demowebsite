@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
@@ -11,6 +12,8 @@ class TabWidget extends StatelessWidget {
   final String title;
   TabWidget({super.key, required this.title});
   final CategoryController categoryController = Get.put(CategoryController());
+  final HomeController homeController = Get.put(HomeController());
+  var curationId ;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,12 @@ class TabWidget extends StatelessWidget {
                           dividerColor: Colors.transparent,
                           onTap: (index) {
                             categoryController.setSelectedCurationIndex(index);
+                            if(index == 0){
+                               curationId = "null";
+                            }else {
+                              curationId = homeController.curations[index]["_id"];
+                            }
+                            categoryController.setCurationId(curationId);
                           },
                           tabs: [
                             Tab(
@@ -51,23 +60,36 @@ class TabWidget extends StatelessWidget {
                                   curationName: 'All',
                                   isSelected: 0 ==
                                       categoryController
-                                          .selectedCurationIndex.value)),
+                                          .selectedCurationIndex.value,
+                                  curationId: 'null',)),
                             ),
                             //Tab(text:'All'),
-                            Tab(
+                             for (var i = 0; i < homeController.curations.length; i++)
+                             Tab(
+                              child: Obx(() => CurationTabHeading(
+                                  curationName: homeController.curations[i]["name"],
+                                  isSelected: (i+1) ==
+                                      categoryController
+                                          .selectedCurationIndex.value,
+                                  curationId: homeController.curations[i]["_id"],
+                                  )),
+                             ), 
+                           /*  Tab(
                               child: Obx(() => CurationTabHeading(
                                   curationName: 'Blr Food Scenes',
                                   isSelected: 1 ==
                                       categoryController
-                                          .selectedCurationIndex.value)),
+                                          .selectedCurationIndex.value,
+                                  curationId: "id1",)),
                             ),
                             Tab(
                               child: Obx(() => CurationTabHeading(
                                   curationName: 'Wine & Dine Blr',
                                   isSelected: 2 ==
                                       categoryController
-                                          .selectedCurationIndex.value)),
-                            ),
+                                          .selectedCurationIndex.value,
+                                  curationId: "id2")),
+                            ),  */
                           ]),
                     ],
                   )),

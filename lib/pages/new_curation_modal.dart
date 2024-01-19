@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
@@ -7,6 +8,8 @@ import 'package:chips_demowebsite/widgets/text_field.dart';
 class NewCurationModal extends StatelessWidget {
 
   NewCurationModal({super.key});
+  final CreateCurationController curationController = Get.put(CreateCurationController());
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -42,7 +45,7 @@ class NewCurationModal extends StatelessWidget {
                           color: ColorConst.primaryText, fontSize: 16)),
                   TextField(
                     maxLength: 20,
-                    //controller: newCurationController.curationTitleController,
+                    controller: curationController.curationCaptionController,
                     style: const TextStyle(color: Colors.white70),
                     decoration: InputDecoration(
                         hintText: 'Name of the curation',
@@ -71,7 +74,7 @@ class NewCurationModal extends StatelessWidget {
                       flex: 1,
                       child: PillButton(
                         onTap: () {
-                          //newCurationController.addChipToNewCuration();
+                          //curationController.addChipToNewCuration();
                         },
                         text: "Create and Save",
                         textColor: ColorConst.primary,

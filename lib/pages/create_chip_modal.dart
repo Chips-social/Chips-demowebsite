@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
+import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'dart:typed_data';
@@ -17,6 +19,7 @@ class CreateChipModal extends StatelessWidget {
     });
 
   final ChipController chipController = Get.put(ChipController());
+  final CategoryController categoryController = Get.put(CategoryController());
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -43,7 +46,23 @@ class CreateChipModal extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                         onPressed: () async {
-                          saveChipAs(context);
+                          if (chipController.showPreview.value ||
+                                chipController.showImagePreview.value) {
+                               if(categoryController.selectedCurationId.value == "null"){
+                                  saveChipAs(context);
+                               }
+                            } else {
+                              showErrorSnackBar(
+                                  heading: "Error",
+                                  message:
+                                      "Can't save empty Chip. Add some fields please",
+                                  icon: Icons.error,
+                                  color: Colors.redAccent);
+                            }
+                         
+                          else{
+                             chipController.addChipToCuration();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConst.primary,
@@ -261,7 +280,7 @@ class CreateChipModal extends StatelessWidget {
         List<PlatformFile> files = result.files;
 
         for (PlatformFile file in files) {
-          Uint8List bytes = file.bytes!; // Use the bytes property for web
+          Uint8List bytes = file.bytes!; 
           chipController.imageBytesList.add(bytes);
         }
         if (chipController.imageBytesList.isNotEmpty) {

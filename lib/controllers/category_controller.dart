@@ -12,8 +12,14 @@ class CategoryController extends GetxController
   }
 
   final selectedCurationIndex = 0.obs;
+  final selectedCurationId = "null".obs;
 
   setSelectedCurationIndex(int index) {
     selectedCurationIndex.value = index;
   }
+  setCurationId(String curationId){
+    selectedCurationId.value = curationId;
+  }
+  
+
 }

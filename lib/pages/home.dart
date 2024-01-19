@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/pages/login_modal.dart';
@@ -16,6 +17,7 @@ class Home extends StatelessWidget {
 
   final AuthController authController = Get.put(AuthController());
   final HomeController homeController = Get.put(HomeController());
+  final CategoryController categoryController = Get.put(CategoryController());
   final parser = EmojiParser();
 
   @override

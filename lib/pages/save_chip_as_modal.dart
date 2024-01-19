@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/create_curation_controller.dart'
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:chips_demowebsite/pages/new_curation_modal.dart';
@@ -8,6 +9,8 @@ import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 class SaveChipAsModal extends StatelessWidget {
 
   SaveChipAsModal({super.key});
+  final CreateCurationController curationController = Get.put(CreateCurationController());
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -55,6 +58,7 @@ class SaveChipAsModal extends StatelessWidget {
                         //padding: EdgeInsets.all(8.0),
                         child: IconButton(
                           onPressed: () {
+                            curationController.newCurationCheck.value= true;
                             newCurationModal(context);
                             //Get.to(() => NewCuration());
                           },
@@ -87,7 +91,48 @@ class SaveChipAsModal extends StatelessWidget {
           )
         ],)
     );
+    
   }
+  Widget curationList(
+      {required Color color,
+      required String curationId,
+      required String curationName}) {
+    return Column(
+      //mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+            onTap: () async {
+             (curationId);
+              print("Curation ID: $curationId");
+            },
+            child: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: Row(
+                  children: [
+                    ImageIcon(
+                      const AssetImage(
+                          "assets/background/curation_background.png"),
+                      color: color,
+                      size: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(curationName,
+                        style: const TextStyle(
+                            color: ColorConst.subscriptionSubtext,
+                            fontSize: 16)),
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward, color: ColorConst.primary),
+                  ],
+                ))),
+        const SizedBox(height: 12),
+        const Divider(
+          color: ColorConst.dividerLine,
+        ),
+        const SizedBox(height: 8)
+      ],
+    );
+  }     
+      
 }
 
 void newCurationModal(BuildContext context) {

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class CurationTabHeading extends StatelessWidget {
   final String curationName;
   final bool isSelected;
+  final String curationId;
   const CurationTabHeading(
-      {super.key, required this.curationName, required this.isSelected});
+      {super.key, required this.curationName, required this.isSelected, required this.curationId});
 
   @override
   Widget build(BuildContext context) {
