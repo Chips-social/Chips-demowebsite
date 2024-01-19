@@ -114,8 +114,8 @@ class Home extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 40),
                                     Container(
-                                      height: 200,
-                                      width: 200,
+                                      height: 220,
+                                      width: 220,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -142,8 +142,7 @@ class Home extends StatelessWidget {
                                                                     .white,
                                                                 fontSize: 16,
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .w700)),
+                                                                    FontWeight.w700)),
                                                         // parser.get('👋');
                                                       ],
                                                     ),
@@ -192,7 +191,7 @@ class Home extends StatelessWidget {
                                     const SizedBox(height: 10),
                                     const Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           'view more',
