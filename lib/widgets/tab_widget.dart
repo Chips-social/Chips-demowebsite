@@ -1,5 +1,5 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 class TabWidget extends StatelessWidget {
   final String title;
   TabWidget({super.key, required this.title});
-  final HomeController homeController = Get.put(HomeController());
+  final CategoryController categoryController = Get.put(CategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,28 +35,38 @@ class TabWidget extends StatelessWidget {
                             color: ColorConst.primary),
                       ),
                       TabBar(
-                          controller: homeController.curationList,
+                          controller: categoryController.curationList,
                           isScrollable: true,
                           indicatorSize: TabBarIndicatorSize.label,
                           labelColor: ColorConst.primary,
                           labelPadding: const EdgeInsets.only(left: 16),
-                          indicatorColor: ColorConst.primary,
+                          indicatorColor: Colors.transparent,
                           dividerColor: Colors.transparent,
-                          tabs: const [
+                          onTap: (index) {
+                            categoryController.setSelectedCurationIndex(index);
+                          },
+                          tabs: [
                             Tab(
-                              child: CurationTabHeading(
-                                  curationName: 'All', isSelected: true),
+                              child: Obx(() => CurationTabHeading(
+                                  curationName: 'All',
+                                  isSelected: 0 ==
+                                      categoryController
+                                          .selectedCurationIndex.value)),
                             ),
                             //Tab(text:'All'),
                             Tab(
-                              child: CurationTabHeading(
+                              child: Obx(() => CurationTabHeading(
                                   curationName: 'Blr Food Scenes',
-                                  isSelected: false),
+                                  isSelected: 1 ==
+                                      categoryController
+                                          .selectedCurationIndex.value)),
                             ),
                             Tab(
-                              child: CurationTabHeading(
+                              child: Obx(() => CurationTabHeading(
                                   curationName: 'Wine & Dine Blr',
-                                  isSelected: false),
+                                  isSelected: 2 ==
+                                      categoryController
+                                          .selectedCurationIndex.value)),
                             ),
                           ]),
                     ],
@@ -75,7 +85,7 @@ class TabWidget extends StatelessWidget {
                             ),
                             child: IconButton(
                                 onPressed: () {
-                                   createChip(context);
+                                  createChip(context);
                                 },
                                 icon: const Icon(Icons.add,
                                     color: ColorConst.buttonText)),
@@ -122,7 +132,8 @@ class TabWidget extends StatelessWidget {
             ]),
             Expanded(
                 child: TabBarView(
-              controller: homeController.curationList,
+              physics: const NeverScrollableScrollPhysics(),
+              controller: categoryController.curationList,
               children: [
                 ChipDemo(),
                 Container(
@@ -139,19 +150,19 @@ class TabWidget extends StatelessWidget {
 }
 
 void createChip(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CreateChipModal();
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CreateChipModal();
+    },
+  );
+}
 
 void saveChipAs(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SaveChipAsModal();
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SaveChipAsModal();
+    },
+  );
+}

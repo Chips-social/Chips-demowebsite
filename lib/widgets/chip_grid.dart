@@ -133,7 +133,7 @@ class ChipDemo extends StatelessWidget {
       timeAdded: DateTime.now(),
     ),
     ChipWidget(
-      text: 'Hello this is my new chip 8',
+      text: 'Hello this is my new chip 8 qith some logs testmssnslkvnslkvnl',
       dateTimeUrl: false,
       imageURLS: [],
       showRSVP: false,

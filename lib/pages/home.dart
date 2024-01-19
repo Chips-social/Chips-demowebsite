@@ -6,17 +6,17 @@ import 'package:chips_demowebsite/pages/login_modal.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/widgets/tab_widget.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
-import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:get/get.dart';
+import 'package:flutter_initicon/flutter_initicon.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
 
   final AuthController authController = Get.put(AuthController());
   final HomeController homeController = Get.put(HomeController());
-  var parser = EmojiParser();
+  final parser = EmojiParser();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class Home extends StatelessWidget {
                         ),
                         Align(
                             alignment: Alignment.center,
-                            child: Container(
+                            child: SizedBox(
                                 width: 600,
                                 child: TextField(
                                   style: const TextStyle(color: Colors.white),
@@ -66,10 +66,13 @@ class Home extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: Obx(() => authController.isLoggedIn.value
-                              ? Container(
-                                  height: 40,
-                                  width: 40,
-                                  color: Colors.amber,
+                              ? Initicon(
+                                  text: authController.currentUser["name"],
+                                  elevation: 4,
+                                  backgroundColor: ColorConst.profileBackground,
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                      color: Colors.white, width: 2.0),
                                 )
                               : PillButton(
                                   onTap: () async {
@@ -127,7 +130,7 @@ class Home extends StatelessWidget {
                                                 width: 200),
                                             Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 16, right: 16),
+                                                    left: 12, right: 12),
                                                 child: Column(
                                                   children: [
                                                     Row(
@@ -250,7 +253,7 @@ class Home extends StatelessWidget {
                         const SizedBox(width: 24),
                         Expanded(
                             flex: 6,
-                            child: Container(
+                            child: SizedBox(
                               height: MediaQuery.of(context).size.height - 120,
                               child: Column(
                                 children: [
@@ -262,6 +265,8 @@ class Home extends StatelessWidget {
                                         alignment: Alignment.centerLeft,
                                         child: SizedBox(
                                           child: TabBar(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
                                               controller:
                                                   homeController.tabController,
                                               isScrollable: false,
@@ -270,6 +275,10 @@ class Home extends StatelessWidget {
                                               labelColor: ColorConst.primary,
                                               indicatorColor:
                                                   ColorConst.primary,
+                                              onTap: (index) {
+                                                homeController
+                                                    .setCategoryTab(index);
+                                              },
                                               tabs: const [
                                                 Tab(text: 'Food & Drinks'),
                                                 Tab(text: 'Entertainment'),
@@ -294,6 +303,8 @@ class Home extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: TabBarView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     controller: homeController.tabController,
                                     children: [
                                       TabWidget(title: 'Food & Drinks'),

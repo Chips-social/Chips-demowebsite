@@ -7,9 +7,23 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     tabController = TabController(length: 7, vsync: this);
-    curationList = TabController(length: 3, vsync:this);// length must be the length of curation array of that category. 
+  }
+
+  final categoryTabIndexMap = {
+    0: 'Food & Drinks',
+    1: 'Entertainment',
+    2: 'Science & Tech',
+    3: 'Art & Design',
+    4: 'Interiors & Lifestyle',
+    5: 'Travel',
+    6: 'Fashion & Beauty',
+  };
+
+  final selctedCategoryTab = "Food & Drinks".obs;
+
+  setCategoryTab(index) {
+    selctedCategoryTab.value = '${categoryTabIndexMap[index]}';
   }
 }
