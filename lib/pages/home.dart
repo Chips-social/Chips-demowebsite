@@ -277,9 +277,10 @@ class Home extends StatelessWidget {
                                               labelColor: ColorConst.primary,
                                               indicatorColor:
                                                   ColorConst.primary,
-                                              onTap: (index) {
+                                              onTap: (index) async {
                                                 homeController
                                                     .setCategoryTab(index);
+                                                homeController.allChips();
                                               },
                                               tabs: const [
                                                 Tab(text: 'Food & Drinks'),
@@ -309,13 +310,98 @@ class Home extends StatelessWidget {
                                         const NeverScrollableScrollPhysics(),
                                     controller: homeController.tabController,
                                     children: [
-                                      TabWidget(title: 'Food & Drinks'),
-                                      TabWidget(title: 'Entertainment'),
-                                      TabWidget(title: 'Science & Tech'),
-                                      TabWidget(title: 'Art & Design'),
-                                      TabWidget(title: 'Interiors & Lifestyle'),
-                                      TabWidget(title: 'Travel'),
-                                      TabWidget(title: 'Fashion & Beauty'),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Food & Drinks',
+                                              chipsList: homeController.chips,
+                                            )),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Entertainment',
+                                              chipsList: homeController.chips)),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Science & Tech',
+                                              chipsList: homeController.chips)),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Art & Design',
+                                              chipsList: homeController.chips)),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Interiors & Lifestyle',
+                                              chipsList: homeController.chips)),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Travel',
+                                              chipsList: homeController.chips)),
+                                      Obx(() => homeController.isLoading.value
+                                          ? SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              child: const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            )
+                                          : TabWidget(
+                                              title: 'Fashion & Beauty',
+                                              chipsList: homeController.chips)),
                                     ],
                                   ))
                                 ],

@@ -46,20 +46,35 @@ class CreateChipModal extends StatelessWidget {
                         onPressed: () async {
                           if (chipController.showPreview.value ||
                               chipController.showImagePreview.value) {
-                            if (categoryController.selectedCurationId.value ==
-                                "null") {
-                              saveChipAs(context);
-                            } else {
-                              showErrorSnackBar(
-                                  heading: "Error",
-                                  message:
-                                      "Can't save empty Chip. Add some fields please",
-                                  icon: Icons.error,
-                                  color: Colors.redAccent);
+                            var response = await chipController.createChip();
+                            if (response["success"]) {
+                              if (context.mounted) Navigator.of(context).pop();
                             }
                           } else {
-                            chipController.addChipToCuration();
+                            showErrorSnackBar(
+                                heading: "Error",
+                                message:
+                                    "Can't save empty Chip. Add some fields please",
+                                icon: Icons.error,
+                                color: Colors.redAccent);
                           }
+                          // if (chipController.showPreview.value ||
+                          //     chipController.showImagePreview.value) {
+                          //   if (categoryController
+                          //           .selectedCurationIndex.value ==
+                          //       0) {
+                          //     saveChipAs(context);
+                          //   } else {
+                          //     showErrorSnackBar(
+                          //         heading: "Error",
+                          //         message:
+                          //             "Can't save empty Chip. Add some fields please",
+                          //         icon: Icons.error,
+                          //         color: Colors.redAccent);
+                          //   }
+                          // } else {
+                          //   chipController.addChipToCuration();
+                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConst.primary,

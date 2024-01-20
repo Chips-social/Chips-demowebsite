@@ -7,7 +7,7 @@ class CategoryController extends GetxController
 
   @override
   void onInit() {
-    curationList = TabController(length: 3, vsync: this);
+    curationList = TabController(length: 1, vsync: this);
     super.onInit();
   }
 
@@ -17,9 +17,8 @@ class CategoryController extends GetxController
   setSelectedCurationIndex(int index) {
     selectedCurationIndex.value = index;
   }
-  setCurationId(String curationId){
+
+  setCurationId(String curationId) {
     selectedCurationId.value = curationId;
   }
-  
-
 }

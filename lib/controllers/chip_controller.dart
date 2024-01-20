@@ -11,56 +11,57 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 class ChipController extends GetxController {
-
   final showPreview = false.obs;
   final showImagePreview = false.obs;
   var curationId;
   var chipId;
   List<Uint8List> imageBytesList = [];
-  List <File> files = [];
+  List<File> files = [];
   final TextEditingController captionController = TextEditingController();
   final HomeController homeController = Get.put(HomeController());
   final CategoryController categoryController = Get.put(CategoryController());
-  final CreateCurationController curationController = Get.put(CreateCurationController());
- 
+  final CreateCurationController curationController =
+      Get.put(CreateCurationController());
+
   setPreview(bool value) {
     showPreview.value = value;
   }
 
-   getFileUrls(files) {
+  getFileUrls(files) {
     //add file upload function
   }
-  
- addChipToCuration() async {
-  if( categoryController.selectedCurationId != "null"){
-     var data = {
-      "text": captionController.text,
-      "category":homeController.selctedCategoryTab.value,
-      "curation":categoryController.selectedCurationId,
-      "is_datetime": false,
-      "images": getFileUrls(files),
-    };
-    var response = await postRequestAuthenticated(
-        endpoint: '/add/chip', data: jsonEncode(data));
-    if (response["success"]) {
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
-    } else {
-      showErrorSnackBar(
-          heading: 'Error',
-          message: response["message"],
-          icon: Icons.error,
-          color: Colors.redAccent);
+
+  addChipToCuration() async {
+    if (categoryController.selectedCurationId != "null") {
+      var data = {
+        "text": captionController.text,
+        "category": homeController.selctedCategoryTab.value,
+        "curation": categoryController.selectedCurationId,
+        "is_datetime": false,
+        "images": getFileUrls(files),
+      };
+      var response = await postRequestAuthenticated(
+          endpoint: '/add/chip', data: jsonEncode(data));
+      if (response["success"]) {
+        showErrorSnackBar(
+            heading: 'Success',
+            message: response["message"],
+            icon: Icons.check_circle,
+            color: ColorConst.success);
+      } else {
+        showErrorSnackBar(
+            heading: 'Error',
+            message: response["message"],
+            icon: Icons.error,
+            color: Colors.redAccent);
+      }
     }
   }
-}
-createChip() async{
+
+  createChip() async {
     var data = {
       "text": captionController.text,
-      "category":homeController.selctedCategoryTab.value,
+      "category": homeController.selctedCategoryTab.value,
       "is_datetime": false,
       "images": getFileUrls(files),
       //"source_url": nestedUrlController.text,
@@ -76,24 +77,22 @@ createChip() async{
           message: response["message"],
           icon: Icons.check_circle,
           color: ColorConst.success);
-          return chipId;
+      // return chipId;
+      return {"success": true, "message": "added Chip"};
     } else {
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
           icon: Icons.error,
           color: Colors.redAccent);
-          return null;
+      return {"success": false, "message": response["message"]};
     }
   }
 
- addChipsAllTabCase(String curationId)async{
+  addChipsAllTabCase(String curationId) async {
     var chipId = await createChip();
-    var data = {
-      "chip_id": chipId,
-      "curation_id":curationId
-    };
-     var response = await postRequestAuthenticated(
+    var data = {"chip_id": chipId, "curation_id": null};
+    var response = await postRequestAuthenticated(
         endpoint: '/add/curation/to/chip', data: jsonEncode(data));
     if (response["success"]) {
       showErrorSnackBar(
@@ -110,7 +109,6 @@ createChip() async{
     }
   }
 
-
   removeImage(int index) {
     showImagePreview.value = false;
     //files.removeAt(index);
@@ -119,5 +117,4 @@ createChip() async{
       showImagePreview.value = true;
     }
   }
-
 }

@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
-  late TabController curationList;
 
   @override
   void onInit() {
     super.onInit();
     tabController = TabController(length: 7, vsync: this);
+    allChips();
   }
 
   final categoryTabIndexMap = {
@@ -28,42 +28,40 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   var chips = [];
   var curations = [];
 
+  final isLoading = false.obs;
   final selctedCategoryTab = "Food & Drinks".obs;
 
   setCategoryTab(index) {
     selctedCategoryTab.value = '${categoryTabIndexMap[index]}';
-    print(selctedCategoryTab.value);
-    return selctedCategoryTab.value;
   }
- 
+
   allChips() async {
+    print("All Chips Called");
+    isLoading.value = true;
     var data = {
-      'category':selctedCategoryTab.value,
+      'category': selctedCategoryTab.value,
     };
-    var response = await getRequestAuthenticated(
-        endpoint: '/fetch/chips', data: jsonEncode(data));
+
+    var response =
+        await postRequestUnAuthenticated(endpoint: '/fetch/chips', data: data);
     if (response["success"]) {
       chips = List.from(response["chips"]);
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
-    }
-    else{
+      isLoading.value = false;
+    } else {
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
           icon: Icons.error,
           color: Colors.redAccent);
+      isLoading.value = false;
     }
-}
+  }
 
- allCurations() async{
-  var data = {
-      'category':selctedCategoryTab.value,
+  allCurations() async {
+    var data = {
+      'category': selctedCategoryTab.value,
     };
-    var response = await getRequestAuthenticated(
+    var response = await postRequestUnAuthenticated(
         endpoint: '/fetch/curations', data: jsonEncode(data));
     if (response["success"]) {
       curations = List.from(response["curations"]);
@@ -72,13 +70,12 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
           message: response["message"],
           icon: Icons.check_circle,
           color: ColorConst.success);
-    }
-    else{
+    } else {
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
           icon: Icons.error,
           color: Colors.redAccent);
     }
- }
+  }
 }

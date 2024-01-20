@@ -12,7 +12,8 @@ import 'package:get/get.dart';
 
 class TabWidget extends StatelessWidget {
   final String title;
-  TabWidget({super.key, required this.title});
+  final List<dynamic> chipsList;
+  TabWidget({super.key, required this.title, required this.chipsList});
   final AuthController authController = Get.find<AuthController>();
   final CategoryController categoryController = Get.put(CategoryController());
   final HomeController homeController = Get.put(HomeController());
@@ -174,13 +175,15 @@ class TabWidget extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               controller: categoryController.curationList,
               children: [
-                ChipDemo(),
-                Container(
-                  child: const Text('a'),
+                ChipDemo(
+                  chipDataList: chipsList,
                 ),
-                Container(
-                  child: const Text('a'),
-                ),
+                // Container(
+                //   child: const Text('a'),
+                // ),
+                // Container(
+                //   child: const Text('a'),
+                // ),
               ],
             ))
           ],

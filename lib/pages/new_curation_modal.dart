@@ -12,8 +12,7 @@ class NewCurationModal extends StatelessWidget {
   NewCurationModal({super.key});
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
-    final ChipController chipController =
-      Get.put(ChipController());
+  final ChipController chipController = Get.put(ChipController());
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,8 @@ class NewCurationModal extends StatelessWidget {
                                 // curationController.addChipToNewCuration();
                                 var curationId =
                                     await curationController.addCuration();
-                                if (curationId) {
+                                if (curationId != null) {
+                                  // print(curationId);
                                   chipController.addChipsAllTabCase(curationId);
                                 }
                               },
