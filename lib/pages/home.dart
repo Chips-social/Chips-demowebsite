@@ -135,7 +135,7 @@ class Home extends StatelessWidget {
                                                     left: 12, right: 12),
                                                 child: Column(
                                                   children: [
-                                                    Row(
+                                                    const Row(
                                                       children: [
                                                         Text(
                                                             'Welcome to Chips 👋',
@@ -144,7 +144,8 @@ class Home extends StatelessWidget {
                                                                     .white,
                                                                 fontSize: 16,
                                                                 fontWeight:
-                                                                    FontWeight.w700)),
+                                                                    FontWeight
+                                                                        .w700)),
                                                         // parser.get('👋');
                                                       ],
                                                     ),

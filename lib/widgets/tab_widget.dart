@@ -1,19 +1,22 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TabWidget extends StatelessWidget {
   final String title;
   TabWidget({super.key, required this.title});
+  final AuthController authController = Get.find<AuthController>();
   final CategoryController categoryController = Get.put(CategoryController());
   final HomeController homeController = Get.put(HomeController());
-  var curationId ;
+  var curationId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,34 +50,40 @@ class TabWidget extends StatelessWidget {
                           dividerColor: Colors.transparent,
                           onTap: (index) {
                             categoryController.setSelectedCurationIndex(index);
-                            if(index == 0){
-                               curationId = "null";
-                            }else {
-                              curationId = homeController.curations[index]["_id"];
+                            if (index == 0) {
+                              curationId = "null";
+                            } else {
+                              curationId =
+                                  homeController.curations[index]["_id"];
                             }
                             categoryController.setCurationId(curationId);
                           },
                           tabs: [
                             Tab(
                               child: Obx(() => CurationTabHeading(
-                                  curationName: 'All',
-                                  isSelected: 0 ==
-                                      categoryController
-                                          .selectedCurationIndex.value,
-                                  curationId: 'null',)),
+                                    curationName: 'All',
+                                    isSelected: 0 ==
+                                        categoryController
+                                            .selectedCurationIndex.value,
+                                    curationId: 'null',
+                                  )),
                             ),
                             //Tab(text:'All'),
-                             for (var i = 0; i < homeController.curations.length; i++)
-                             Tab(
-                              child: Obx(() => CurationTabHeading(
-                                  curationName: homeController.curations[i]["name"],
-                                  isSelected: (i+1) ==
-                                      categoryController
-                                          .selectedCurationIndex.value,
-                                  curationId: homeController.curations[i]["_id"],
-                                  )),
-                             ), 
-                           /*  Tab(
+                            for (var i = 0;
+                                i < homeController.curations.length;
+                                i++)
+                              Tab(
+                                child: Obx(() => CurationTabHeading(
+                                      curationName: homeController.curations[i]
+                                          ["name"],
+                                      isSelected: (i + 1) ==
+                                          categoryController
+                                              .selectedCurationIndex.value,
+                                      curationId: homeController.curations[i]
+                                          ["_id"],
+                                    )),
+                              ),
+                            /*  Tab(
                               child: Obx(() => CurationTabHeading(
                                   curationName: 'Blr Food Scenes',
                                   isSelected: 1 ==
@@ -107,7 +116,15 @@ class TabWidget extends StatelessWidget {
                             ),
                             child: IconButton(
                                 onPressed: () {
-                                  createChip(context);
+                                  if (authController.isLoggedIn.value) {
+                                    createChip(context);
+                                  } else {
+                                    showErrorSnackBar(
+                                        heading: 'Unauthenticated User',
+                                        message: 'Please Login to add a Chip',
+                                        icon: Icons.error_outline,
+                                        color: Colors.redAccent);
+                                  }
                                 },
                                 icon: const Icon(Icons.add,
                                     color: ColorConst.buttonText)),
@@ -134,7 +151,7 @@ class TabWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: ColorConst
                                         .iconButtonColor, // Set the background color
-                                    fixedSize: Size(
+                                    fixedSize: const Size(
                                         120, 40), // Set the height and width
                                   ),
                                   child: const Row(
@@ -159,10 +176,10 @@ class TabWidget extends StatelessWidget {
               children: [
                 ChipDemo(),
                 Container(
-                  child: Text('a'),
+                  child: const Text('a'),
                 ),
                 Container(
-                  child: Text('a'),
+                  child: const Text('a'),
                 ),
               ],
             ))

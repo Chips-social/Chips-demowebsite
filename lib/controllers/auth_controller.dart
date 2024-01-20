@@ -10,7 +10,7 @@ class AuthController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   var currentUser = {};
 
- final isLoggedIn = false.obs;
+  final isLoggedIn = false.obs;
   bool get isAuthenticated => box.read('is_authenticated') ?? false;
 
   Future<bool> saveAuthToken(String? token) async {
@@ -50,24 +50,17 @@ class AuthController extends GetxController {
 
   //Create a function which sends a POST request with email and name to the end point
   authenticateUser() async {
-    var data ={
-      "email":emailController.text,
-      "name":nameController.text
-    };
-    var response = await postRequestUnAuthenticated(endpoint: '/auth', data: data);
-    if(response["success"]){
-      isLoggedIn.value=true;
+    var data = {"email": emailController.text, "name": nameController.text};
+    var response =
+        await postRequestUnAuthenticated(endpoint: '/auth', data: data);
+    if (response["success"]) {
+      isLoggedIn.value = true;
       saveAuthToken(response['auth_token']);
       setCurrentUser(response['user']);
+      return {"success": true, "message": "Auth Successful"};
+    } else {
+      isLoggedIn.value = false;
+      return {"success": false, "message": response["message"]};
     }
-    else{
-      isLoggedIn.value=false;
-      showErrorSnackBar(
-          heading: 'Error',
-          message: response["message"],
-          icon: Icons.error,
-          color: Colors.redAccent);
-    }
-    print(response["message"]);
   }
 }

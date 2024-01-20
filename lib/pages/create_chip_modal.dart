@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
@@ -11,18 +12,15 @@ import 'dart:typed_data';
 import 'dart:io';
 
 class CreateChipModal extends StatelessWidget {
-
   CreateChipModal({
     super.key,
     FilePickerResult? result,
     List? File,
-    });
+  });
 
   final ChipController chipController = Get.put(ChipController());
   final CategoryController categoryController = Get.put(CategoryController());
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final AuthController authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -33,7 +31,7 @@ class CreateChipModal extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.4,
             color: ColorConst.primaryBackground,
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -47,10 +45,10 @@ class CreateChipModal extends StatelessWidget {
                     ElevatedButton(
                         onPressed: () async {
                           if (chipController.showPreview.value ||
-                                chipController.showImagePreview.value) {
-                               if(categoryController.selectedCurationId.value == "null"){
-                                  saveChipAs(context);
-                               }
+                              chipController.showImagePreview.value) {
+                            if (categoryController.selectedCurationId.value ==
+                                "null") {
+                              saveChipAs(context);
                             } else {
                               showErrorSnackBar(
                                   heading: "Error",
@@ -59,9 +57,8 @@ class CreateChipModal extends StatelessWidget {
                                   icon: Icons.error,
                                   color: Colors.redAccent);
                             }
-                         
-                          else{
-                             chipController.addChipToCuration();
+                          } else {
+                            chipController.addChipToCuration();
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -69,7 +66,7 @@ class CreateChipModal extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0),
                           ),
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 24.0, right: 24, top: 10, bottom: 10),
                         ),
                         child: const Text(
@@ -92,7 +89,7 @@ class CreateChipModal extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                               spreadRadius: 0,
                               blurRadius: 2,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                             )
                           ],
                           color: ColorConst.iconBackgroundColor,
@@ -132,7 +129,7 @@ class CreateChipModal extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                               spreadRadius: 0,
                               blurRadius: 2,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                             )
                           ],
                           color: ColorConst.iconBackgroundColor,
@@ -145,7 +142,7 @@ class CreateChipModal extends StatelessWidget {
                             size: 20,
                           ),
                           onPressed: () {
-                             _getImagefromGallery();
+                            _getImagefromGallery();
                           },
                         ),
                       ),
@@ -159,7 +156,7 @@ class CreateChipModal extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                               spreadRadius: 0,
                               blurRadius: 2,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                             )
                           ],
                           color: ColorConst.iconBackgroundColor,
@@ -187,7 +184,7 @@ class CreateChipModal extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                               spreadRadius: 0,
                               blurRadius: 2,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                             )
                           ],
                           color: ColorConst.iconBackgroundColor,
@@ -217,58 +214,61 @@ class CreateChipModal extends StatelessWidget {
                           labelText: "Write the Caption",
                           contentPadding: EdgeInsets.only(top: 5)),
                       onChanged: (value) {
-                         if (value.trim().isEmpty) {
-                      chipController.setPreview(false);
-                      chipController.setPreview(value.trim().isNotEmpty);
-                    } else {
-                      chipController.setPreview(false);
-                      chipController.setPreview(true);
-                    }
+                        if (value.trim().isEmpty) {
+                          chipController.setPreview(false);
+                          chipController.setPreview(value.trim().isNotEmpty);
+                        } else {
+                          chipController.setPreview(false);
+                          chipController.setPreview(true);
+                        }
                       }),
-                 Obx(() => chipController.showImagePreview.value
-                ? SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (var i = 0;
-                              i < chipController.imageBytesList.length;
-                              i++)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 8),
-                              child: getImagePreview(
-                                 bytes: chipController.imageBytesList[i], index: i),
+                  Obx(() => chipController.showImagePreview.value
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (var i = 0;
+                                    i < chipController.imageBytesList.length;
+                                    i++)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: getImagePreview(
+                                        bytes: chipController.imageBytesList[i],
+                                        index: i),
+                                  ),
+                              ],
                             ),
-                        ],
-                      ),
-                    ),
-                  )
-                : const SizedBox()), 
-                Obx(() => chipController.showPreview.value
-                ? getPreview(caption: chipController.captionController.text)
-                : const SizedBox()),
+                          ),
+                        )
+                      : const SizedBox()),
+                  Obx(() => chipController.showPreview.value
+                      ? getPreview(
+                          caption: chipController.captionController.text,
+                          name: authController.getCurrentUser()["name"])
+                      : const SizedBox()),
                 ],
               ),
             )));
   }
 
-  Widget getPreview({required String caption}) {
+  Widget getPreview({required String caption, required String name}) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal:18),
-      child: ChipWidget(
-      text: caption,
-      dateTimeUrl: false,
-      imageURLS: [],
-      showRSVP: false,
-      showNestedCard: false,
-      showYoutube: false,
-      name:'Meenakshi',
-      //name: '${authController.getCurrentUser()["name"] ?? "User Name"}',
-      timeAdded: DateTime.now(),
-    )
-    );
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: ChipWidget(
+          text: caption,
+          dateTimeUrl: false,
+          imageURLS: [],
+          showRSVP: false,
+          showNestedCard: false,
+          showYoutube: false,
+          name: name,
+          //name: '${authController.getCurrentUser()["name"] ?? "User Name"}',
+          timeAdded: DateTime.now(),
+        ));
   }
 
   void _getImagefromGallery() async {
@@ -276,19 +276,21 @@ class CreateChipModal extends StatelessWidget {
         type: FileType.custom,
         allowMultiple: true,
         allowedExtensions: ['png', 'jpg', 'jpeg']);
-      if (result != null) {
-        List<PlatformFile> files = result.files;
+    if (result != null) {
+      List<PlatformFile> files = result.files;
 
-        for (PlatformFile file in files) {
-          Uint8List bytes = file.bytes!; 
-          chipController.imageBytesList.add(bytes);
-        }
-        if (chipController.imageBytesList.isNotEmpty) {
-        chipController.files = List.from(chipController.imageBytesList.map((bytes) => File.fromRawPath(bytes)).toList());
+      for (PlatformFile file in files) {
+        Uint8List bytes = file.bytes!;
+        chipController.imageBytesList.add(bytes);
+      }
+      if (chipController.imageBytesList.isNotEmpty) {
+        chipController.files = List.from(chipController.imageBytesList
+            .map((bytes) => File.fromRawPath(bytes))
+            .toList());
         chipController.showImagePreview.value = true;
       }
     }
-  /*   if (result != null) {
+    /*   if (result != null) {
        chipController.files =
           List.from(result.paths.map((path) => File(path!)).toList());
       if (chipController.files.isNotEmpty) {
@@ -315,7 +317,7 @@ class CreateChipModal extends StatelessWidget {
             onTap: () {
               chipController.removeImage(index);
             },
-            child: Icon(
+            child: const Icon(
               Icons.cancel,
               color: Colors.white70,
             ),
@@ -323,7 +325,7 @@ class CreateChipModal extends StatelessWidget {
         ),
       ],
     );
-  } 
+  }
 }
 
 void saveChipAs(BuildContext context) {
@@ -334,4 +336,3 @@ void saveChipAs(BuildContext context) {
     },
   );
 }
- 

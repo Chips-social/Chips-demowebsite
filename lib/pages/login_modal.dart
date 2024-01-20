@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 
+import '../widgets/my_snackbars.dart';
+
 class Modal extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
   Modal({super.key});
@@ -112,7 +114,17 @@ class Modal extends StatelessWidget {
                               const SizedBox(height: 12),
                               PillButton(
                                 onTap: () async {
-                                  authController.authenticateUser();
+                                  var response =
+                                      await authController.authenticateUser();
+                                  if (response["success"]) {
+                                    if (context.mounted) Navigator.pop(context);
+                                  } else {
+                                    showErrorSnackBar(
+                                        heading: 'Error',
+                                        message: response["message"],
+                                        icon: Icons.error,
+                                        color: Colors.redAccent);
+                                  }
                                 },
                                 text: 'Start curating',
                                 textColor: ColorConst.buttonText,
