@@ -70,7 +70,7 @@ createChip() async{
     var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
-      String? chipId = response["_id"];
+      var chipId = response["_id"];
       showErrorSnackBar(
           heading: 'Success',
           message: response["message"],
@@ -88,7 +88,7 @@ createChip() async{
   }
 
  addChipsAllTabCase(String curationId)async{
-    String? chipId = await createChip();
+    var chipId = await createChip();
     var data = {
       "chip_id": chipId,
       "curation_id":curationId

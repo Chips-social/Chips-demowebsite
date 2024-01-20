@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
@@ -11,6 +12,8 @@ class NewCurationModal extends StatelessWidget {
   NewCurationModal({super.key});
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
+    final ChipController chipController =
+      Get.put(ChipController());
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,7 @@ class NewCurationModal extends StatelessWidget {
                                 var curationId =
                                     await curationController.addCuration();
                                 if (curationId) {
-                                  //Just Create the chip here with curation ID;
+                                  chipController.addChipsAllTabCase(curationId);
                                 }
                               },
                               text: "Create and Save",
