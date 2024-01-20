@@ -40,7 +40,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     var data = {
       'category':selctedCategoryTab.value,
     };
-    var response = await postRequestUnAuthenticated(
+    var response = await getRequestAuthenticated(
         endpoint: '/fetch/chips', data: jsonEncode(data));
     if (response["success"]) {
       chips = List.from(response["chips"]);
@@ -63,7 +63,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   var data = {
       'category':selctedCategoryTab.value,
     };
-    var response = await postRequestUnAuthenticated(
+    var response = await getRequestAuthenticated(
         endpoint: '/fetch/curations', data: jsonEncode(data));
     if (response["success"]) {
       curations = List.from(response["curations"]);
