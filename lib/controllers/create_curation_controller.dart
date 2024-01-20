@@ -19,9 +19,9 @@ class CreateCurationController extends GetxController {
       "name": curationCaptionController.text,
       "category":homeController.selctedCategoryTab.value,
     };
+    print(curationCaptionController.text);
     var response = await postRequestAuthenticated(
         endpoint: '/add/curation', data: jsonEncode(data));
-    if (response["success"]) {
       if (response["success"]) {
       String? curationId = response["_id"];
       showErrorSnackBar(
@@ -39,6 +39,4 @@ class CreateCurationController extends GetxController {
       return null;
     }
   }
-}
-
 }

@@ -46,7 +46,7 @@ class NewCurationModal extends StatelessWidget {
                             style: TextStyle(
                                 color: ColorConst.primaryText, fontSize: 16)),
                         TextField(
-                          maxLength: 20,
+                          maxLength: 50,
                           controller:
                               curationController.curationCaptionController,
                           style: const TextStyle(color: Colors.white70),
@@ -70,16 +70,16 @@ class NewCurationModal extends StatelessWidget {
                           textColor: ColorConst.tagTextColor,
                         ),  */
 
-                        const SizedBox(height: 100),
+                        //const SizedBox(height: 100),
                         Row(children: [
                           Expanded(
                             flex: 1,
                             child: PillButton(
                               onTap: () async {
                                 // curationController.addChipToNewCuration();
-                                var curationId =
+                                String curationId =
                                     await curationController.addCuration();
-                                if (curationId) {
+                                if (curationId.isNotEmpty) {
                                   chipController.addChipsAllTabCase(curationId);
                                 }
                               },
