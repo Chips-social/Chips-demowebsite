@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController
     with GetTickerProviderStateMixin {
   late TabController curationList;
-
+  final HomeController homeController = Get.put(HomeController());
   @override
   void onInit() {
-    curationList = TabController(length: 1, vsync: this);
+    curationList = TabController(length: 3, vsync: this);
     super.onInit();
   }
 

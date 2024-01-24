@@ -46,10 +46,11 @@ class CreateChipModal extends StatelessWidget {
                         onPressed: () async {
                           if (chipController.showPreview.value ||
                               chipController.showImagePreview.value) {
-                            var response = await chipController.createChip();
-                            if (response["success"]) {
+                              saveChipAs(context);
+                             //var response = await chipController.createChip();
+                           /*  if (response["success"]) {
                               if (context.mounted) Navigator.of(context).pop();
-                            }
+                            } */
                           } else {
                             showErrorSnackBar(
                                 heading: "Error",

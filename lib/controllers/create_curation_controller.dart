@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/services/rest.dart';
@@ -11,6 +12,7 @@ import 'dart:convert';
 
 class CreateCurationController extends GetxController {
   final HomeController homeController = Get.put(HomeController());
+  final ChipController chipController = Get.put(ChipController());
   final TextEditingController curationCaptionController = TextEditingController();
   final newCurationCheck = true.obs;
 
@@ -21,15 +23,17 @@ class CreateCurationController extends GetxController {
     };
     print(curationCaptionController.text);
     var response = await postRequestAuthenticated(
-        endpoint: '/add/curation', data: jsonEncode(data));
+        endpoint: '/add/curation', data: data);
       if (response["success"]) {
-      String? curationId = response["_id"];
+        //chipController.curationId.value = response['curation']['_id'];
+       String? curationId = response["_id"];
       showErrorSnackBar(
           heading: 'Success',
           message: response["message"],
           icon: Icons.check_circle,
           color: ColorConst.success);
       return curationId;
+      //return chipController.curationId.value;
     } else {
       showErrorSnackBar(
           heading: 'Error',

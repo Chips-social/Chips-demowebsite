@@ -13,7 +13,7 @@ import 'dart:convert';
 class ChipController extends GetxController {
   final showPreview = false.obs;
   final showImagePreview = false.obs;
-  var curationId;
+  final curationId = null.obs;
   var chipId;
   List<Uint8List> imageBytesList = [];
   List<File> files = [];
@@ -62,6 +62,7 @@ class ChipController extends GetxController {
     var data = {
       "text": captionController.text,
       "category": homeController.selctedCategoryTab.value,
+      "curation":curationId.value,
       "is_datetime": false,
       "images": getFileUrls(files),
       //"source_url": nestedUrlController.text,

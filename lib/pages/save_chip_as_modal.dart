@@ -60,6 +60,8 @@ class SaveChipAsModal extends StatelessWidget {
                                       curationController
                                           .newCurationCheck.value = true;
                                       newCurationModal(context);
+                                     //Navigator.of(context).pop();
+                            
                                       //Get.to(() => NewCuration());
                                     },
                                     icon: const Icon(

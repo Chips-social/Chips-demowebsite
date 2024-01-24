@@ -76,11 +76,14 @@ class NewCurationModal extends StatelessWidget {
                             child: PillButton(
                               onTap: () async {
                                 // curationController.addChipToNewCuration();
-                                String curationId =
+                                String curationId = 
                                     await curationController.addCuration();
-                                if (curationId != null) {
+                                if (curationId.isNotEmpty) {
                                   // print(curationId);
-                                  chipController.addChipsAllTabCase(curationId);
+                                  chipController.createChip();
+                                }
+                                else{
+                                  print("curationId is empty so cant add chip to curation");
                                 }
                               },
                               text: "Create and Save",
