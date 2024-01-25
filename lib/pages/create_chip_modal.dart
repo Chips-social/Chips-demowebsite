@@ -19,7 +19,6 @@ class CreateChipModal extends StatelessWidget {
   });
 
   final ChipController chipController = Get.put(ChipController());
-  final CategoryController categoryController = Get.put(CategoryController());
   final AuthController authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
@@ -46,9 +45,9 @@ class CreateChipModal extends StatelessWidget {
                         onPressed: () async {
                           if (chipController.showPreview.value ||
                               chipController.showImagePreview.value) {
-                              saveChipAs(context);
-                             //var response = await chipController.createChip();
-                           /*  if (response["success"]) {
+                            saveChipAs(context);
+                            //var response = await chipController.createChip();
+                            /*  if (response["success"]) {
                               if (context.mounted) Navigator.of(context).pop();
                             } */
                           } else {

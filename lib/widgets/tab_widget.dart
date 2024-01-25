@@ -13,14 +13,19 @@ import 'package:get/get.dart';
 class TabWidget extends StatelessWidget {
   final String title;
   final List<dynamic> chipsList;
-  TabWidget({super.key, required this.title, required this.chipsList});
+  final List<dynamic> curationsList;
+  TabWidget(
+      {super.key,
+      required this.title,
+      required this.chipsList,
+      required this.curationsList});
   final AuthController authController = Get.find<AuthController>();
   final CategoryController categoryController = Get.put(CategoryController());
-  final HomeController homeController = Get.put(HomeController());
   var curationId;
 
   @override
   Widget build(BuildContext context) {
+    categoryController.setTabController();
     return Padding(
         padding: const EdgeInsets.only(left: 25, right: 25),
         child: Column(
@@ -54,8 +59,7 @@ class TabWidget extends StatelessWidget {
                             if (index == 0) {
                               curationId = "null";
                             } else {
-                              curationId =
-                                  homeController.curations[index]["_id"];
+                              curationId = curationsList[index]["_id"];
                             }
                             categoryController.setCurationId(curationId);
                           },
@@ -70,18 +74,14 @@ class TabWidget extends StatelessWidget {
                                   )),
                             ),
                             //Tab(text:'All'),
-                            for (var i = 0;
-                                i < homeController.curations.length;
-                                i++)
+                            for (var i = 0; i < curationsList.length; i++)
                               Tab(
                                 child: Obx(() => CurationTabHeading(
-                                      curationName: homeController.curations[i]
-                                          ["name"],
+                                      curationName: curationsList[i]["name"],
                                       isSelected: (i + 1) ==
                                           categoryController
                                               .selectedCurationIndex.value,
-                                      curationId: homeController.curations[i]
-                                          ["_id"],
+                                      curationId: curationsList[i]["_id"],
                                     )),
                               ),
                             /*  Tab(
@@ -175,9 +175,10 @@ class TabWidget extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               controller: categoryController.curationList,
               children: [
-                ChipDemo(
-                  chipDataList: chipsList,
-                ),
+                for (var i = 0; i < curationsList.length + 1; i++)
+                  ChipDemo(
+                    chipDataList: chipsList,
+                  ),
                 // Container(
                 //   child: const Text('a'),
                 // ),

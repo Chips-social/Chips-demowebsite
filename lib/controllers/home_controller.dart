@@ -13,6 +13,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     super.onInit();
     tabController = TabController(length: 7, vsync: this);
     allChips();
+    allCurations();
   }
 
   final categoryTabIndexMap = {
@@ -29,6 +30,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   var curations = [];
 
   final isLoading = false.obs;
+  final isCurationListLoading = false.obs;
   final selctedCategoryTab = "Food & Drinks".obs;
 
   setCategoryTab(index) {
@@ -53,29 +55,32 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
           message: response["message"],
           icon: Icons.error,
           color: Colors.redAccent);
+      chips = List.from([]);
       isLoading.value = false;
     }
   }
 
   allCurations() async {
+    isCurationListLoading.value = true;
     var data = {
       'category': selctedCategoryTab.value,
     };
+
+    print(selctedCategoryTab.value);
     var response = await postRequestUnAuthenticated(
-        endpoint: '/fetch/curations', data: jsonEncode(data));
+        endpoint: '/fetch/curations', data: data);
     if (response["success"]) {
       curations = List.from(response["curations"]);
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
+      print(curations);
+      isCurationListLoading.value = false;
     } else {
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
           icon: Icons.error,
           color: Colors.redAccent);
+      curations = List.from([]);
+      isCurationListLoading.value = false;
     }
   }
 }

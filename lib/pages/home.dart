@@ -17,7 +17,6 @@ class Home extends StatelessWidget {
 
   final AuthController authController = Get.put(AuthController());
   final HomeController homeController = Get.put(HomeController());
-  final CategoryController categoryController = Get.put(CategoryController());
   final parser = EmojiParser();
 
   @override
@@ -281,6 +280,7 @@ class Home extends StatelessWidget {
                                                 homeController
                                                     .setCategoryTab(index);
                                                 homeController.allChips();
+                                                homeController.allCurations();
                                               },
                                               tabs: const [
                                                 Tab(text: 'Food & Drinks'),
@@ -310,7 +310,10 @@ class Home extends StatelessWidget {
                                         const NeverScrollableScrollPhysics(),
                                     controller: homeController.tabController,
                                     children: [
-                                      Obx(() => homeController.isLoading.value
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -323,8 +326,13 @@ class Home extends StatelessWidget {
                                           : TabWidget(
                                               title: 'Food & Drinks',
                                               chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
                                             )),
-                                      Obx(() => homeController.isLoading.value
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -336,8 +344,14 @@ class Home extends StatelessWidget {
                                             )
                                           : TabWidget(
                                               title: 'Entertainment',
-                                              chipsList: homeController.chips)),
-                                      Obx(() => homeController.isLoading.value
+                                              chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
+                                            )),
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -349,8 +363,14 @@ class Home extends StatelessWidget {
                                             )
                                           : TabWidget(
                                               title: 'Science & Tech',
-                                              chipsList: homeController.chips)),
-                                      Obx(() => homeController.isLoading.value
+                                              chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
+                                            )),
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -362,8 +382,14 @@ class Home extends StatelessWidget {
                                             )
                                           : TabWidget(
                                               title: 'Art & Design',
-                                              chipsList: homeController.chips)),
-                                      Obx(() => homeController.isLoading.value
+                                              chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
+                                            )),
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -375,8 +401,14 @@ class Home extends StatelessWidget {
                                             )
                                           : TabWidget(
                                               title: 'Interiors & Lifestyle',
-                                              chipsList: homeController.chips)),
-                                      Obx(() => homeController.isLoading.value
+                                              chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
+                                            )),
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -388,8 +420,14 @@ class Home extends StatelessWidget {
                                             )
                                           : TabWidget(
                                               title: 'Travel',
-                                              chipsList: homeController.chips)),
-                                      Obx(() => homeController.isLoading.value
+                                              chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
+                                            )),
+                                      Obx(() => (homeController
+                                                  .isLoading.value ||
+                                              homeController
+                                                  .isCurationListLoading.value)
                                           ? SizedBox(
                                               height: MediaQuery.of(context)
                                                   .size
@@ -401,7 +439,10 @@ class Home extends StatelessWidget {
                                             )
                                           : TabWidget(
                                               title: 'Fashion & Beauty',
-                                              chipsList: homeController.chips)),
+                                              chipsList: homeController.chips,
+                                              curationsList:
+                                                  homeController.curations,
+                                            )),
                                     ],
                                   ))
                                 ],

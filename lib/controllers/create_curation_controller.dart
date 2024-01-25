@@ -11,22 +11,23 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 class CreateCurationController extends GetxController {
-  final HomeController homeController = Get.put(HomeController());
-  final ChipController chipController = Get.put(ChipController());
-  final TextEditingController curationCaptionController = TextEditingController();
+  final HomeController homeController = Get.find<HomeController>();
+  final ChipController chipController = Get.find<ChipController>();
+  final TextEditingController curationCaptionController =
+      TextEditingController();
   final newCurationCheck = true.obs;
 
-  addCuration ()async {
+  addCuration() async {
     var data = {
       "name": curationCaptionController.text,
-      "category":homeController.selctedCategoryTab.value,
+      "category": homeController.selctedCategoryTab.value,
     };
     print(curationCaptionController.text);
-    var response = await postRequestAuthenticated(
-        endpoint: '/add/curation', data: data);
-      if (response["success"]) {
-        //chipController.curationId.value = response['curation']['_id'];
-       String? curationId = response["_id"];
+    var response =
+        await postRequestAuthenticated(endpoint: '/add/curation', data: data);
+    if (response["success"]) {
+      //chipController.curationId.value = response['curation']['_id'];
+      String? curationId = response["_id"];
       showErrorSnackBar(
           heading: 'Success',
           message: response["message"],
