@@ -62,6 +62,7 @@ class TabWidget extends StatelessWidget {
                               curationId = curationsList[index]["_id"];
                             }
                             categoryController.setCurationId(curationId);
+                            print(categoryController.selectedCurationId.value);
                           },
                           tabs: [
                             Tab(

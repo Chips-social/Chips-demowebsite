@@ -36,7 +36,7 @@ class ChipController extends GetxController {
       var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
-        "curation": categoryController.selectedCurationId,
+        "curation": categoryController.selectedCurationId.value,
         "is_datetime": false,
         "images": getFileUrls(files),
       };
@@ -59,19 +59,20 @@ class ChipController extends GetxController {
   }
 
   createChip() async {
-    var data = {
-      "text": captionController.text,
-      "category": homeController.selctedCategoryTab.value,
-      "curation":curationId.value,
-      "is_datetime": false,
-      "images": getFileUrls(files),
-      //"source_url": nestedUrlController.text,
-      //"location_urls":locationController.text,
-      //other fields
-    };
-    var response = await postRequestAuthenticated(
+    if(categoryController.selectedCurationId.value == "null"){
+        var data = {
+        "text": captionController.text,
+        "category": homeController.selctedCategoryTab.value,
+        "is_datetime": false,
+        "images": getFileUrls(files),
+        //"source_url": nestedUrlController.text,
+        //"location_urls":locationController.text,
+        //other fields
+        };
+        var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
+      print("chip added to queue ");
       var chipId = response["_id"];
       showErrorSnackBar(
           heading: 'Success',
@@ -87,6 +88,38 @@ class ChipController extends GetxController {
           icon: Icons.error,
           color: Colors.redAccent);
       return {"success": false, "message": response["message"]};
+    }
+    } else{  
+        var data = {
+          "text": captionController.text,
+          "category": homeController.selctedCategoryTab.value,
+          "curation":categoryController.selectedCurationId.value,
+          "is_datetime": false,
+          "images": getFileUrls(files),
+          //"source_url": nestedUrlController.text,
+          //"location_urls":locationController.text,
+          //other fields
+        };
+        var response = await postRequestAuthenticated(
+        endpoint: '/add/chip', data: jsonEncode(data));
+    if (response["success"]) {
+      print("chip added to curation");
+      var chipId = response["_id"];
+      showErrorSnackBar(
+          heading: 'Success',
+          message: response["message"],
+          icon: Icons.check_circle,
+          color: ColorConst.success);
+      // return chipId;
+      return {"success": true, "message": "added Chip"};
+    } else {
+      showErrorSnackBar(
+          heading: 'Error',
+          message: response["message"],
+          icon: Icons.error,
+          color: Colors.redAccent);
+      return {"success": false, "message": response["message"]};
+    }
     }
   }
 

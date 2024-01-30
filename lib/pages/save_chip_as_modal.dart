@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
@@ -8,8 +9,7 @@ import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
 class SaveChipAsModal extends StatelessWidget {
   SaveChipAsModal({super.key});
-  final CreateCurationController curationController =
-      Get.put(CreateCurationController());
+  final ChipController chipController = Get.find<ChipController>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,6 @@ class SaveChipAsModal extends StatelessWidget {
                                   //padding: EdgeInsets.all(8.0),
                                   child: IconButton(
                                     onPressed: () {
-                                      curationController
-                                          .newCurationCheck.value = true;
                                       newCurationModal(context);
                                      //Navigator.of(context).pop();
                             
@@ -85,6 +83,29 @@ class SaveChipAsModal extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 50),
+                        GestureDetector(
+                          onTap: () async{
+                           await chipController.createChip();
+                          },
+                          child: const Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Save to Existing',
+                                    style: TextStyle(
+                                        color: ColorConst.primary,
+                                        fontSize: 18,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.normal)),
+                                  Icon(
+                                        Icons.arrow_forward,
+                                        color: ColorConst.primary,
+                                        size: 24,
+                                      )
+                                    ],
+                            ),
+                          )),
                           /*  const Divider(
                   color: ColorConst.dividerLine,
                 ), */

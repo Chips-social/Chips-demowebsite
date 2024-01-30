@@ -17,7 +17,7 @@ class CreateChipModal extends StatelessWidget {
     FilePickerResult? result,
     List? File,
   });
-
+  final CategoryController categoryController = Get.find<CategoryController>();
   final ChipController chipController = Get.put(ChipController());
   final AuthController authController = Get.find<AuthController>();
   @override
