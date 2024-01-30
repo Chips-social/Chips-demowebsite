@@ -32,7 +32,6 @@ class ChipController extends GetxController {
   }
 
   addChipToCuration() async {
-    if (categoryController.selectedCurationId != "null") {
       var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
@@ -43,6 +42,7 @@ class ChipController extends GetxController {
       var response = await postRequestAuthenticated(
           endpoint: '/add/chip', data: jsonEncode(data));
       if (response["success"]) {
+        print("chip added to new curation");
         showErrorSnackBar(
             heading: 'Success',
             message: response["message"],
@@ -55,7 +55,6 @@ class ChipController extends GetxController {
             icon: Icons.error,
             color: Colors.redAccent);
       }
-    }
   }
 
   createChip() async {
