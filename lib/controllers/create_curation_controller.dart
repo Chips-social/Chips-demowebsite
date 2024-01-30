@@ -1,18 +1,12 @@
-import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
-import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:convert';
 
 class CreateCurationController extends GetxController {
   final HomeController homeController = Get.find<HomeController>();
-  final ChipController chipController = Get.find<ChipController>();
   final TextEditingController curationCaptionController =
       TextEditingController();
   final newCurationCheck = true.obs;
