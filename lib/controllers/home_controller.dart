@@ -71,7 +71,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         endpoint: '/fetch/curations', data: data);
     if (response["success"]) {
       curations = List.from(response["curations"]);
-      print(curations);
       isCurationListLoading.value = false;
     } else {
       showErrorSnackBar(

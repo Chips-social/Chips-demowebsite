@@ -59,7 +59,7 @@ class TabWidget extends StatelessWidget {
                             if (index == 0) {
                               curationId = "null";
                             } else {
-                              curationId = curationsList[index]["_id"];
+                              curationId = curationsList[index - 1]["_id"];
                             }
                             categoryController.setCurationId(curationId);
                             print(categoryController.selectedCurationId.value);
