@@ -87,7 +87,7 @@ class SaveChipAsModal extends StatelessWidget {
                           onTap: () async{
                            await chipController.createChip();
                           },
-                          child: const Padding(
+                          child:  Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,11 +98,19 @@ class SaveChipAsModal extends StatelessWidget {
                                         fontSize: 18,
                                         fontFamily: 'Inter',
                                         fontWeight: FontWeight.normal)),
-                                  Icon(
+                                   Obx(() => chipController.isLoading.value
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 6.0,
+                                    color: ColorConst.primary,
+                                  ))      
+                                  :Icon(
                                         Icons.arrow_forward,
                                         color: ColorConst.primary,
                                         size: 24,
-                                      )
+                                      ))
                                     ],
                             ),
                           )),

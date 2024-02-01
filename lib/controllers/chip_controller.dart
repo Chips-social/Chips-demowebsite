@@ -15,6 +15,7 @@ class ChipController extends GetxController {
   final showImagePreview = false.obs;
   final curationId = null.obs;
   var chipId;
+  final isLoading = false.obs;
   List<Uint8List> imageBytesList = [];
   List<File> files = [];
   final TextEditingController captionController = TextEditingController();
@@ -27,6 +28,9 @@ class ChipController extends GetxController {
     showPreview.value = value;
   }
 
+  setLoading(bool val){
+    isLoading.value = val;
+  }
   getFileUrls(files) {
     //add file upload function
   }
@@ -58,6 +62,7 @@ class ChipController extends GetxController {
   }
 
   createChip() async {
+    setLoading(true);
     if(categoryController.selectedCurationId.value == "null"){
         var data = {
         "text": captionController.text,
@@ -71,6 +76,7 @@ class ChipController extends GetxController {
         var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
+      setLoading(false);
       print("chip added to queue ");
       var chipId = response["_id"];
       showErrorSnackBar(
@@ -81,6 +87,7 @@ class ChipController extends GetxController {
       // return chipId;
       return {"success": true, "message": "added Chip"};
     } else {
+      setLoading(false);
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],

@@ -70,7 +70,12 @@ class NewCurationModal extends StatelessWidget {
                         ),  */
 
                         //const SizedBox(height: 100),
-                        Row(children: [
+                  Obx(() => curationController.isPageLoading.value
+                    ? const Center(
+                      child: CircularProgressIndicator(
+                      color: ColorConst.primary,
+                      ))
+                    : Row(children: [
                           Expanded(
                             flex: 1,
                             child: PillButton(
@@ -87,6 +92,7 @@ class NewCurationModal extends StatelessWidget {
                             ),
                           )
                         ])
+                          )
                       ])))
         ]));
   }

@@ -13,9 +13,14 @@ class CreateCurationController extends GetxController {
   final CategoryController categoryController = Get.find<CategoryController>();
   final TextEditingController curationCaptionController =
       TextEditingController();
-  final newCurationCheck = true.obs;
+  final isPageLoading = false.obs;
+
+  setPageLoading (bool val) {
+    isPageLoading.value = val;
+  }
 
   addCuration() async {
+     setPageLoading(true);
     var data = {
       "name": curationCaptionController.text,
       "category": homeController.selctedCategoryTab.value,
@@ -24,6 +29,7 @@ class CreateCurationController extends GetxController {
     var response =
         await postRequestAuthenticated(endpoint: '/add/curation', data: data);
     if (response["success"]) {
+       setPageLoading(false);
       categoryController.selectedCurationId.value = response['curation']['_id'];
       showErrorSnackBar(
           heading: 'Success',
@@ -32,6 +38,7 @@ class CreateCurationController extends GetxController {
           color: ColorConst.success);
        return categoryController.selectedCurationId;
     } else {
+       setPageLoading(false);
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
