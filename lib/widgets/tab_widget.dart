@@ -60,20 +60,19 @@ class TabWidget extends StatelessWidget {
                             if (index == 0) {
                               curationId = "null";
                               categoryController.setCurationId(curationId);
-                              filteredList = [];
+                              
                             } else {
+                              filteredList = [];
                               curationId = curationsList[index - 1]["_id"]; 
                               categoryController.setCurationId(curationId);
-                              filteredList = categoryController.getChipList(chipsList);
+                              filteredList = chipsList.where((chip) => chip['curation'] == curationId).toList();
+                              //categoryController.getChipList(chipsList);
                               //add Filter chip list function
-                            }
-                            if( filteredList.length ==0){
-                              print("filtered list is empty");
                             }
                             print(categoryController.selectedCurationId.value);
                             print(
                                 categoryController.selectedCurationIndex.value);
-                            print(chipsList);
+                            print(filteredList);
                             
                           },
                           tabs: [
