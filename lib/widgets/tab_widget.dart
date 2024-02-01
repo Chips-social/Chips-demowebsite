@@ -8,11 +8,13 @@ import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class TabWidget extends StatelessWidget {
   final String title;
   final List<dynamic> chipsList;
   final List<dynamic> curationsList;
+  List<dynamic> filteredList = [].obs;
   TabWidget(
       {super.key,
       required this.title,
@@ -57,14 +59,22 @@ class TabWidget extends StatelessWidget {
                             categoryController.setSelectedCurationIndex(index);
                             if (index == 0) {
                               curationId = "null";
+                              categoryController.setCurationId(curationId);
+                              filteredList = [];
                             } else {
-                              curationId = curationsList[index - 1]["_id"];
+                              curationId = curationsList[index - 1]["_id"]; 
+                              categoryController.setCurationId(curationId);
+                              filteredList = categoryController.getChipList(chipsList);
                               //add Filter chip list function
                             }
-                            categoryController.setCurationId(curationId);
+                            if( filteredList.length ==0){
+                              print("filtered list is empty");
+                            }
                             print(categoryController.selectedCurationId.value);
                             print(
                                 categoryController.selectedCurationIndex.value);
+                            print(chipsList);
+                            
                           },
                           tabs: [
                             Tab(
@@ -182,7 +192,8 @@ class TabWidget extends StatelessWidget {
                   Obx(() => getChipsView(
                       curationIndex:
                           categoryController.selectedCurationIndex.value,
-                      chipList: chipsList))
+                      chipList: chipsList,
+                      filteredChipList: filteredList ))
               ],
             ))
           ],
@@ -191,11 +202,11 @@ class TabWidget extends StatelessWidget {
 }
 
 Widget getChipsView(
-    {required int curationIndex, required List<dynamic> chipList}) {
+    {required int curationIndex, required List<dynamic> chipList, required List<dynamic> filteredChipList,}) {
   if (curationIndex == 0) {
     return ChipDemo(chipDataList: chipList);
   } else {
-    return ChipDemo(chipDataList: []);
+    return ChipDemo(chipDataList: filteredChipList);
   }
 }
 

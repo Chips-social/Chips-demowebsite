@@ -18,6 +18,12 @@ class CategoryController extends GetxController
     setSelectedCurationIndex(0);
   }
 
+  List<dynamic> getChipList(List<dynamic> inputlist) {
+    List filteredList = inputlist.where((o) => o['curation'] == 'selectedCurationId').toList();
+    return filteredList;
+  }
+
+
   final selectedCurationIndex = 0.obs;
   final selectedCurationId = "null".obs;
 

@@ -14,6 +14,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     tabController = TabController(length: 7, vsync: this);
     allChips();
     allCurations();
+    
   }
 
   final categoryTabIndexMap = {
