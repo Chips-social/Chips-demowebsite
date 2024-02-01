@@ -52,12 +52,14 @@ class ChipController extends GetxController {
             message: response["message"],
             icon: Icons.check_circle,
             color: ColorConst.success);
+            return response;
       } else {
         showErrorSnackBar(
             heading: 'Error',
             message: response["message"],
             icon: Icons.error,
             color: Colors.redAccent);
+            return response;
       }
   }
 
@@ -109,6 +111,7 @@ class ChipController extends GetxController {
         var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
+      setLoading(false);
       print("chip added to curation");
       var chipId = response["_id"];
       showErrorSnackBar(
@@ -119,6 +122,7 @@ class ChipController extends GetxController {
       // return chipId;
       return {"success": true, "message": "added Chip"};
     } else {
+      setLoading(false);
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
@@ -126,26 +130,6 @@ class ChipController extends GetxController {
           color: Colors.redAccent);
       return {"success": false, "message": response["message"]};
     }
-    }
-  }
-
-  addChipsAllTabCase(String curationId) async {
-    var chipId = await createChip();
-    var data = {"chip_id": chipId, "curation_id": null};
-    var response = await postRequestAuthenticated(
-        endpoint: '/add/curation/to/chip', data: jsonEncode(data));
-    if (response["success"]) {
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
-    } else {
-      showErrorSnackBar(
-          heading: 'Error',
-          message: response["message"],
-          icon: Icons.error,
-          color: Colors.redAccent);
     }
   }
 

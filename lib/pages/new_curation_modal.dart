@@ -82,8 +82,12 @@ class NewCurationModal extends StatelessWidget {
                               onTap: () async {
                                 var curationId = await curationController.addCuration();
                                  if (curationId != null) {
-                                 chipController.addChipToCuration();
-                                } 
+                                 var response =chipController.addChipToCuration();
+                                  if(response['success']){
+                                  if (context.mounted) Navigator.of(context).pop();
+                                 }
+                                }
+                                
                               },
                               text: "Create and Save",
                               textColor: ColorConst.primary,

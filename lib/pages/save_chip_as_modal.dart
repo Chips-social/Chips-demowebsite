@@ -57,6 +57,7 @@ class SaveChipAsModal extends StatelessWidget {
                                   //padding: EdgeInsets.all(8.0),
                                   child: IconButton(
                                     onPressed: () {
+                                      if (context.mounted) Navigator.of(context).pop();
                                       newCurationModal(context);
                                      //Navigator.of(context).pop();
                             

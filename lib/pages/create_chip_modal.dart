@@ -7,6 +7,8 @@ import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:get/get.dart';
 import 'dart:typed_data';
 import 'dart:io';
@@ -45,7 +47,9 @@ class CreateChipModal extends StatelessWidget {
                         onPressed: () async {
                           if (chipController.showPreview.value ||
                               chipController.showImagePreview.value) {
-                            saveChipAs(context);
+                                if (context.mounted) Navigator.of(context).pop();
+                                saveChipAs(context);
+                            
                             //var response = await chipController.createChip();
                             /*  if (response["success"]) {
                               if (context.mounted) Navigator.of(context).pop();
@@ -286,24 +290,62 @@ class CreateChipModal extends StatelessWidget {
         ));
   }
 
+  void _uploadImagesToS3(List <Uint8List> imageBytesList) async {
+  var request = http.MultipartRequest(
+    'POST',
+    Uri.parse('http://127.0.0.1:5555/api/upload'),
+  );
+
+  for (int i = 0; i < imageBytesList.length; i++) {
+    var bytes = imageBytesList[i];
+    var multipartFile = http.MultipartFile.fromBytes(
+      'images', 
+      bytes,
+      filename: 'image$i.jpg', 
+      contentType: MediaType('image','jpeg'), 
+    );
+    request.files.add(multipartFile);
+  }
+
+  try {
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print('Images uploaded successfully');
+    } else {
+      print('Error uploading images: ${response.reasonPhrase}');
+    }
+  } catch (e) {
+    print('Exception uploading images: $e');
+  }
+}
+
   void _getImagefromGallery() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: true,
         allowedExtensions: ['png', 'jpg', 'jpeg']);
+
+  /*    if (result != null) {
+    PlatformFile file = result.files.first; // Get the first selected file
+    Uint8List imageBytes = file.bytes!; */
+
     if (result != null) {
       List<PlatformFile> files = result.files;
+      List<Uint8List> imageBytesList = [];
 
       for (PlatformFile file in files) {
-        Uint8List bytes = file.bytes!;
-        chipController.imageBytesList.add(bytes);
-      }
+         imageBytesList.add(file.bytes!);
+         Uint8List bytes = file.bytes!;
+        chipController.imageBytesList.add(bytes); 
+      } 
+     _uploadImagesToS3(imageBytesList);
+
       if (chipController.imageBytesList.isNotEmpty) {
         chipController.files = List.from(chipController.imageBytesList
             .map((bytes) => File.fromRawPath(bytes))
             .toList());
         chipController.showImagePreview.value = true;
-      }
+      } 
     }
     /*   if (result != null) {
        chipController.files =
