@@ -1,7 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
-import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
@@ -60,9 +59,12 @@ class TabWidget extends StatelessWidget {
                               curationId = "null";
                             } else {
                               curationId = curationsList[index - 1]["_id"];
+                              //add Filter chip list function
                             }
                             categoryController.setCurationId(curationId);
                             print(categoryController.selectedCurationId.value);
+                            print(
+                                categoryController.selectedCurationIndex.value);
                           },
                           tabs: [
                             Tab(
@@ -177,19 +179,23 @@ class TabWidget extends StatelessWidget {
               controller: categoryController.curationList,
               children: [
                 for (var i = 0; i < curationsList.length + 1; i++)
-                  ChipDemo(
-                    chipDataList: chipsList,
-                  ),
-                // Container(
-                //   child: const Text('a'),
-                // ),
-                // Container(
-                //   child: const Text('a'),
-                // ),
+                  Obx(() => getChipsView(
+                      curationIndex:
+                          categoryController.selectedCurationIndex.value,
+                      chipList: chipsList))
               ],
             ))
           ],
         ));
+  }
+}
+
+Widget getChipsView(
+    {required int curationIndex, required List<dynamic> chipList}) {
+  if (curationIndex == 0) {
+    return ChipDemo(chipDataList: chipList);
+  } else {
+    return ChipDemo(chipDataList: []);
   }
 }
 
