@@ -12,9 +12,10 @@ class CategoryController extends GetxController
   }
 
   setTabController() {
-    print(homeController.curations.length);
     curationList = TabController(
         length: (homeController.curations.length + 1), vsync: this);
+
+    setSelectedCurationIndex(0);
   }
 
   final selectedCurationIndex = 0.obs;
