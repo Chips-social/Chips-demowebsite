@@ -14,7 +14,7 @@ class TabWidget extends StatelessWidget {
   final String title;
   final List<dynamic> chipsList;
   final List<dynamic> curationsList;
-  List<dynamic> filteredList = [].obs;
+  List<dynamic> filteredList = [];
   TabWidget(
       {super.key,
       required this.title,
@@ -22,7 +22,7 @@ class TabWidget extends StatelessWidget {
       required this.curationsList});
   final AuthController authController = Get.find<AuthController>();
   final CategoryController categoryController = Get.put(CategoryController());
-  var curationId;
+ // var curationId;
 
   @override
   Widget build(BuildContext context) {
@@ -58,23 +58,23 @@ class TabWidget extends StatelessWidget {
                           onTap: (index) {
                             categoryController.setSelectedCurationIndex(index);
                             if (index == 0) {
-                              curationId = "null";
-                              categoryController.setCurationId(curationId);
+                              //curationId = "null";
+                              categoryController.setCurationId("null");
                             } else {
                               filteredList = [];
-                              curationId = curationsList[index - 1]["_id"];
-                              categoryController.setCurationId(curationId);
-                              filteredList = chipsList
+                              //curationId = curationsList[index - 1]["_id"];
+                              categoryController.setCurationId(curationsList[index - 1]["_id"]);
+                               filteredList = chipsList
                                   .where(
-                                      (chip) => chip['curation'] == curationId)
-                                  .toList();
+                                      (chip) => chip['curation'] == curationsList[index - 1]["_id"])
+                                  .toList();  
                               //categoryController.getChipList(chipsList);
                               //add Filter chip list function
                             }
                             print(categoryController.selectedCurationId.value);
                             print(
                                 categoryController.selectedCurationIndex.value);
-                            print(filteredList);
+                            //print(filteredList);
                           },
                           tabs: [
                             Tab(

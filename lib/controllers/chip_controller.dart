@@ -13,8 +13,9 @@ import 'dart:convert';
 class ChipController extends GetxController {
   final showPreview = false.obs;
   final showImagePreview = false.obs;
+  final isDateTime = false.obs;
+  final selectedDate = DateTime.now().obs;
   final curationId = null.obs;
-  var chipId;
   final isLoading = false.obs;
   List<Uint8List> imageBytesList = [];
   List<File> files = [];
@@ -27,12 +28,22 @@ class ChipController extends GetxController {
   setPreview(bool value) {
     showPreview.value = value;
   }
-
+  setDateTime(bool val){
+    isDateTime.value = val;
+  }
+  setDate(DateTime date) {
+    selectedDate.value = date;
+  }
   setLoading(bool val){
     isLoading.value = val;
   }
   getFileUrls(files) {
     //add file upload function
+  }
+  clearCaptionAndPreview() {
+    captionController.clear();
+    showPreview(false);
+    showImagePreview(false);
   }
 
   addChipToCuration() async {
@@ -40,26 +51,29 @@ class ChipController extends GetxController {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
         "curation": categoryController.selectedCurationId.value,
-        "is_datetime": false,
+        "is_datetime": isDateTime.value,
+        "date":selectedDate.value,
         "images": getFileUrls(files),
       };
       var response = await postRequestAuthenticated(
           endpoint: '/add/chip', data: jsonEncode(data));
       if (response["success"]) {
         print("chip added to new curation");
+        homeController.allChips();
+        clearCaptionAndPreview();
         showErrorSnackBar(
             heading: 'Success',
             message: response["message"],
             icon: Icons.check_circle,
             color: ColorConst.success);
-            return response;
+            return {"success": true, "message": "added Chip to Curation"};
       } else {
         showErrorSnackBar(
             heading: 'Error',
             message: response["message"],
             icon: Icons.error,
             color: Colors.redAccent);
-            return response;
+            return {"success": false, "message": response["message"]};
       }
   }
 
@@ -80,7 +94,8 @@ class ChipController extends GetxController {
     if (response["success"]) {
       setLoading(false);
       print("chip added to queue ");
-      var chipId = response["_id"];
+      homeController.allChips();
+      clearCaptionAndPreview();
       showErrorSnackBar(
           heading: 'Success',
           message: response["message"],
@@ -111,6 +126,9 @@ class ChipController extends GetxController {
         var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
+      homeController.allChips();
+      clearCaptionAndPreview();
+      //homeController.allCurations();
       setLoading(false);
       print("chip added to curation");
       var chipId = response["_id"];

@@ -87,8 +87,11 @@ class SaveChipAsModal extends StatelessWidget {
                           const SizedBox(height: 50),
                           GestureDetector(
                               onTap: () async {
-                                await chipController.createChip();
-                                // Add Here
+                                var response = await chipController.createChip();
+                                if (response['success']) {
+                                    if (context.mounted) Navigator.of(context).pop();
+                                  }
+                                
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 12),
@@ -96,7 +99,7 @@ class SaveChipAsModal extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Save to Existing',
+                                    const Text('Save to the Selected Curation',
                                         style: TextStyle(
                                             color: ColorConst.primary,
                                             fontSize: 18,

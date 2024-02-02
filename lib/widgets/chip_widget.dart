@@ -121,7 +121,7 @@ class ChipWidget extends StatelessWidget {
                               left: 20, right: 20, bottom: 10),
                           child: Text(
                             text,
-                            textAlign: TextAlign.justify,
+                            //textAlign: TextAlign.justify,
                             style: const TextStyle(color: Colors.white),
                           )),
 

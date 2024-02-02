@@ -128,14 +128,18 @@ class CreateChipModal extends StatelessWidget {
                               firstDate: DateTime(1970),
                               lastDate: DateTime(2030),
                             );
-
-                            if (selectedDate != null) {
+                            if(selectedDate != null){
+                              chipController.setDateTime(true);
+                              chipController.setDate(selectedDate);
+                              print(selectedDate);
+                            }
+                           /*   if (selectedDate != null) {
                               final TimeOfDay? selectedTime =
                                   await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
-                              );
-                            }
+                              ); 
+                            } */
                           },
                         ),
                       ),

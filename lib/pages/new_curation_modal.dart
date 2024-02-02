@@ -86,8 +86,7 @@ class NewCurationModal extends StatelessWidget {
                                         var response = await chipController
                                             .addChipToCuration();
                                         if (response['success']) {
-                                          if (context.mounted)
-                                            Navigator.of(context).pop();
+                                          if (context.mounted) Navigator.of(context).pop();
                                         }
                                       }
                                     },

@@ -30,19 +30,10 @@ class CreateCurationController extends GetxController {
     if (response["success"]) {
       setPageLoading(false);
       categoryController.selectedCurationId.value = response['curation']['_id'];
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
+       homeController.allCurations();
       return categoryController.selectedCurationId;
     } else {
       setPageLoading(false);
-      showErrorSnackBar(
-          heading: 'Error',
-          message: response["message"],
-          icon: Icons.error,
-          color: Colors.redAccent);
       return null;
     }
   }

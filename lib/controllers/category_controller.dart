@@ -6,7 +6,6 @@ class CategoryController extends GetxController
     with GetTickerProviderStateMixin {
   final HomeController homeController = Get.find<HomeController>();
   late TabController curationList;
-  List<dynamic> filteredList = [].obs;
   @override
   void onInit() {
     super.onInit();
@@ -18,12 +17,6 @@ class CategoryController extends GetxController
 
     setSelectedCurationIndex(0);
   }
-
-  getChipList(List<dynamic> inputlist) {
-    filteredList = inputlist.where((o) => o['curation'] == 'selectedCurationId').toList();
-  }
-
-
   final selectedCurationIndex = 0.obs;
   final selectedCurationId = "null".obs;
 
