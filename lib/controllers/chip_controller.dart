@@ -54,8 +54,8 @@ class ChipController extends GetxController {
         "category": homeController.selctedCategoryTab.value,
         "curation": categoryController.selectedCurationId.value,
         "source_url":urlController.text,
-        /* "is_datetime": isDateTime.value,
-        "date":selectedDate.value, */
+        "is_datetime": isDateTime.value,
+        "date":selectedDate.toString(), 
         "images": getFileUrls(files),
       };
       var response = await postRequestAuthenticated(
@@ -88,8 +88,8 @@ class ChipController extends GetxController {
         var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
-    /*     "is_datetime": isDateTime.value,
-        "date":selectedDate.value, */
+        "is_datetime": isDateTime.value,
+        "date":selectedDate.toString(),  
         "images": getFileUrls(files),
         "source_url":urlController.text,
         //"source_url": nestedUrlController.text,
@@ -127,8 +127,8 @@ class ChipController extends GetxController {
           "text": captionController.text,
           "category": homeController.selctedCategoryTab.value,
           "curation":categoryController.selectedCurationId.value,
-        /*   "is_datetime": isDateTime.value,
-          "date":selectedDate.value, */
+          "is_datetime": isDateTime.value,
+           "date":selectedDate.toString(), 
           "images": getFileUrls(files),
           "source_url":urlController.text,
           //"source_url": nestedUrlController.text,
