@@ -299,7 +299,7 @@ class CreateChipModal extends StatelessWidget {
     for (int i = 0; i < imageBytesList.length; i++) {
       var bytes = imageBytesList[i];
       var multipartFile = http.MultipartFile.fromBytes(
-        'images',
+        'file',
         bytes,
         filename: 'image$i.jpg',
         contentType: MediaType('image', 'jpeg'),

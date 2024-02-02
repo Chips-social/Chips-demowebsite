@@ -3,10 +3,12 @@ import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:chips_demowebsite/globals.dart' as globals;
+import 'package:http_parser/http_parser.dart';
 
 final AuthController auth = Get.put(AuthController());
 
 String hostUrl = globals.hostUrl;
+String fileUploadUrl = globals.fileUploadUrl;
 
 Future postRequestAuthenticated({required String endpoint, data}) async {
   try {
@@ -107,5 +109,27 @@ Future getRequestAuthenticated({required String endpoint}) async {
     }
   } catch (e) {
     return {"error": true, "success": false, "message": "Network Error"};
+  }
+}
+
+Future addFileToAWSServiceWeb(fileBytes) async {
+  try {
+    final request =
+        http.MultipartRequest('POST', Uri.parse('$fileUploadUrl/api/upload'));
+    request.files.add(await http.MultipartFile.fromBytes('file', fileBytes,
+        filename: '${DateTime.now()}.pdf',
+        contentType: MediaType.parse("application/pdf")));
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      print('File uploaded successfully!');
+      final respStr = await response.stream.bytesToString();
+      return jsonDecode(respStr);
+    } else {
+      print('Error uploading File: ${response.reasonPhrase}');
+      final respStr = await response.stream.bytesToString();
+      return {"message": "Error"};
+    }
+  } catch (e) {
+    print('Error uploading video: $e');
   }
 }
