@@ -13,12 +13,14 @@ import 'dart:convert';
 class ChipController extends GetxController {
   final showPreview = false.obs;
   final showImagePreview = false.obs;
+  final showUrl = false.obs;
   final isDateTime = false.obs;
   final selectedDate = DateTime.now().obs;
   final curationId = null.obs;
   final isLoading = false.obs;
   List<Uint8List> imageBytesList = [];
   List<File> files = [];
+  final TextEditingController urlController = TextEditingController();
   final TextEditingController captionController = TextEditingController();
   final HomeController homeController = Get.put(HomeController());
   final CategoryController categoryController = Get.put(CategoryController());
@@ -51,13 +53,16 @@ class ChipController extends GetxController {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
         "curation": categoryController.selectedCurationId.value,
-        "is_datetime": isDateTime.value,
-        "date":selectedDate.value,
+        "source_url":urlController.text,
+        /* "is_datetime": isDateTime.value,
+        "date":selectedDate.value, */
         "images": getFileUrls(files),
       };
       var response = await postRequestAuthenticated(
           endpoint: '/add/chip', data: jsonEncode(data));
       if (response["success"]) {
+        var chips = response['chip'];
+        print(chips);
         print("chip added to new curation");
         homeController.allChips();
         clearCaptionAndPreview();
@@ -83,8 +88,10 @@ class ChipController extends GetxController {
         var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
-        "is_datetime": false,
+    /*     "is_datetime": isDateTime.value,
+        "date":selectedDate.value, */
         "images": getFileUrls(files),
+        "source_url":urlController.text,
         //"source_url": nestedUrlController.text,
         //"location_urls":locationController.text,
         //other fields
@@ -93,7 +100,10 @@ class ChipController extends GetxController {
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
       setLoading(false);
+       var chips = response['chip'];
+        print(chips);
       print("chip added to queue ");
+      print(selectedDate.value);
       homeController.allChips();
       clearCaptionAndPreview();
       showErrorSnackBar(
@@ -117,15 +127,20 @@ class ChipController extends GetxController {
           "text": captionController.text,
           "category": homeController.selctedCategoryTab.value,
           "curation":categoryController.selectedCurationId.value,
-          "is_datetime": false,
+        /*   "is_datetime": isDateTime.value,
+          "date":selectedDate.value, */
           "images": getFileUrls(files),
+          "source_url":urlController.text,
           //"source_url": nestedUrlController.text,
           //"location_urls":locationController.text,
           //other fields
         };
+        print(urlController.text);
         var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
+       var chips = response['chip'];
+        print(chips);
       homeController.allChips();
       clearCaptionAndPreview();
       //homeController.allCurations();

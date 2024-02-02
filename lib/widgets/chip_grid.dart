@@ -169,6 +169,7 @@ class ChipDemo extends StatelessWidget {
                         name: '${chipDataList[index]["user"]["name"]}',
                         timeAdded:
                             DateTime.parse(chipDataList[index]["timeAdded"]),
+                        date: chipDataList[index]["date"] != null ? chipDataList[index]["date"] : ''
                       ));
                 })));
   }

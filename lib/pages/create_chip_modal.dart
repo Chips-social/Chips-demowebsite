@@ -129,9 +129,9 @@ class CreateChipModal extends StatelessWidget {
                               lastDate: DateTime(2030),
                             );
                             if(selectedDate != null){
-                              chipController.setDateTime(true);
+                              chipController.isDateTime.value = true;
                               chipController.setDate(selectedDate);
-                              print(selectedDate);
+                              //print(selectedDate);
                             }
                            /*   if (selectedDate != null) {
                               final TimeOfDay? selectedTime =
@@ -221,7 +221,7 @@ class CreateChipModal extends StatelessWidget {
                           ),
                           onPressed: () {
                             //controller
-                            // addChipController.showUrl.value = true;
+                            chipController.showUrl.value = true;
                           },
                         ),
                       ),
@@ -271,14 +271,49 @@ class CreateChipModal extends StatelessWidget {
                   Obx(() => chipController.showPreview.value
                       ? getPreview(
                           caption: chipController.captionController.text,
-                          name: authController.getCurrentUser()["name"])
+                          name: authController.getCurrentUser()["name"],
+                          selectedDate:chipController.selectedDate.value.toString(),
+                          )
                       : const SizedBox()),
+                Obx(() => chipController.showUrl.value
+                ? Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                             Expanded(
+                              child: 
+                              TextField(
+                                controller: chipController.urlController ,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    labelText: "Enter the Url",
+                                    contentPadding: EdgeInsets.only(top: 15)),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.cancel,
+                                color: ColorConst.dark,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                chipController.showUrl.value = false;
+                              },
+                            )
+                          ],
+                        )
+                      ],
+                    ))
+                : const SizedBox()),
                 ],
               ),
             )));
   }
 
-  Widget getPreview({required String caption, required String name}) {
+  Widget getPreview({required String caption, required String name, required String selectedDate}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
         child: ChipWidget(
@@ -291,6 +326,7 @@ class CreateChipModal extends StatelessWidget {
           name: name,
           //name: '${authController.getCurrentUser()["name"] ?? "User Name"}',
           timeAdded: DateTime.now(),
+          date: selectedDate,
         ));
   }
 
