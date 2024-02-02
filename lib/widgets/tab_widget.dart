@@ -60,12 +60,14 @@ class TabWidget extends StatelessWidget {
                             if (index == 0) {
                               curationId = "null";
                               categoryController.setCurationId(curationId);
-                              
                             } else {
                               filteredList = [];
-                              curationId = curationsList[index - 1]["_id"]; 
+                              curationId = curationsList[index - 1]["_id"];
                               categoryController.setCurationId(curationId);
-                              filteredList = chipsList.where((chip) => chip['curation'] == curationId).toList();
+                              filteredList = chipsList
+                                  .where(
+                                      (chip) => chip['curation'] == curationId)
+                                  .toList();
                               //categoryController.getChipList(chipsList);
                               //add Filter chip list function
                             }
@@ -73,7 +75,6 @@ class TabWidget extends StatelessWidget {
                             print(
                                 categoryController.selectedCurationIndex.value);
                             print(filteredList);
-                            
                           },
                           tabs: [
                             Tab(
@@ -192,7 +193,7 @@ class TabWidget extends StatelessWidget {
                       curationIndex:
                           categoryController.selectedCurationIndex.value,
                       chipList: chipsList,
-                      filteredChipList: filteredList ))
+                      filteredChipList: filteredList))
               ],
             ))
           ],
@@ -200,8 +201,11 @@ class TabWidget extends StatelessWidget {
   }
 }
 
-Widget getChipsView(
-    {required int curationIndex, required List<dynamic> chipList, required List<dynamic> filteredChipList,}) {
+Widget getChipsView({
+  required int curationIndex,
+  required List<dynamic> chipList,
+  required List<dynamic> filteredChipList,
+}) {
   if (curationIndex == 0) {
     return ChipDemo(chipDataList: chipList);
   } else {

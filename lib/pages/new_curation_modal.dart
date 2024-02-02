@@ -70,33 +70,35 @@ class NewCurationModal extends StatelessWidget {
                         ),  */
 
                         //const SizedBox(height: 100),
-                  Obx(() => curationController.isPageLoading.value
-                    ? const Center(
-                      child: CircularProgressIndicator(
-                      color: ColorConst.primary,
-                      ))
-                    : Row(children: [
-                          Expanded(
-                            flex: 1,
-                            child: PillButton(
-                              onTap: () async {
-                                var curationId = await curationController.addCuration();
-                                 if (curationId != null) {
-                                 var response =chipController.addChipToCuration();
-                                  if(response['success']){
-                                  if (context.mounted) Navigator.of(context).pop();
-                                 }
-                                }
-                                
-                              },
-                              text: "Create and Save",
-                              textColor: ColorConst.primary,
-                              backGroundColor: ColorConst.primaryBackground,
-                              borderColor: ColorConst.primary,
-                            ),
-                          )
-                        ])
-                          )
+                        Obx(() => curationController.isPageLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                color: ColorConst.primary,
+                              ))
+                            : Row(children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: PillButton(
+                                    onTap: () async {
+                                      var curationId = await curationController
+                                          .addCuration();
+                                      if (curationId != null) {
+                                        var response = await chipController
+                                            .addChipToCuration();
+                                        if (response['success']) {
+                                          if (context.mounted)
+                                            Navigator.of(context).pop();
+                                        }
+                                      }
+                                    },
+                                    text: "Create and Save",
+                                    textColor: ColorConst.primary,
+                                    backGroundColor:
+                                        ColorConst.primaryBackground,
+                                    borderColor: ColorConst.primary,
+                                  ),
+                                )
+                              ]))
                       ])))
         ]));
   }

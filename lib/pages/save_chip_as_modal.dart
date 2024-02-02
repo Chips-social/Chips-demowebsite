@@ -57,10 +57,11 @@ class SaveChipAsModal extends StatelessWidget {
                                   //padding: EdgeInsets.all(8.0),
                                   child: IconButton(
                                     onPressed: () {
-                                      if (context.mounted) Navigator.of(context).pop();
+                                      if (context.mounted)
+                                        Navigator.of(context).pop();
                                       newCurationModal(context);
-                                     //Navigator.of(context).pop();
-                            
+                                      //Navigator.of(context).pop();
+
                                       //Get.to(() => NewCuration());
                                     },
                                     icon: const Icon(
@@ -84,37 +85,39 @@ class SaveChipAsModal extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 50),
-                        GestureDetector(
-                          onTap: () async{
-                           await chipController.createChip();
-                          },
-                          child:  Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Save to Existing',
-                                    style: TextStyle(
-                                        color: ColorConst.primary,
-                                        fontSize: 18,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.normal)),
-                                   Obx(() => chipController.isLoading.value
-                              ? const SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 6.0,
-                                    color: ColorConst.primary,
-                                  ))      
-                                  :Icon(
-                                        Icons.arrow_forward,
-                                        color: ColorConst.primary,
-                                        size: 24,
-                                      ))
-                                    ],
-                            ),
-                          )),
+                          GestureDetector(
+                              onTap: () async {
+                                await chipController.createChip();
+                                // Add Here
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Save to Existing',
+                                        style: TextStyle(
+                                            color: ColorConst.primary,
+                                            fontSize: 18,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.normal)),
+                                    Obx(() => chipController.isLoading.value
+                                        ? const SizedBox(
+                                            height: 24,
+                                            width: 24,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 6.0,
+                                              color: ColorConst.primary,
+                                            ))
+                                        : Icon(
+                                            Icons.arrow_forward,
+                                            color: ColorConst.primary,
+                                            size: 24,
+                                          ))
+                                  ],
+                                ),
+                              )),
                           /*  const Divider(
                   color: ColorConst.dividerLine,
                 ), */
