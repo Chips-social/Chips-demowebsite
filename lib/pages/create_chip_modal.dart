@@ -1,4 +1,5 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/location_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
@@ -7,6 +8,7 @@ import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,7 @@ class CreateChipModal extends StatelessWidget {
     List? File,
   });
   final CategoryController categoryController = Get.find<CategoryController>();
+  final LocationController locationController = Get.put(LocationController());
   final ChipController chipController = Get.put(ChipController());
   final AuthController authController = Get.find<AuthController>();
   @override
@@ -192,6 +195,8 @@ class CreateChipModal extends StatelessWidget {
                             size: 20,
                           ),
                           onPressed: () {
+                            locationController.openGoogleMaps();
+                            //_showCurrentLocation();
                             //controller
                             // addChipController.showLocationField.value = true;
                           },
@@ -422,6 +427,28 @@ class CreateChipModal extends StatelessWidget {
         ),
       ],
     );
+  }
+
+   Future _showCurrentLocation() async {
+    Location location = Location();
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    PermissionStatus _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    var _locationData = await location.getLocation();
+    print(_locationData);
   }
 }
 
