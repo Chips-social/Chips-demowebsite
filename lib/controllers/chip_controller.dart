@@ -18,6 +18,7 @@ class ChipController extends GetxController {
   final selectedDate = DateTime.now().obs;
   final curationId = null.obs;
   final isLoading = false.obs;
+  final formattedDate = ''.obs;
   List<Uint8List> imageBytesList = [];
   List<File> files = [];
   final TextEditingController urlController = TextEditingController();

@@ -1,4 +1,6 @@
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
+import 'package:chips_demowebsite/controllers/category_controller.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
@@ -9,8 +11,9 @@ import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
 class SaveChipAsModal extends StatelessWidget {
   SaveChipAsModal({super.key});
+    final HomeController homeController = Get.find<HomeController>();
   final ChipController chipController = Get.find<ChipController>();
-
+  final CategoryController categoryController = Get.find<CategoryController>();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -72,7 +75,7 @@ class SaveChipAsModal extends StatelessWidget {
                                   )),
                             ],
                           ),
-                          const Divider(
+                          /* const Divider(
                             color: ColorConst.dividerLine,
                           ),
                           const Row(
@@ -83,8 +86,8 @@ class SaveChipAsModal extends StatelessWidget {
                                       color: ColorConst.primaryGrey,
                                       fontSize: 14)),
                             ],
-                          ),
-                          const SizedBox(height: 50),
+                          ), */
+                          const SizedBox(height: 20),
                           GestureDetector(
                               onTap: () async {
                                 var response = await chipController.createChip();
@@ -99,12 +102,12 @@ class SaveChipAsModal extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Save to the Selected Curation',
+                                     Obx(() =>Text('Save to ${categoryController.selectedCurationName}',
                                         style: TextStyle(
                                             color: ColorConst.primary,
                                             fontSize: 18,
                                             fontFamily: 'Inter',
-                                            fontWeight: FontWeight.normal)),
+                                            fontWeight: FontWeight.normal)),),
                                     Obx(() => chipController.isLoading.value
                                         ? const SizedBox(
                                             height: 24,
@@ -121,37 +124,86 @@ class SaveChipAsModal extends StatelessWidget {
                                   ],
                                 ),
                               )),
-                          /*  const Divider(
+                              const SizedBox(height:8),
+                            const Divider(
                   color: ColorConst.dividerLine,
-                ), */
-                        ])))
+                ), 
+                // expansion tile list of curations to be appeared here
+                 ExpansionTile(
+                      title: Text('Existing Curations',
+                      style:TextStyle(color: Colors.white, fontSize: 16)),
+                      children: [
+                        Container(
+                          height:150,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: homeController.curations.length,
+                            itemBuilder: (context, index) {
+                              final curation = homeController.curations[index];
+                              return SingleChildScrollView(
+                                child: Container(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                    child: Column(
+                                      children:[
+                                        GestureDetector(
+                                          onTap: () async {
+                                            categoryController.setSelectedCurationName(curation['name']);
+                                            categoryController.setCurationId(curation['_id']);
+                                            //print("Curation ID: ${curation['_id']}");
+                                            //print("Curation Name: ${categoryController.selectedCurationName}");
+                                          },
+                                          child: Row(
+                                            children: [
+                                            Text('${curation['name']}',
+                                             style: const TextStyle(
+                                              color: ColorConst.subscriptionSubtext,
+                                              fontSize: 16)),
+                                             const Spacer(),
+                                             const Icon(Icons.arrow_forward, color: ColorConst.primary),
+                                          ],),
+                                        ),
+                                         const Divider(
+                                            color: ColorConst.dividerLine,
+                                          ),
+                                        const SizedBox(height:4),
+                                      ]
+                                    ),
+                                  )
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+              ])))
           ],
         ));
   }
 
   Widget curationList(
-      {required Color color,
-      required String curationId,
+      {required String curationId,
       required String curationName}) {
     return Column(
       //mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
             onTap: () async {
-              (curationId);
+              //(curationId);
               print("Curation ID: $curationId");
             },
             child: Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: Row(
                   children: [
-                    ImageIcon(
+                   /*  ImageIcon(
                       const AssetImage(
                           "assets/background/curation_background.png"),
                       color: color,
                       size: 24,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 8), */
                     Text(curationName,
                         style: const TextStyle(
                             color: ColorConst.subscriptionSubtext,

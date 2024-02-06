@@ -11,6 +11,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'dart:typed_data';
 import 'dart:io';
@@ -125,6 +126,7 @@ class CreateChipModal extends StatelessWidget {
                           ),
                           onPressed: () async {
                             //controller
+                            chipController.isDateTime.value = true;
                             final DateTime? selectedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
@@ -134,6 +136,8 @@ class CreateChipModal extends StatelessWidget {
                             if(selectedDate != null){
                               chipController.setDateTime(true);
                               chipController.setDate(selectedDate);
+                              chipController.formattedDate.value = DateFormat('dd-MMM-yyyy').format(selectedDate);
+                              //print(chipController.formattedDate.value);
                               //print(selectedDate);
                             }
                            /*   if (selectedDate != null) {
@@ -250,6 +254,84 @@ class CreateChipModal extends StatelessWidget {
                           chipController.setPreview(true);
                         }
                       }),
+                Obx(() =>chipController.isDateTime.value
+                ?
+                  Row(children: [
+                    GestureDetector(
+                      onTap:()async {
+                        final DateTime? selectedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1970),
+                              lastDate: DateTime(2030),
+                            );
+                            if(selectedDate != null){
+                              chipController.setDateTime(true);
+                              chipController.setDate(selectedDate);
+                              chipController.formattedDate.value = DateFormat('dd-MMM-yyyy').format(selectedDate);
+                              print(chipController.formattedDate.value);
+                              //print(selectedDate);
+                            }
+                      },
+                      child:Row(
+                        children: [
+                          const Icon(
+                              Icons.date_range,
+                              color: ColorConst.primaryGrey,
+                              size: 10,
+                          ),
+                          const SizedBox(width:4),
+                          Text('${chipController.formattedDate}',
+                          style:TextStyle(color:ColorConst.primaryGrey,fontSize: 14)),
+                              ],
+                            )
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: 
+                      const Icon(
+                             Icons.cancel,
+                             color: ColorConst.primaryGrey,
+                             size: 20,
+                            ),
+                            onPressed: () {
+                              chipController.isDateTime.value = false;
+                            },
+                        )
+                  ],)
+                :const SizedBox(),
+                ),
+                Obx(() => chipController.showUrl.value
+                ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                             Expanded(
+                              child: 
+                              TextField(
+                                controller: chipController.urlController ,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    labelText: "Enter the Url",
+                                    contentPadding: EdgeInsets.only(top: 15)),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.cancel,
+                                color: ColorConst.dark,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                chipController.showUrl.value = false;
+                              },
+                            )
+                          ],
+                        )
+                      ],
+                    )
+                : const SizedBox(height:4)),
                   Obx(() => chipController.showImagePreview.value
                       ? SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
@@ -280,39 +362,7 @@ class CreateChipModal extends StatelessWidget {
                           selectedDate:chipController.selectedDate.value.toString(),
                           )
                       : const SizedBox()),
-                Obx(() => chipController.showUrl.value
-                ? Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                             Expanded(
-                              child: 
-                              TextField(
-                                controller: chipController.urlController ,
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                    labelText: "Enter the Url",
-                                    contentPadding: EdgeInsets.only(top: 15)),
-                              ),
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.cancel,
-                                color: ColorConst.dark,
-                                size: 20,
-                              ),
-                              onPressed: () {
-                                chipController.showUrl.value = false;
-                              },
-                            )
-                          ],
-                        )
-                      ],
-                    ))
-                : const SizedBox()),
+              
                 ],
               ),
             )));

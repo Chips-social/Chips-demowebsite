@@ -60,9 +60,11 @@ class TabWidget extends StatelessWidget {
                             if (index == 0) {
                               //curationId = "null";
                               categoryController.setCurationId("null");
+                              categoryController.setSelectedCurationName("Queue");
                             } else {
                               filteredList = [];
                               //curationId = curationsList[index - 1]["_id"];
+                              categoryController.setSelectedCurationName(curationsList[index-1]["name"]);
                               categoryController.setCurationId(curationsList[index - 1]["_id"]);
                                filteredList = chipsList
                                   .where(
@@ -74,6 +76,8 @@ class TabWidget extends StatelessWidget {
                             print(categoryController.selectedCurationId.value);
                             print(
                                 categoryController.selectedCurationIndex.value);
+                            print(
+                                categoryController.selectedCurationName.value);
                             //print(filteredList);
                           },
                           tabs: [
