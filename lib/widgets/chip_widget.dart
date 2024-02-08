@@ -1,12 +1,15 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/pages/youtube_chip.dart';
 import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ChipWidget extends StatelessWidget {
+  final String chipId;
   final String name;
   final DateTime timeAdded;
   final String text;
@@ -27,8 +30,9 @@ class ChipWidget extends StatelessWidget {
   final int sharedBy;
   final int savedBy; */
 
-  const ChipWidget({
+   ChipWidget({
     super.key,
+    this.chipId = 'null',
     required this.text,
     required this.dateTimeUrl,
     required this.imageURLS,
@@ -49,11 +53,10 @@ class ChipWidget extends StatelessWidget {
     this.savedBy=0,
     this.sharedBy=0 */
   });
+  final ChipController chipController = Get.find<ChipController>();
 
   @override
   Widget build(BuildContext context) {
-    // final ChipWidgetController chipWidgetController = Get.put(ChipWidgetController());
-
     return Container(
         width: 300,
         child: Card(
@@ -61,7 +64,10 @@ class ChipWidget extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                chipController.setChipId(chipId);
+                print(chipId);
+              },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,7 +312,12 @@ class ChipWidget extends StatelessWidget {
                                  crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        var chip = await chipController.setChipId(chipId);
+                        print(chipId);
+                        if(chip.isNotEmpty){
+                          await chipController.likeUnlikeChip();
+                        }
                           // Handle favorite icon tap
                       },
                       child:Container(

@@ -160,6 +160,7 @@ class ChipDemo extends StatelessWidget {
                   return Padding(
                       padding: const EdgeInsets.all(4),
                       child: ChipWidget(
+                        chipId:'${chipDataList[index]['_id']}',
                         text: '${chipDataList[index]["text"]}',
                         dateTimeUrl: false,
                         imageURLS: [],
@@ -169,7 +170,7 @@ class ChipDemo extends StatelessWidget {
                         name: '${chipDataList[index]["user"]["name"]}',
                         timeAdded:
                             DateTime.parse(chipDataList[index]["timeAdded"]),
-                        date: chipDataList[index]["date"] != null ? chipDataList[index]["date"] : ''
+                        date: '${chipDataList[index]["date"] != null ? chipDataList[index]["date"] : ''}'
                       ));
                 })));
   }
