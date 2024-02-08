@@ -49,6 +49,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         await postRequestUnAuthenticated(endpoint: '/fetch/chips', data: data);
     if (response["success"]) {
       chips = List.from(response["chips"]);
+      print(chips);
       isLoading.value = false;
     } else {
       showErrorSnackBar(

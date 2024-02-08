@@ -3,6 +3,7 @@ import 'package:chips_demowebsite/pages/youtube_chip.dart';
 import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ChipWidget extends StatelessWidget {
@@ -54,7 +55,7 @@ class ChipWidget extends StatelessWidget {
     // final ChipWidgetController chipWidgetController = Get.put(ChipWidgetController());
 
     return Container(
-        width: 270,
+        width: 300,
         child: Card(
             color: ColorConst.chipBackground,
             shape:
@@ -107,7 +108,16 @@ class ChipWidget extends StatelessWidget {
                               ),
                             )
                           ],
-                        )
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/bookmark_empty.svg',
+                              width: 32,
+                              height: 32,
+                            )
+                        ],)
                       ],
                     ),
                   ),
@@ -288,69 +298,94 @@ class ChipWidget extends StatelessWidget {
                   showYoutube == false
                       ? const SizedBox()
                       : YoutubeChip(youtubeURL: youtubeURL),
-                  const SizedBox(height: 20),
-                  /*  Row( 
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                        // Handle favorite icon tap
-                    },
-                      child: Icon(Icons.favorite_border),
-                    ),
-                    Text(
-                      likeCount.toString(),
-                       style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white54,
-                      ),
-                    ),
-                    const Spacer(),
+                  //const SizedBox(height: 20),
+                 Padding(
+                  padding:EdgeInsets.only(left:20, right:20),
+                   child: Row( 
+                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
                     GestureDetector(
                       onTap: () {
-                        // Handle comment icon tap
+                          // Handle favorite icon tap
                       },
-                      child: Icon(Icons.comment),
+                      child:Container(
+                        height:50,
+                        width:50,
+                        child: Row(
+                          children:[
+                            SvgPicture.asset(
+                                'assets/icons/like.svg',
+                                width: 20,
+                                height: 20,
+                              ),
+                              const SizedBox(width:4),
+                          Text(
+                          '3k',
+                         // likeCount.toString(),
+                           style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white54,
+                          ),
+                        ),
+                        const Spacer(),
+                        ]
+                        ),
+                      )
                     ),
-                     Text(
-                      commentCount.toString(),
-                       style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white54,
-                      ),
-                    ),
-                    const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        // Handle share icon tap
+                          // Handle favorite icon tap
                       },
-                      child: Icon(Icons.share),
+                      child:Container(
+                        height:50,
+                        width:50,
+                        child: Row(
+                          children:[
+                            SvgPicture.asset(
+                                'assets/icons/share_icon.svg',
+                                width: 20,
+                                height: 20,
+                              ),
+                              const SizedBox(width:4),
+                          Text(
+                          '2k',
+                         // likeCount.toString(),
+                           style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white54,
+                          ),
+                        ),
+                        const Spacer(),
+                        ]
+                        ),
+                      )
                     ),
-                     Text(
-                      sharedBy.toString(),
-                       style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white54,
-                      ),
-                    ),
-                    const Spacer(),
+                    const SizedBox(width:4),
                     GestureDetector(
                       onTap: () {
-                        // Handle download icon tap
+                          // Handle favorite icon tap
                       },
-                      child: Icon(Icons.download),
-                    ), Text(
-                      savedBy.toString(),
-                       style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white54,
-                      ),
+                      child:Container(
+                        height:50,
+                        width:50,
+                        child: Row(
+                          children:[
+                            SvgPicture.asset(
+                                'assets/icons/down_arrow.svg',
+                                width: 24,
+                                height: 24,
+                              ),
+                              const SizedBox(width:4),
+                        ]
+                        ),
+                      )
                     ),
-                    const Spacer(),
-                ]
-                 
-              ) */
+
+                    ]
+                    ),
+                 ),
+                 const SizedBox(height:10), 
                 ],
               ),
             )));
