@@ -9,6 +9,7 @@ class AuthController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   var currentUser = {};
+  var userId = ''.obs;
 
   final isLoggedIn = false.obs;
   bool get isAuthenticated => box.read('is_authenticated') ?? false;
@@ -57,6 +58,8 @@ class AuthController extends GetxController {
       isLoggedIn.value = true;
       saveAuthToken(response['auth_token']);
       setCurrentUser(response['user']);
+      userId.value = response['user']['_id'];
+      print(userId.value);
       return {"success": true, "message": "Auth Successful"};
     } else {
       isLoggedIn.value = false;

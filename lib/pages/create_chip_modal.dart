@@ -379,6 +379,7 @@ class CreateChipModal extends StatelessWidget {
           showNestedCard: false,
           showYoutube: false,
           name: name,
+          likes:[],
           //name: '${authController.getCurrentUser()["name"] ?? "User Name"}',
           timeAdded: DateTime.now(),
           date: selectedDate,

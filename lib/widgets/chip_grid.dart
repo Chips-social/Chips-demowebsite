@@ -167,7 +167,9 @@ class ChipDemo extends StatelessWidget {
                         showRSVP: false,
                         showNestedCard: false,
                         showYoutube: false,
+                        url:'${chipDataList[index]["url"]}',
                         name: '${chipDataList[index]["user"]["name"]}',
+                        likes: List<String>.from(chipDataList[index]["likes"]),
                         timeAdded:
                             DateTime.parse(chipDataList[index]["timeAdded"]),
                         date: '${chipDataList[index]["date"] != null ? chipDataList[index]["date"] : ''}'

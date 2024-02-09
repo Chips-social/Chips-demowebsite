@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
@@ -22,6 +23,7 @@ class TabWidget extends StatelessWidget {
       required this.curationsList});
   final AuthController authController = Get.find<AuthController>();
   final CategoryController categoryController = Get.put(CategoryController());
+  final CreateCurationController curationController = Get.find<CreateCurationController>();
  // var curationId;
 
   @override
@@ -165,7 +167,9 @@ class TabWidget extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    curationController.saveCuration();
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: ColorConst
                                         .iconButtonColor, // Set the background color

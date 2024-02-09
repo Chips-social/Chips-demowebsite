@@ -1,4 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/like_controller.dart';
 import 'package:chips_demowebsite/pages/youtube_chip.dart';
 import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
@@ -25,6 +27,7 @@ class ChipWidget extends StatelessWidget {
   final String nestedImageURL;
   final bool showYoutube;
   final String youtubeURL;
+  final List likes;
 /*   final int likeCount;
   final int commentCount;
   final int sharedBy;
@@ -48,25 +51,33 @@ class ChipWidget extends StatelessWidget {
     this.youtubeURL = 'null',
     required this.name,
     required this.timeAdded,
+    required this.likes,
 /*     this.likeCount= 100,
     this.commentCount= 20,
     this.savedBy=0,
     this.sharedBy=0 */
   });
+  
   final ChipController chipController = Get.find<ChipController>();
+  final AuthController authController = Get.find<AuthController>();
+  final LikeController likeController = Get.put(LikeController());
+  
+   
 
   @override
   Widget build(BuildContext context) {
+    likeController.checkLikedStatus(likes, authController.userId.value);
+
     return Container(
         width: 300,
-        child: Card(
+        child: Obx(() => Card(
             color: ColorConst.chipBackground,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
             child: InkWell(
               onTap: () {
-                chipController.setChipId(chipId);
-                print(chipId);
+                likeController.setChipId(chipId);
+                print(likes);
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -313,11 +324,12 @@ class ChipWidget extends StatelessWidget {
                                  children: [
                     GestureDetector(
                       onTap: () async {
-                        var chip = await chipController.setChipId(chipId);
-                        print(chipId);
+                        var chip = await likeController.setChipId(chipId);
+                        //print(chipId);
                         if(chip.isNotEmpty){
-                          await chipController.likeUnlikeChip();
+                          await likeController.likeUnlikeChip();
                         }
+                        
                           // Handle favorite icon tap
                       },
                       child:Container(
@@ -326,7 +338,12 @@ class ChipWidget extends StatelessWidget {
                         child: Row(
                           children:[
                             SvgPicture.asset(
-                                'assets/icons/like.svg',
+                              likeController.isLiked.value
+                                ? 'assets/icons/liked.svg' // Liked icon
+                                : 'assets/icons/like.svg',
+                              /* authController.userId != 'null' && likes.contains(authController.userId)
+                              ? 'assets/icons/liked.svg' // Liked icon
+                              : 'assets/icons/like.svg', */
                                 width: 20,
                                 height: 20,
                               ),
@@ -399,6 +416,6 @@ class ChipWidget extends StatelessWidget {
                  const SizedBox(height:10), 
                 ],
               ),
-            )));
+     ) )));
   }
 }
