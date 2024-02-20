@@ -88,7 +88,13 @@ class ChipController extends GetxController {
   createChip() async {
     setLoading(true);
     if(categoryController.selectedCurationId.value == "null"){
-        var data = {
+      setLoading(false);
+      showErrorSnackBar(
+          heading: 'Error',
+          message:" Choose the curation from the list" ,
+          icon: Icons.error,
+          color: Colors.redAccent);
+ /*        var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
         "is_datetime": isDateTime.value,
@@ -115,7 +121,7 @@ class ChipController extends GetxController {
           icon: Icons.check_circle,
           color: ColorConst.success);
       // return chipId;
-      return {"success": true, "message": "added Chip"};
+      return {"success": true, "message": "added Chip"}; 
     } else {
       setLoading(false);
       showErrorSnackBar(
@@ -124,7 +130,7 @@ class ChipController extends GetxController {
           icon: Icons.error,
           color: Colors.redAccent);
       return {"success": false, "message": response["message"]};
-    }
+    } */
     } else{  
         var data = {
           "text": captionController.text,

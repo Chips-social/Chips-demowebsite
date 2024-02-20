@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class MyTags extends StatelessWidget {
   final String labelKey;
   final List<String> gridList;
-  final List<dynamic> selectedList;
+  final dynamic selectedValue;
   final GetxController controller;
   final Color backgroundColor;
   final Color textColor;
@@ -14,7 +14,7 @@ class MyTags extends StatelessWidget {
     required this.labelKey,
     required this.gridList,
     required this.controller,
-    required this.selectedList,
+    required this.selectedValue,
     required this.onClick,
     required this.backgroundColor,
     required this.textColor,
@@ -37,13 +37,13 @@ class MyTags extends StatelessWidget {
                               onClick(chip);
                             },
                             child: Chip(
-                              color: selectedList.contains(chip)
+                              color: chip == selectedValue
                                   ? MaterialStatePropertyAll(textColor)
                                   : MaterialStateProperty.all(backgroundColor),
                               label: Text(
                                 chip,
                                 style: TextStyle(
-                                    color: selectedList.contains(chip)
+                                    color: chip ==selectedValue
                                         ? backgroundColor
                                         : textColor,
                                     fontWeight: FontWeight.normal),
