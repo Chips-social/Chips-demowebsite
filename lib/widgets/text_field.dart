@@ -35,30 +35,31 @@ class MyTextField extends StatelessWidget {
                   ? const TextStyle(color: ColorConst.secondaryText)
                   : const TextStyle(color: ColorConst.errorLight),
               filled: true,
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               suffixIcon: suffixButton,
               fillColor: ColorConst.primaryBackground,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide:
                     const BorderSide(color: ColorConst.primaryGrey, width: 1.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide:
                     const BorderSide(color: ColorConst.primary, width: 1.0),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide:
                     const BorderSide(color: ColorConst.primaryGrey, width: 1.0),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide:
                     const BorderSide(color: ColorConst.errorLight, width: 1.0),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide:
                     const BorderSide(color: ColorConst.errorLight, width: 1.0),
               ),

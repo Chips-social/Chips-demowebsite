@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/color_constants.dart';
@@ -32,14 +33,16 @@ class PillButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               disabledBackgroundColor: ColorConst.primaryGrey,
               backgroundColor: backGroundColor,
+              padding: EdgeInsets.all(0),
+              alignment: Alignment.center,
               side: BorderSide(color: borderColor, width: 1)),
           child: Text(
-            text,
+            getW(context) > 600 ? text : "Login",
             style: TextStyle(
                 fontFamily: 'Inter',
                 color: textColor,
                 fontWeight: FontWeight.w400,
-                fontSize: 14),
+                fontSize: getW(context) > 600 ? 14 : 12),
           )),
     );
   }

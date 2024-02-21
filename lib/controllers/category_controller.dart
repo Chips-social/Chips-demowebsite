@@ -5,23 +5,25 @@ import 'package:get/get.dart';
 class CategoryController extends GetxController
     with GetTickerProviderStateMixin {
   final HomeController homeController = Get.find<HomeController>();
-  late TabController curationList;
+  late TabController curationListController;
+
   @override
   void onInit() {
     super.onInit();
   }
 
   setTabController() {
-    curationList = TabController(
+    curationListController = TabController(
         length: (homeController.curations.length + 1), vsync: this);
 
     setSelectedCurationIndex(0);
   }
+
   final selectedCurationIndex = 0.obs;
   final selectedCurationId = "null".obs;
   final selectedCurationName = "Queue".obs;
 
-  setSelectedCurationName(String curationName){
+  setSelectedCurationName(String curationName) {
     selectedCurationName.value = curationName;
   }
 

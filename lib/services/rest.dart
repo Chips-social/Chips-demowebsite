@@ -133,3 +133,127 @@ Future addFileToAWSServiceWeb(fileBytes) async {
     print('Error uploading video: $e');
   }
 }
+
+Future<void> sendTokenToServer(String idToken) async {
+  final response = await http.post(
+    Uri.parse('http://yourbackend.com/api/auth/googleSignIn'),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(<String, String>{
+      'token': idToken,
+    }),
+  );
+  if (response.statusCode == 200) {
+    // Handle success
+  } else {
+    // Handle error
+  }
+}
+
+// Future<void> sendVerificationEmail(String email) async {
+//   // isLoading(true);
+//   try {
+//     final response = await http.post(
+//       Uri.parse('YOUR_BACKEND_URL/register'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, String>{
+//         'email': email,
+//       }),
+//     );
+
+//     if (response.statusCode == 200) {
+//       Get.snackbar('Success', 'Verification code sent to your email.');
+//     } else {
+//       Get.snackbar('Error', 'Failed to register.');
+//     }
+//   } finally {
+//     // isLoading(false);
+//   }
+
+// }
+Future<void> sendVerificationCode(String email) async {
+  // Replace with your backend URL
+  final response = await http.post(
+    Uri.parse('https://your-backend-service.com/request-code'),
+    body: {'email': email},
+  );
+
+  if (response.statusCode == 200) {
+    print('Verification code sent');
+  } else {
+    print('Error sending verification code');
+  }
+}
+
+Future<void> verifyCode(String email, String code) async {
+  // Replace with your backend URL for code verification
+  final response = await http.post(
+    Uri.parse('https://your-backend-service.com/verify-code'),
+    body: {
+      'email': email,
+      'code': code,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print('Code verified successfully');
+    // Navigate to your app's home screen or next relevant page
+  } else {
+    print('Error verifying code');
+  }
+}
+
+// Future<void> verifyCode(String email, String code) async {
+//   // isLoading(true);
+//   try {
+//     final response = await http.post(
+//       Uri.parse('YOUR_BACKEND_URL/verify-code'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, String>{
+//         'email': email,
+//         'code': code,
+//       }),
+//     );
+
+//     if (response.statusCode == 200) {
+//       // isVerified(true);
+//       Get.snackbar('Success', 'Email verified successfully.');
+//       auth.isLoggedIn.value = true;
+//       Get.offAllNamed('/');
+//     } else {
+//       Get.snackbar('Error', 'Invalid or expired code.');
+//     }
+//   } finally {
+//     // isLoading(false);
+//   }
+// }
+
+// Future<void> resendVerificationCode(String email) async {
+//   // isLoading(true);
+//   try {
+//     final response = await http.post(
+//       Uri.parse('YOUR_BACKEND_URL/resend-code'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, String>{
+//         'email': email,
+//       }),
+//     );
+
+//     if (response.statusCode == 200) {
+//       Get.snackbar('Success', 'New verification code sent to your email.');
+//     } else {
+//       Get.snackbar('Error', 'Failed to resend verification code.');
+//     }
+//   } catch (e) {
+//     Get.snackbar('Error', 'An error occurred while resending the code.');
+//   } finally {
+//     // isLoading(false);
+//   }
+// }

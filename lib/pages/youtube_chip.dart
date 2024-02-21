@@ -5,21 +5,19 @@ class YoutubeChip extends StatefulWidget {
   final String youtubeURL;
   const YoutubeChip({super.key, required this.youtubeURL});
 
-
   @override
   State<YoutubeChip> createState() => _YoutubeChipState();
 }
 
 class _YoutubeChipState extends State<YoutubeChip> {
-
   late final YoutubePlayerController controller;
 
   @override
   void initState() {
     String videoId;
-    if(widget.youtubeURL == "null"){
+    if (widget.youtubeURL == "null") {
       videoId = 'iLnmTe5Q2Qw';
-    }else{
+    } else {
       videoId = YoutubePlayer.convertUrlToId(widget.youtubeURL)!;
     }
 
@@ -34,17 +32,24 @@ class _YoutubeChipState extends State<YoutubeChip> {
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayer(
-      controller: controller,
-      showVideoProgressIndicator: true,
-      progressIndicatorColor: Colors.amber,
-      progressColors: const ProgressBarColors(
-        playedColor: Colors.amber,
-        handleColor: Colors.amberAccent,
-      ),
-      onReady:() {
-        // controller.addListener(listener);
-        },
+    return Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        YoutubePlayer(
+          controller: controller,
+          showVideoProgressIndicator: true,
+          progressIndicatorColor: Colors.amber,
+          progressColors: const ProgressBarColors(
+            playedColor: Colors.amber,
+            handleColor: Colors.amberAccent,
+          ),
+          onReady: () {
+            // controller.addListener(listener);
+          },
+        ),
+      ],
     );
   }
 }

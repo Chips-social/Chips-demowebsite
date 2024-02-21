@@ -29,19 +29,36 @@ class ChipController extends GetxController {
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
 
+  // ScrollController chipScrollController = ScrollController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    // setInitialization();
+  }
+
+  // setInitialization() {
+  //   chipScrollController.addListener(() {});
+  //   print('Scroll offset: ${chipScrollController.offset}');
+  //   update();
+  // }
+
   setPreview(bool value) {
     showPreview.value = value;
   }
-  setDateTime(bool val){
+
+  setDateTime(bool val) {
     isDateTime.value = val;
   }
+
   setDate(DateTime date) {
     selectedDate.value = date;
   }
-  setLoading(bool val){
+
+  setLoading(bool val) {
     isLoading.value = val;
   }
- 
+
   getFileUrls(files) {
     //add file upload function
   }
@@ -52,21 +69,61 @@ class ChipController extends GetxController {
   }
 
   addChipToCuration() async {
+    var data = {
+      "text": captionController.text,
+      "category": homeController.selctedCategoryTab.value,
+      "curation": categoryController.selectedCurationId.value,
+      "source_url": urlController.text,
+      "is_datetime": isDateTime.value,
+      "date": selectedDate.toString(),
+      "images": getFileUrls(files),
+    };
+    var response = await postRequestAuthenticated(
+        endpoint: '/add/chip', data: jsonEncode(data));
+    if (response["success"]) {
+      var chips = response['chip'];
+      // print(chips);
+      print("chip added to new curation");
+      homeController.allChips();
+      clearCaptionAndPreview();
+      showErrorSnackBar(
+          heading: 'Success',
+          message: response["message"],
+          icon: Icons.check_circle,
+          color: ColorConst.success);
+      return {"success": true, "message": "added Chip to Curation"};
+    } else {
+      showErrorSnackBar(
+          heading: 'Error',
+          message: response["message"],
+          icon: Icons.error,
+          color: Colors.redAccent);
+      return {"success": false, "message": response["message"]};
+    }
+  }
+
+  createChip() async {
+    setLoading(true);
+    if (categoryController.selectedCurationId.value == "null") {
       var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
-        "curation": categoryController.selectedCurationId.value,
-        "source_url":urlController.text,
         "is_datetime": isDateTime.value,
-        "date":selectedDate.toString(), 
+        "date": selectedDate.toString(),
         "images": getFileUrls(files),
+        "source_url": urlController.text,
+        //"source_url": nestedUrlController.text,
+        //"location_urls":locationController.text,
+        //other fields
       };
       var response = await postRequestAuthenticated(
           endpoint: '/add/chip', data: jsonEncode(data));
       if (response["success"]) {
+        setLoading(false);
         var chips = response['chip'];
-        print(chips);
-        print("chip added to new curation");
+        // print(chips);
+        print("chip added to queue ");
+        print(selectedDate.value);
         homeController.allChips();
         clearCaptionAndPreview();
         showErrorSnackBar(
@@ -74,101 +131,60 @@ class ChipController extends GetxController {
             message: response["message"],
             icon: Icons.check_circle,
             color: ColorConst.success);
-            return {"success": true, "message": "added Chip to Curation"};
+        // return chipId;
+        return {"success": true, "message": "added Chip"};
       } else {
+        setLoading(false);
         showErrorSnackBar(
             heading: 'Error',
             message: response["message"],
             icon: Icons.error,
             color: Colors.redAccent);
-            return {"success": false, "message": response["message"]};
+        return {"success": false, "message": response["message"]};
       }
-  }
-
-  createChip() async {
-    setLoading(true);
-    if(categoryController.selectedCurationId.value == "null"){
-        var data = {
+    } else {
+      var data = {
         "text": captionController.text,
         "category": homeController.selctedCategoryTab.value,
+        "curation": categoryController.selectedCurationId.value,
         "is_datetime": isDateTime.value,
-        "date":selectedDate.toString(),  
+        "date": selectedDate.toString(),
         "images": getFileUrls(files),
-        "source_url":urlController.text,
+        "source_url": urlController.text,
         //"source_url": nestedUrlController.text,
         //"location_urls":locationController.text,
         //other fields
-        };
-        var response = await postRequestAuthenticated(
-        endpoint: '/add/chip', data: jsonEncode(data));
-    if (response["success"]) {
-      setLoading(false);
-       var chips = response['chip'];
+      };
+      print(urlController.text);
+      var response = await postRequestAuthenticated(
+          endpoint: '/add/chip', data: jsonEncode(data));
+      if (response["success"]) {
+        var chips = response['chip'];
         print(chips);
-      print("chip added to queue ");
-      print(selectedDate.value);
-      homeController.allChips();
-      clearCaptionAndPreview();
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
-      // return chipId;
-      return {"success": true, "message": "added Chip"};
-    } else {
-      setLoading(false);
-      showErrorSnackBar(
-          heading: 'Error',
-          message: response["message"],
-          icon: Icons.error,
-          color: Colors.redAccent);
-      return {"success": false, "message": response["message"]};
-    }
-    } else{  
-        var data = {
-          "text": captionController.text,
-          "category": homeController.selctedCategoryTab.value,
-          "curation":categoryController.selectedCurationId.value,
-          "is_datetime": isDateTime.value,
-           "date":selectedDate.toString(), 
-          "images": getFileUrls(files),
-          "source_url":urlController.text,
-          //"source_url": nestedUrlController.text,
-          //"location_urls":locationController.text,
-          //other fields
-        };
-        print(urlController.text);
-        var response = await postRequestAuthenticated(
-        endpoint: '/add/chip', data: jsonEncode(data));
-    if (response["success"]) {
-       var chips = response['chip'];
-        print(chips);
-      homeController.allChips();
-      clearCaptionAndPreview();
-      //homeController.allCurations();
-      setLoading(false);
-      print("chip added to curation");
-      var chipId = response["_id"];
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
-      // return chipId;
-      return {"success": true, "message": "added Chip"};
-    } else {
-      setLoading(false);
-      showErrorSnackBar(
-          heading: 'Error',
-          message: response["message"],
-          icon: Icons.error,
-          color: Colors.redAccent);
-      return {"success": false, "message": response["message"]};
-    }
+        homeController.allChips();
+        clearCaptionAndPreview();
+        //homeController.allCurations();
+        setLoading(false);
+        print("chip added to curation");
+        var chipId = response["_id"];
+        showErrorSnackBar(
+            heading: 'Success',
+            message: response["message"],
+            icon: Icons.check_circle,
+            color: ColorConst.success);
+        // return chipId;
+        return {"success": true, "message": "added Chip"};
+      } else {
+        setLoading(false);
+        showErrorSnackBar(
+            heading: 'Error',
+            message: response["message"],
+            icon: Icons.error,
+            color: Colors.redAccent);
+        return {"success": false, "message": response["message"]};
+      }
     }
   }
-
 
   removeImage(int index) {
     showImagePreview.value = false;

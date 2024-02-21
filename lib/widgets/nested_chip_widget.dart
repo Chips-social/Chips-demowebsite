@@ -19,27 +19,27 @@ class NestedChip extends StatelessWidget {
         // Navigate the user
       },
       child: Card(
+        margin: EdgeInsets.only(top: 10),
         color: ColorConst.dark,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+          padding: const EdgeInsets.all(5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title,
                   style: const TextStyle(
-                      color: Colors.lightBlueAccent, fontSize: 18)),
-              const SizedBox(height: 10),
+                      color: Colors.lightBlueAccent, fontSize: 16)),
               Text(text, style: const TextStyle(color: ColorConst.primaryText)),
               const SizedBox(height: 10),
               Container(
-                height: 200,
+                height: 140,
+                width: 250,
                 decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(25.0)),
+                    BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       imageURL,
                       fit: BoxFit.cover,

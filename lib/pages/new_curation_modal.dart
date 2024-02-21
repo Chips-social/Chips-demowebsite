@@ -79,6 +79,7 @@ class NewCurationModal extends StatelessWidget {
                                 Expanded(
                                   flex: 1,
                                   child: PillButton(
+                                    width: 150,
                                     onTap: () async {
                                       var curationId = await curationController
                                           .addCuration();
@@ -86,7 +87,8 @@ class NewCurationModal extends StatelessWidget {
                                         var response = await chipController
                                             .addChipToCuration();
                                         if (response['success']) {
-                                          if (context.mounted) Navigator.of(context).pop();
+                                          if (context.mounted)
+                                            Navigator.of(context).pop();
                                         }
                                       }
                                     },
