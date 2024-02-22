@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/main.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
@@ -12,16 +13,17 @@ class AuthController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController codeController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
 
   RxBool isLogIn = false.obs;
   RxBool isVerifyPage = false.obs;
   RxBool isButtonLoad = false.obs;
+  var otpCode = "".obs;
 
   var currentUser = {};
   var userId = ''.obs;
 
-  final isLoggedIn = true.obs;
+  final isLoggedIn = false.obs;
   bool get isAuthenticated => box.read('is_authenticated') ?? false;
 
   void toggleLogin() {
@@ -72,24 +74,75 @@ class AuthController extends GetxController {
   }
 
   //Create a function which sends a POST request with email and name to the end point
-  authenticateUser() async {
-    var data = {"email": emailController.text, "name": nameController.text};
+  registerUser() async {
+    var data = {"email": emailController.text, "name": nameController.text,"username":userNameController.text};
     var response =
-        await postRequestUnAuthenticated(endpoint: '/auth', data: data);
+        await postRequestUnAuthenticated(endpoint: '/register', data: data);
+    if (response["success"]) {
+      var otp = response["otp"];
+      otpCode.value = otp.toString();
+      // isLoggedIn.value = true;
+      // saveAuthToken(response['auth_token']);
+      // setCurrentUser(response['user']);
+      // userId.value = response['user']['_id'];
+      // print(userId.value);
+       return {"success": true, "message": "Email verfication send"};
+    } else {
+      isLoggedIn.value = false;
+      return {"success": false, "message": response["message"]};
+    }
+  }
+   authloginUser() async {
+    var data = {"email": emailController.text};
+    var response =
+        await postRequestUnAuthenticated(endpoint: '/login', data: data);
+    if (response["success"]) {
+      var otp = response["otp"];
+      otpCode.value = otp.toString();
+      /* isLoggedIn.value = true;
+      saveAuthToken(response['auth_token']);
+      setCurrentUser(response['user']);
+      userId.value = response['user']['_id'];
+      print(userId.value); */
+      return {"success": true, "message": "Email verification send "};
+    } else {
+      isLoggedIn.value = false;
+      return {"success": false, "message": response["message"]};
+    }
+  }
+  
+  verifyOtp()async{
+    try {
+    var data = {"email": emailController.text , "name": nameController.text, "username":userNameController.text };
+    var response =
+        await postRequestUnAuthenticated(endpoint: '/verify/auth', data: data);
     if (response["success"]) {
       isLoggedIn.value = true;
       saveAuthToken(response['auth_token']);
       setCurrentUser(response['user']);
       userId.value = response['user']['_id'];
       print(userId.value);
+      Get.offAllNamed('/');
+      showErrorSnackBar(
+            heading: 'Success',
+            message: response["message"],
+            icon: Icons.check_circle,
+            color: ColorConst.success);
       return {"success": true, "message": "Auth Successful"};
+      
     } else {
       isLoggedIn.value = false;
       return {"success": false, "message": response["message"]};
     }
+        //sendTokenToServer(idToken.toString());
+        // auth.isLoggedIn.value = true;
+         
+    } catch (e) {
+      print ("Failed to signin : $e");
+    }
   }
 
-  Future<void> signInWithGoogle() async {
+  signInWithGoogle() async {
     try {
       final GoogleSignInAccount? account = await googleSignIn.signIn();
 
@@ -99,11 +152,33 @@ class AuthController extends GetxController {
         // Optionally, retrieve the authentication token:
         final GoogleSignInAuthentication? googleAuth =
             await account.authentication;
-        final accessToken = googleAuth?.accessToken;
-        final idToken = googleAuth?.idToken;
-        sendTokenToServer(idToken.toString());
-        auth.isLoggedIn.value = true;
-        Get.offAllNamed('/');
+        //final accessToken = googleAuth?.accessToken;
+        //final idToken = googleAuth?.idToken;
+        final name = account.displayName;
+        final email =account.email;
+        var data = {"email": account.email , "name": account.displayName };
+    var response =
+        await postRequestUnAuthenticated(endpoint: '/auth', data: data);
+    if (response["success"]) {
+      isLoggedIn.value = true;
+      saveAuthToken(response['auth_token']);
+      setCurrentUser(response['user']);
+      userId.value = response['user']['_id'];
+      print(userId.value);
+       Get.offAllNamed('/');
+      showErrorSnackBar(
+            heading: 'Success',
+            message: response["message"],
+            icon: Icons.check_circle,
+            color: ColorConst.success);
+      return {"success": true, "message": "Auth Successful"};
+    } else {
+      isLoggedIn.value = false;
+      return {"success": false, "message": response["message"]};
+    }
+        //sendTokenToServer(idToken.toString());
+        /* auth.isLoggedIn.value = true;
+        Get.offAllNamed('/') */
       }
     } catch (error) {
       print("Failed to sign in with Google: $error");

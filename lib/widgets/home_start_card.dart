@@ -5,6 +5,7 @@ import 'package:chips_demowebsite/pages/login_modal.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
+//import 'package:chips_demowebsite/widgets/share_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,6 @@ final HomeController homeController = Get.put(HomeController());
 Widget HomeStartCard(context) {
   return Container(
     height: 220,
-    width: 220,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: ColorConst.websiteHomeBox),
@@ -61,6 +61,18 @@ void showLoginDialog(BuildContext context) {
     },
   );
 }
+
+/* void showShareDialog(BuildContext context, String link, String type) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return ShareModal(
+        curationLink: link,
+        type: type,
+      );
+    },
+  );
+} */
 
 void createChip(BuildContext context) {
   showDialog(

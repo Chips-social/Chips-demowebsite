@@ -87,7 +87,7 @@ Widget NavBar(context) {
                   // Add more PopupMenuItems for other options
                 ],
                 child: Initicon(
-                  text: "name",
+                  text: authController.currentUser['name'],
                   elevation: 4,
                   backgroundColor: ColorConst.profileBackground,
                   borderRadius: BorderRadius.circular(14),

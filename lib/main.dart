@@ -7,7 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn(
-  clientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Use your client ID
+  clientId: '391369792833-72medeq5g0o5sklosb58k7c98ps72foj.apps.googleusercontent.com',
+  //clientSecret:"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" // Use your client ID
 );
 
 void main() {
