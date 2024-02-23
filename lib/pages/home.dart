@@ -33,7 +33,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthController authController = Get.put(AuthController());
-  final HomeController homeController = Get.put(HomeController());
+  // final HomeController homeController = Get.put(HomeController());
+  final HomeController homeController = Get.find<HomeController>();
   final ChipController chipController = Get.put(ChipController());
   final parser = EmojiParser();
 
@@ -109,7 +110,6 @@ class _HomeState extends State<Home> {
                                     dividerColor: Colors.grey,
                                     onTap: (index) {
                                       homeController.changeTab(index);
-                                      print(homeController.tabIndex.value);
                                     },
                                     tabs: Categories.map(
                                             (category) => Tab(text: category))
@@ -137,7 +137,8 @@ class _HomeState extends State<Home> {
                                   return WillPopScope(
                                     onWillPop: () async {
                                       final currentNavigator = homeController
-                                          .navigatorKeys[tabIndex].currentState;
+                                          .getKeys()[tabIndex]
+                                          .currentState;
                                       if (currentNavigator!.canPop()) {
                                         currentNavigator.pop();
                                         return false;
@@ -145,11 +146,9 @@ class _HomeState extends State<Home> {
                                       return true;
                                     },
                                     child: Navigator(
-                                      key: homeController.navigatorKeys[
-                                          tabIndex], // Ensure each Navigator has a unique key
+                                      key: homeController.getKeys()[tabIndex],
                                       onGenerateRoute:
                                           (RouteSettings settings) {
-                                        // print(homeController.chips);
                                         return GetPageRoute(
                                             settings: settings,
                                             page: () => Obx(

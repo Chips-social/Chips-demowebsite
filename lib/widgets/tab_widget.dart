@@ -3,6 +3,7 @@ import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/pages/details_page.dart';
 import 'package:chips_demowebsite/pages/page404.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
@@ -153,8 +154,11 @@ class _TabWidgetState extends State<TabWidget> {
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
+                        // Get.toNamed(
+                        //     "/curation/${Uri.encodeComponent(widget.title)}/curation/${Uri.encodeComponent('Item $index')}");
                         final currentNavigator = homeController
-                            .navigatorKeys[homeController.tabIndex.value]
+                            .getKeys()[Categories.indexOf(
+                                homeController.selctedCategoryTab.value)]
                             .currentState!;
                         currentNavigator.push(MaterialPageRoute(
                           builder: (context) => DetailsPage(
@@ -165,14 +169,6 @@ class _TabWidgetState extends State<TabWidget> {
                             },
                           ),
                         ));
-                        // Navigator.of(context).pushNamed(
-                        //   '/details',
-                        //   arguments: {
-                        //     'chipsList': widget.chipsList,
-                        //     'filteredList': filteredList,
-                        //     'title': widget.title,
-                        //   },
-                        // );
                       },
                       child: Card(
                         clipBehavior: Clip.antiAlias,

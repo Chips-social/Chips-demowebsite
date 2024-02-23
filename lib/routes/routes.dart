@@ -12,25 +12,37 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
-  static const String homeRoute = '/';
+  static const String homeRoute = '/category/:categoryName';
   static const String curationRoute = '/curation/:title';
   static const String pageNotFoundRoute = '/page-not-found';
   static const String myCurationChipsRoute = '/curationchips/:chip';
   static const String savedCurationChipsRoute = '/savedchips/:chip';
+  // static const String categoryRoute = '/category/:categoryName';
 
   static final List<GetPage> routes = [
-    GetPage(
-      name: homeRoute,
-      page: () => MainPage(child: Home()),
-    ),
-    GetPage(
-      name: curationRoute,
-      page: () => MainPage(child: MyCurations()), // Adjust as needed
-    ),
+    GetPage(name: homeRoute, page: () => MainPage(child: Home()), children: [
+      GetPage(
+        name: curationRoute,
+        page: () => MainPage(
+            child: DetailsPage(
+          data: {},
+        )), // Adjust as needed
+      ),
+    ]),
+    // GetPage(
+    //   name: "/details",
+    //   page: () => MainPage(child: DetailsPage(data: {})),
+    // ),
+
+    // GetPage(
+    //   name: curationRoute,
+    //   page: () => MainPage(child: MyCurations()), // Adjust as needed
+    // ),
     GetPage(
       name: pageNotFoundRoute,
       page: () => Page404(),
     ),
+
     GetPage(
       name: myCurationChipsRoute,
       page: () => MainPage(child: MyCurationChips()),

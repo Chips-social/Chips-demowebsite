@@ -3,8 +3,10 @@ import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/like_controller.dart';
 import 'package:chips_demowebsite/pages/youtube_chip.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
+import 'package:chips_demowebsite/widgets/share_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
@@ -326,7 +328,7 @@ class ChipWidget extends StatelessWidget {
                         const Spacer(),
                         InkWell(
                             onTap: () {
-                              // Handle favorite icon tap
+                              showShareDialog(context, "scscs", "chip");
                             },
                             child: Container(
                               margin: EdgeInsets.only(top: 1),

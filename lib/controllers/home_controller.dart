@@ -17,6 +17,25 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   void onInit() {
     super.onInit();
     tabController = TabController(length: Categories.length, vsync: this);
+    setupAnimations();
+    allChips();
+    allCurations();
+  }
+
+  var chips = [].obs;
+  var curations = [].obs;
+
+  final isLoading = false.obs;
+  final isCurationListLoading = false.obs;
+  final selctedCategoryTab = "Food & Drinks".obs;
+  static List<GlobalKey<NavigatorState>> navigatorKeys = List.generate(
+    Categories.length,
+    (index) => GlobalKey<NavigatorState>(),
+  ).obs;
+
+  List getKeys() => navigatorKeys;
+
+  void setupAnimations() {
     animationController = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
@@ -29,34 +48,15 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       curve: Curves.linear,
     ));
     animationController.forward();
-    allChips();
-    allCurations();
   }
 
-  var chips = [].obs;
-  var curations = [];
-
-  final isLoading = false.obs;
-  final isCurationListLoading = false.obs;
-  final selctedCategoryTab = "Food & Drinks".obs;
-  final List<GlobalKey<NavigatorState>> navigatorKeys = List.generate(
-    Categories.length,
-    (index) => GlobalKey<NavigatorState>(),
-  ).obs;
-
-  //  setCategoryTab(index) {
-  //  selctedCategoryTab.value = '${categoryTabIndexMap[index]}';
-  // }
-  final RxInt tabIndex = 0.obs;
-
   void changeTab(int index) {
-    tabIndex.value = index;
+    selctedCategoryTab.value = Categories[index];
+    // Get.toNamed('/category/${Uri.encodeComponent(Categories[index])}');
     update();
   }
 
   allChips() async {
-    // print("All Chips Called");
-    print('cscc');
     isLoading.value = true;
     var data = {
       'category': selctedCategoryTab.value,
@@ -78,6 +78,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       chips = List.from([]).obs;
       isLoading.value = false;
     }
+    update();
   }
 
   allCurations() async {
@@ -90,7 +91,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     var response = await postRequestUnAuthenticated(
         endpoint: '/fetch/curations', data: data);
     if (response["success"]) {
-      curations = List.from(response["curations"]);
+      curations = List.from(response["curations"]).obs;
       isCurationListLoading.value = false;
     } else {
       showErrorSnackBar(
@@ -98,8 +99,9 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
           message: response["message"],
           icon: Icons.error,
           color: Colors.redAccent);
-      curations = List.from([]);
+      curations = List.from([]).obs;
       isCurationListLoading.value = false;
     }
+    update();
   }
 }

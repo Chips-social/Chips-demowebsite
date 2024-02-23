@@ -132,10 +132,20 @@ class Modal extends StatelessWidget {
                                           submittedPinTheme: submittedPinTheme,
                                           validator: (code) {
                                             if (code!.length == 6) {
-                                              verifyCode(
+                                              if (code.length == 6 &&
                                                   authController
-                                                      .emailController.text,
-                                                  code);
+                                                          .otpCode.value ==
+                                                      code) {
+                                                authController.verifyOtp();
+                                                Get.offAllNamed('/');
+                                              } else {
+                                                return showErrorSnackBar(
+                                                    heading: 'Error',
+                                                    message:
+                                                        "Enter correct otp ",
+                                                    icon: Icons.error,
+                                                    color: Colors.redAccent);
+                                              }
                                             }
                                           },
                                           pinputAutovalidateMode:
@@ -245,31 +255,79 @@ class Modal extends StatelessWidget {
                                           width: 120,
                                           child: ElevatedButton(
                                               onPressed: () async {
-                                                // if (authController
-                                                //         .isLogIn.value ==
-                                                //     false) {
-                                                await sendVerificationCode(
+                                                if (authController
+                                                        .isLogIn.value ==
+                                                    false) {
+                                                  if (authController
+                                                          .emailController
+                                                          .text
+                                                          .isEmpty ||
+                                                      authController
+                                                          .nameController
+                                                          .text
+                                                          .isEmpty ||
+                                                      authController
+                                                          .userNameController
+                                                          .text
+                                                          .isEmpty) {
+                                                    return showErrorSnackBar(
+                                                        heading: 'Error',
+                                                        message:
+                                                            "Please Enter all fields",
+                                                        icon: Icons.error,
+                                                        color:
+                                                            Colors.redAccent);
+                                                  }
+                                                  var response =
+                                                      await authController
+                                                          .registerUser();
+                                                  if (response["success"]) {
                                                     authController
-                                                        .emailController.text);
-                                                authController
-                                                    .toggleButtonLoad();
-                                                authController
-                                                    .toggleVerifyPage();
-                                                //funtion to call
-                                                // }
-
-                                                // var response = await authController
-                                                //     .authenticateUser();
-                                                // if (response["success"]) {
-                                                //   if (context.mounted)
-                                                //     Navigator.pop(context);
-                                                // } else {
-                                                //   showErrorSnackBar(
-                                                //       heading: 'Error',
-                                                //       message: response["message"],
-                                                //       icon: Icons.error,
-                                                //       color: Colors.redAccent);
-                                                // }
+                                                        .toggleButtonLoad();
+                                                    authController
+                                                        .toggleVerifyPage();
+                                                    // if (context.mounted)
+                                                    // Navigator.pop(context);
+                                                  } else {
+                                                    showErrorSnackBar(
+                                                        heading: 'Error',
+                                                        message:
+                                                            response["message"],
+                                                        icon: Icons.error,
+                                                        color:
+                                                            Colors.redAccent);
+                                                  }
+                                                } else {
+                                                  if (authController
+                                                      .emailController
+                                                      .text
+                                                      .isEmpty) {
+                                                    return showErrorSnackBar(
+                                                        heading: 'Error',
+                                                        message:
+                                                            "Please Enter your Email",
+                                                        icon: Icons.error,
+                                                        color:
+                                                            Colors.redAccent);
+                                                  }
+                                                  var response =
+                                                      await authController
+                                                          .authloginUser();
+                                                  if (response["success"]) {
+                                                    authController
+                                                        .toggleButtonLoad();
+                                                    authController
+                                                        .toggleVerifyPage();
+                                                  } else {
+                                                    showErrorSnackBar(
+                                                        heading: 'Error',
+                                                        message:
+                                                            response["message"],
+                                                        icon: Icons.error,
+                                                        color:
+                                                            Colors.redAccent);
+                                                  }
+                                                }
                                               },
                                               style: ElevatedButton.styleFrom(
                                                   disabledBackgroundColor:

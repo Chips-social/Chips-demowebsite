@@ -1,8 +1,10 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/pages/sidebar.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({required this.child});
@@ -39,12 +41,6 @@ class _MainPageState extends State<MainPage> {
                     child: SideBar(),
                   )
                 : Container(),
-            // Positioned(
-            //   top: 0,
-            //   left: 0,
-            //   right: 0,
-            //   child: NavBar(context),
-            // ),
             Positioned(
               top: 20,
               bottom: 0,

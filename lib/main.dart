@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/page404.dart';
 import 'package:chips_demowebsite/routes/routes.dart';
 import 'package:flutter/gestures.dart';
@@ -9,19 +10,18 @@ import 'package:google_fonts/google_fonts.dart';
 final GoogleSignIn googleSignIn = GoogleSignIn(
   clientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Use your client ID
 );
-
 void main() {
-  runApp(const MyApp());
+  Get.put(HomeController());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/category/${Uri.encodeComponent("Food & Drinks")}',
         title: 'Chips.Social',
         scrollBehavior: MaterialScrollBehavior().copyWith(
           dragDevices: {
