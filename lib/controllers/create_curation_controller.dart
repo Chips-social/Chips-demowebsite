@@ -13,6 +13,27 @@ class CreateCurationController extends GetxController {
   final TextEditingController curationCaptionController =
       TextEditingController();
   final isPageLoading = false.obs;
+  final isLoading = false.obs;
+  final visibility = "public".obs;
+
+   final List<String> interests = [
+    "Fashion & beauty",
+    "Animals",
+    "Travel",
+    "Art & Design",
+    "Food & Drinks",
+    "Games & Sports",
+    "Science & Tech",
+    "Interiors & Lifestyle",
+    "Entertainment"
+  ];
+   final selectedValue = "".obs;
+   onChipTap(chip) async {
+    isLoading.value = true;
+    selectedValue.value = chip;
+    isLoading.value = false;
+  }
+
 
   setPageLoading(bool val) {
     isPageLoading.value = val;

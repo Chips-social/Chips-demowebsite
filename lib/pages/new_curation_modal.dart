@@ -54,6 +54,57 @@ class NewCurationModal extends StatelessWidget {
                               hintStyle: TextStyle(
                                   color: ColorConst.primaryGrey, fontSize: 14)),
                         ),
+                        const SizedBox(height: 8),
+                         const Text('Select Category',
+                             style: TextStyle(
+                                 color: ColorConst.primaryText, fontSize: 16)),
+                         //list of categories to be appeared here.
+                            Obx(() => curationController.isLoading.value
+                            ? const SizedBox()
+                          : MyTags(
+                          labelKey: "interests",
+                          gridList: curationController.interests,
+                          controller: curationController,
+                          selectedValue: curationController.selectedValue.value,
+                          onClick: curationController.onChipTap,
+                          backgroundColor: ColorConst.tagBackgroundColor,
+                          textColor: ColorConst.tagTextColor,
+                        )), 
+                        const Divider(
+                    color: ColorConst.dividerLine,
+                  ),
+                  const SizedBox(height: 8),
+                  const Text('Who can see and add more to curation?',
+                      style: TextStyle(
+                          color: ColorConst.primaryText, fontSize: 16)),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+    Obx(
+      () => Radio(
+        value: 'public',
+        fillColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            return (curationController.visibility.value == 'public')
+              ? ColorConst.primary
+              : Colors.white70;
+          },
+        ),
+        groupValue: curationController.visibility.value,
+        onChanged: (value) {
+          curationController.visibility.value = value!;
+        },
+      ),
+    ),
+    const Text(
+      'Anyone',
+      style: TextStyle(
+        color: ColorConst.primary,
+        fontSize: 14,
+      ),
+    ),
+  ],
+),
                         // const SizedBox(height: 8),
                         // const Text('Select Category',
                         //     style: TextStyle(
