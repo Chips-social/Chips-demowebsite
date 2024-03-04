@@ -90,6 +90,7 @@ class CreateCurationController extends GetxController {
 
   existingCurations() async {
     setPageLoading(true);
+
     var data = {
       "name": curationCaptionController.text,
     };
