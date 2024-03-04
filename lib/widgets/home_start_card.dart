@@ -6,6 +6,7 @@ import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/share_modal.dart';
+//import 'package:chips_demowebsite/widgets/share_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,10 +18,12 @@ Widget HomeStartCard(context) {
         borderRadius: BorderRadius.circular(8),
         color: ColorConst.websiteHomeBox),
     child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      SlideTransition(
-          position: homeController.animation,
-          child: Image.asset('assets/website/website_card.png',
-              height: 50, width: getW(context) > 600 ? 200 : 150)),
+      // SlideTransition(
+      //      position: homeController.animation,
+      //     child:
+      Image.asset('assets/website/website_card.png',
+          height: 50, width: getW(context) > 600 ? 200 : 150),
+      // ),
       Padding(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: Column(
@@ -62,6 +65,18 @@ void showLoginDialog(BuildContext context) {
   );
 }
 
+/* void showShareDialog(BuildContext context, String link, String type) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return ShareModal(
+        curationLink: link,
+        type: type,
+      );
+    },
+  );
+} */
+
 void showShareDialog(BuildContext context, String link, String type) {
   showDialog(
     context: context,
@@ -83,7 +98,7 @@ void createChip(BuildContext context) {
   );
 }
 
-void saveChipAs(BuildContext context) {
+void saveChip(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/main.dart';
+import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,22 @@ class AuthController extends GetxController {
   RxBool isLogIn = false.obs;
   RxBool isVerifyPage = false.obs;
   RxBool isButtonLoad = false.obs;
+  var otpCode = "".obs;
 
   var currentUser = {};
   var userId = ''.obs;
-  var otpCode = "".obs;
+  var authToken = Rx<String?>(null);
 
   final isLoggedIn = false.obs;
-  bool get isAuthenticated => box.read('is_authenticated') ?? false;
+  // bool get isAuthenticated => box.read('is_authenticated') ?? false;
+
+  @override
+  void onInit() {
+    super.onInit();
+    String? token = getAuthToken();
+    authToken.value = token;
+    isLoggedIn.value = token != null;
+  }
 
   void toggleLogin() {
     isLogIn.value = !isLogIn.value;
@@ -40,6 +50,8 @@ class AuthController extends GetxController {
 
   Future<bool> saveAuthToken(String? token) async {
     await box.write('auth_token', token);
+    authToken.value = token;
+    isLoggedIn.value = true;
     return true;
   }
 
@@ -48,19 +60,25 @@ class AuthController extends GetxController {
   }
 
   Future<bool> deleteAuth() async {
-    await box.write('auth_token', null);
+    await box.remove('auth_token');
     return true;
   }
 
-  Future<bool> loginUser() async {
-    await box.write('is_authenticated', true);
-    return true;
-  }
+  // Future<bool> loginUser() async {
+  //   await box.write('is_authenticated', true);
+  //   return true;
+  // }
 
   Future<bool> logoutUser() async {
-    await box.write('is_authenticated', false);
-    await box.write('user_data', null);
+    await googleSignIn.signOut();
+    await box.remove('is_authenticated');
+    await box.remove('user_data');
+    isLoggedIn.value = false;
     await deleteAuth();
+    isLogIn.value = false;
+    isVerifyPage.value = false;
+    isButtonLoad.value = false;
+    Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
     return true;
   }
 
@@ -84,11 +102,7 @@ class AuthController extends GetxController {
     if (response["success"]) {
       var otp = response["otp"];
       otpCode.value = otp.toString();
-      // isLoggedIn.value = true;
-      // saveAuthToken(response['auth_token']);
-      // setCurrentUser(response['user']);
-      // userId.value = response['user']['_id'];
-      // print(userId.value);
+
       return {"success": true, "message": "Email verfication send"};
     } else {
       isLoggedIn.value = false;
@@ -103,11 +117,7 @@ class AuthController extends GetxController {
     if (response["success"]) {
       var otp = response["otp"];
       otpCode.value = otp.toString();
-      /* isLoggedIn.value = true;
-      saveAuthToken(response['auth_token']);
-      setCurrentUser(response['user']);
-      userId.value = response['user']['_id'];
-      print(userId.value); */
+
       return {"success": true, "message": "Email verification send "};
     } else {
       isLoggedIn.value = false;
@@ -129,8 +139,7 @@ class AuthController extends GetxController {
         saveAuthToken(response['auth_token']);
         setCurrentUser(response['user']);
         userId.value = response['user']['_id'];
-        print(userId.value);
-        Get.offAllNamed('/');
+        Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
         showErrorSnackBar(
             heading: 'Success',
             message: response["message"],
@@ -141,8 +150,6 @@ class AuthController extends GetxController {
         isLoggedIn.value = false;
         return {"success": false, "message": response["message"]};
       }
-      //sendTokenToServer(idToken.toString());
-      // auth.isLoggedIn.value = true;
     } catch (e) {
       print("Failed to signin : $e");
     }
@@ -155,13 +162,9 @@ class AuthController extends GetxController {
       if (account != null) {
         print("Signed in with Google: ${account.email}");
 
-        // Optionally, retrieve the authentication token:
         final GoogleSignInAuthentication? googleAuth =
             await account.authentication;
-        //final accessToken = googleAuth?.accessToken;
-        //final idToken = googleAuth?.idToken;
-        final name = account.displayName;
-        final email = account.email;
+
         var data = {"email": account.email, "name": account.displayName};
         var response =
             await postRequestUnAuthenticated(endpoint: '/auth', data: data);
@@ -171,7 +174,8 @@ class AuthController extends GetxController {
           setCurrentUser(response['user']);
           userId.value = response['user']['_id'];
           print(userId.value);
-          Get.offAllNamed('/');
+          Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
+
           showErrorSnackBar(
               heading: 'Success',
               message: response["message"],
@@ -182,17 +186,9 @@ class AuthController extends GetxController {
           isLoggedIn.value = false;
           return {"success": false, "message": response["message"]};
         }
-        //sendTokenToServer(idToken.toString());
-        /* auth.isLoggedIn.value = true;
-        Get.offAllNamed('/') */
       }
     } catch (error) {
       print("Failed to sign in with Google: $error");
     }
-  }
-
-  Future<void> signOutGoogle() async {
-    await googleSignIn.signOut();
-    print("User signed out from Google");
   }
 }

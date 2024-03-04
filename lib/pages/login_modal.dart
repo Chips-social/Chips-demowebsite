@@ -131,21 +131,17 @@ class Modal extends StatelessWidget {
                                           scrollPadding: EdgeInsets.all(5),
                                           submittedPinTheme: submittedPinTheme,
                                           validator: (code) {
-                                            if (code!.length == 6) {
-                                              if (code.length == 6 &&
-                                                  authController
-                                                          .otpCode.value ==
-                                                      code) {
-                                                authController.verifyOtp();
-                                                Get.offAllNamed('/');
-                                              } else {
-                                                return showErrorSnackBar(
-                                                    heading: 'Error',
-                                                    message:
-                                                        "Enter correct otp ",
-                                                    icon: Icons.error,
-                                                    color: Colors.redAccent);
-                                              }
+                                            if (code!.length == 6 &&
+                                                authController.otpCode ==
+                                                    code) {
+                                              Navigator.of(context).pop();
+                                              authController.verifyOtp();
+                                            } else {
+                                              return showErrorSnackBar(
+                                                  heading: 'Error',
+                                                  message: "Enter correct otp ",
+                                                  icon: Icons.error,
+                                                  color: Colors.redAccent);
                                             }
                                           },
                                           pinputAutovalidateMode:
@@ -236,9 +232,9 @@ class Modal extends StatelessWidget {
                                         errorText: 'null',
                                       ),
                                       const SizedBox(height: 12),
-                                      authController.isLogIn.value
+                                      /*  authController.isLogIn.value
                                           ? MyTextField(
-                                              hintText: 'Password',
+                                              hintText: 'FullName',
                                               controller: authController
                                                   .passwordController,
                                               onChanged: (value) {},
@@ -247,7 +243,7 @@ class Modal extends StatelessWidget {
                                                   TextInputType.visiblePassword,
                                               errorText: 'null',
                                             )
-                                          : Container(),
+                                          : Container(), */
                                       const SizedBox(height: 15),
                                       Center(
                                         child: SizedBox(
@@ -371,6 +367,7 @@ class Modal extends StatelessWidget {
                                           style: TextButton.styleFrom(
                                               padding: EdgeInsets.zero),
                                           onPressed: () {
+                                            Navigator.of(context).pop();
                                             authController.signInWithGoogle();
                                           },
                                           child: Container(

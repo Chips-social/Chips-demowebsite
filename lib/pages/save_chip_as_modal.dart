@@ -1,6 +1,10 @@
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/data/data.dart';
+import 'package:chips_demowebsite/pages/create_chip_modal.dart';
+import 'package:chips_demowebsite/services/rest.dart';
+import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
@@ -11,180 +15,396 @@ import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
 class SaveChipAsModal extends StatelessWidget {
   SaveChipAsModal({super.key});
-    final HomeController homeController = Get.find<HomeController>();
-  final ChipController chipController = Get.find<ChipController>();
+  final HomeController homeController = Get.find<HomeController>();
+  final ChipController chipController = Get.put(ChipController());
   final CategoryController categoryController = Get.find<CategoryController>();
+  List<String> curationNames = ['My Curationd', 'Saved'];
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor: ColorConst.primaryBackground,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         surfaceTintColor: ColorConst.primaryBackground,
-        content: Stack(
+        contentPadding: EdgeInsets.zero,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-                height: MediaQuery.of(context).size.height - 200,
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: 460,
                 color: ColorConst.primaryBackground,
-                child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text('Save Chip As',
-                                    style: TextStyle(
-                                        fontFamily: 'Rubik',
-                                        color: ColorConst.primary,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w900)),
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('New Curation',
-                                  style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      color: ColorConst.subscriptionSubtext,
-                                      fontSize: 18)),
-                              Container(
-                                  decoration: BoxDecoration(
-                                    color: ColorConst.tagBackgroundColor,
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  //padding: EdgeInsets.all(8.0),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      if (context.mounted)
-                                        Navigator.of(context).pop();
-                                      newCurationModal(context);
-                                      //Navigator.of(context).pop();
-
-                                      //Get.to(() => NewCuration());
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 15, left: 15, right: 15),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Save Chip',
+                                      style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
                                     },
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: ColorConst.primary,
-                                      size: 16,
-                                    ),
-                                  )),
-                            ],
-                          ),
-                          /* const Divider(
-                            color: ColorConst.dividerLine,
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('Existing Curations ',
-                                  style: TextStyle(
-                                      color: ColorConst.primaryGrey,
-                                      fontSize: 14)),
-                            ],
-                          ), */
-                          const SizedBox(height: 20),
-                          GestureDetector(
-                              onTap: () async {
-                                var response = await chipController.createChip();
-                                if (response['success']) {
-                                    if (context.mounted) Navigator.of(context).pop();
-                                  }
-                                
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 12),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                     Obx(() =>Text('Save to ${categoryController.selectedCurationName}',
-                                        style: TextStyle(
-                                            color: ColorConst.primary,
-                                            fontSize: 18,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.normal)),),
-                                    Obx(() => chipController.isLoading.value
-                                        ? const SizedBox(
-                                            height: 24,
-                                            width: 24,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 6.0,
-                                              color: ColorConst.primary,
-                                            ))
-                                        : Icon(
-                                            Icons.arrow_forward,
-                                            color: ColorConst.primary,
-                                            size: 24,
-                                          ))
-                                  ],
-                                ),
-                              )),
-                              const SizedBox(height:8),
-                            const Divider(
-                  color: ColorConst.dividerLine,
-                ), 
-                // expansion tile list of curations to be appeared here
-                 ExpansionTile(
-                      title: Text('Existing Curations',
-                      style:TextStyle(color: Colors.white, fontSize: 16)),
-                      children: [
-                        Container(
-                          height:150,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: homeController.curations.length,
-                            itemBuilder: (context, index) {
-                              final curation = homeController.curations[index];
-                              return SingleChildScrollView(
-                                child: Container(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16),
-                                    child: Column(
-                                      children:[
-                                        GestureDetector(
-                                          onTap: () async {
-                                            categoryController.setSelectedCurationName(curation['name']);
-                                            categoryController.setCurationId(curation['_id']);
-                                            //print("Curation ID: ${curation['_id']}");
-                                            //print("Curation Name: ${categoryController.selectedCurationName}");
-                                          },
-                                          child: Row(
-                                            children: [
-                                            Text('${curation['name']}',
-                                             style: const TextStyle(
-                                              color: ColorConst.subscriptionSubtext,
-                                              fontSize: 16)),
-                                             const Spacer(),
-                                             const Icon(Icons.arrow_forward, color: ColorConst.primary),
-                                          ],),
-                                        ),
-                                         const Divider(
-                                            color: ColorConst.dividerLine,
-                                          ),
-                                        const SizedBox(height:4),
-                                      ]
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.grey,
                                     ),
                                   )
+                                ]),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Divider(color: ColorConst.dividerLine),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('New Curation',
+                                    style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        color: ColorConst.subscriptionSubtext,
+                                        fontSize: 15)),
+                                InkWell(
+                                  onTap: () {
+                                    uploadImagesToS3(
+                                        chipController.imageBytesList);
+                                    newCurationModal(context);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        color: ColorConst.primary,
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.black,
+                                        size: 16,
+                                      )),
                                 ),
-                              );
-                            },
+                              ],
+                            ),
+                            Obx(
+                              () => chipController.isCreatingChip.value
+                                  ? SizedBox(
+                                      height: 12,
+                                    )
+                                  : Container(),
+                            ),
+                            Obx(
+                              () => chipController.isCreatingChip.value
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            categoryController
+                                                .selectedCurationName.value,
+                                            style: TextStyle(
+                                                fontFamily: 'Inter',
+                                                color: ColorConst
+                                                    .subscriptionSubtext,
+                                                fontSize: 14)),
+                                        const Text('   (selected curation)',
+                                            style: TextStyle(
+                                                fontFamily: 'Inter',
+                                                color: Colors.grey,
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 12)),
+                                        Spacer(),
+                                        InkWell(
+                                          onTap: () {
+                                            chipController
+                                                .addChipToCuration(context);
+                                          },
+                                          child: const Icon(
+                                            Icons.arrow_right_alt_sharp,
+                                            color: ColorConst.primary,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 240,
+                                  child: TextField(
+                                    // textAlign: TextAlign.center,
+                                    style: const TextStyle(color: Colors.white),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: ColorConst.dark,
+                                      hintText: 'Search your curations',
+                                      hintStyle: const TextStyle(
+                                          color: ColorConst.textFieldColor,
+                                          fontSize: 14),
+                                      prefixIcon: const Icon(
+                                        Icons.search,
+                                        color: ColorConst.textFieldColor,
+                                        size: 14,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 16),
+                                    ),
+                                    onChanged: chipController.filterNames,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    chipController.selectedSavedCurationIndex
+                                        .value = false;
+                                  },
+                                  child: Obx(
+                                    () => Container(
+                                      height: 34,
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8),
+                                      decoration: BoxDecoration(
+                                          color: chipController
+                                                  .selectedSavedCurationIndex
+                                                  .value
+                                              ? ColorConst.chipBackground
+                                              : Colors.white,
+                                          border: Border.all(
+                                              color: Colors.transparent),
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      child: Center(
+                                        child: Text(
+                                          "My Curation",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              color: chipController
+                                                      .selectedSavedCurationIndex
+                                                      .value
+                                                  ? ColorConst.primary
+                                                  : ColorConst.buttonText),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    chipController.selectedSavedCurationIndex
+                                        .value = true;
+                                  },
+                                  child: Obx(
+                                    () => Container(
+                                      height: 34,
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8),
+                                      decoration: BoxDecoration(
+                                          color: chipController
+                                                  .selectedSavedCurationIndex
+                                                  .value
+                                              ? Colors.white
+                                              : ColorConst.chipBackground,
+                                          border: Border.all(
+                                              color: Colors.transparent),
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      child: Center(
+                                        child: Text(
+                                          "Saved",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              color: chipController
+                                                      .selectedSavedCurationIndex
+                                                      .value
+                                                  ? ColorConst.buttonText
+                                                  : ColorConst.primary),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              height: 260,
+                              margin: EdgeInsets.only(top: 12),
+                              child: Obx(
+                                () => GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          mainAxisSpacing: 0,
+                                          crossAxisSpacing: 10,
+                                          crossAxisCount: 4,
+                                          childAspectRatio: 0.85),
+                                  itemCount:
+                                      chipController.filteredNames.length,
+                                  itemBuilder: (context, index) {
+                                    return MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          chipController.selectModalCard(index);
+                                        },
+                                        child: Card(
+                                          clipBehavior: Clip.antiAlias,
+                                          elevation: 0,
+                                          color: Colors.transparent,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Obx(
+                                                () => Container(
+                                                  height: chipController
+                                                              .selectedCurationModalIndex
+                                                              .value ==
+                                                          index
+                                                      ? 74
+                                                      : 72,
+                                                  width: chipController
+                                                              .selectedCurationModalIndex
+                                                              .value ==
+                                                          index
+                                                      ? 74
+                                                      : 72,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    gradient: chipController
+                                                                .selectedCurationModalIndex
+                                                                .value ==
+                                                            index
+                                                        ? LinearGradient(
+                                                            colors: [
+                                                              ColorConst
+                                                                  .websiteHomeBox,
+                                                              ColorConst
+                                                                  .primary,
+                                                              Colors.white
+                                                            ], // Your gradient colors
+                                                            begin: Alignment
+                                                                .topLeft,
+                                                            end: Alignment
+                                                                .bottomRight,
+                                                          )
+                                                        : LinearGradient(
+                                                            colors: [
+                                                                Colors.white,
+                                                                Colors.white
+                                                              ]),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20)),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    child: Image.asset(
+                                                      'assets/background/curation_background.png', // Replace with your image URL
+                                                      fit: BoxFit.cover,
+                                                      height:
+                                                          70, // Adjust the height
+                                                      width: 70,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 4),
+                                                child: Text(
+                                                  chipController.filteredNames[
+                                                      index], // Replace with your item title
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ]),
+                    ),
+                    Obx(
+                      () => InkWell(
+                        onTap: () async {
+                          if (chipController.selectedCurationModalIndex.value !=
+                              -1) {
+                            categoryController.selectedCurationName.value =
+                                chipController.filteredNames[chipController
+                                    .selectedCurationModalIndex.value];
+                            await uploadImagesToS3(
+                                chipController.imageBytesList);
+                            chipController.addChipToCuration(context);
+                            successChip(
+                                context,
+                                "You have successfully created a Chip in ${categoryController.selectedCurationName.value}. You can find it in your Saved curations.",
+                                () {},
+                                "Go to Saved Curations");
+                          }
+                        },
+                        child: Container(
+                          height: 45,
+                          decoration: BoxDecoration(
+                              color: chipController
+                                          .selectedCurationModalIndex.value ==
+                                      -1
+                                  ? ColorConst.dark
+                                  : ColorConst.websiteHomeBox),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                color: chipController
+                                            .selectedCurationModalIndex.value ==
+                                        -1
+                                    ? Colors.grey
+                                    : Colors.white),
                           ),
                         ),
-                      ],
-                    ),
-              ])))
+                      ),
+                    )
+                  ],
+                ))
           ],
         ));
   }
 
   Widget curationList(
-      {required String curationId,
-      required String curationName}) {
+      {required String curationId, required String curationName}) {
     return Column(
       //mainAxisSize: MainAxisSize.min,
       children: [
@@ -197,7 +417,7 @@ class SaveChipAsModal extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12),
                 child: Row(
                   children: [
-                   /*  ImageIcon(
+                    /*  ImageIcon(
                       const AssetImage(
                           "assets/background/curation_background.png"),
                       color: color,

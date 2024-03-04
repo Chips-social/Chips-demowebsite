@@ -1,25 +1,26 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SavedCurations extends StatelessWidget {
-  const SavedCurations({super.key, required this.title});
-  final String title;
+  SavedCurations({super.key});
 
+  String title = Get.parameters['title'] ?? 'abcde';
   @override
   Widget build(BuildContext context) {
     double screenWidth = getW(context);
     int crossAxisCount = screenWidth > 1200
-        ? 4
+        ? 5
         : screenWidth > 950
-            ? 3
+            ? 4
             : screenWidth > 770
                 ? 3
-                : screenWidth < 700
+                : screenWidth > 360
                     ? 2
-                    : 2;
+                    : 1;
     return Padding(
-        padding: const EdgeInsets.only(left: 25),
+        padding: const EdgeInsets.only(left: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +76,7 @@ class SavedCurations extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
                                         border: Border.all(
-                                            width: 1, color: Colors.grey)),
+                                            width: 1, color: Colors.white)),
                                     child: Image.network(
                                       'assets/website/curation_image.png', // Replace with your image URL
                                       fit: BoxFit.cover,

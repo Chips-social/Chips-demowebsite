@@ -1,5 +1,6 @@
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class YoutubeChip extends StatefulWidget {
   final String youtubeURL;
@@ -10,24 +11,24 @@ class YoutubeChip extends StatefulWidget {
 }
 
 class _YoutubeChipState extends State<YoutubeChip> {
-  late final YoutubePlayerController controller;
-
+  late YoutubePlayerController _controller;
+  String id = "";
   @override
   void initState() {
-    String videoId;
-    if (widget.youtubeURL == "null") {
-      videoId = 'iLnmTe5Q2Qw';
-    } else {
-      videoId = YoutubePlayer.convertUrlToId(widget.youtubeURL)!;
-    }
-
-    controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-      ),
-    );
     super.initState();
+    id = extractYouTubeId(widget.youtubeURL).toString();
+
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: id,
+      autoPlay: false,
+      params: const YoutubePlayerParams(showFullscreenButton: true),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
   }
 
   @override
@@ -37,17 +38,14 @@ class _YoutubeChipState extends State<YoutubeChip> {
         SizedBox(
           height: 10,
         ),
-        YoutubePlayer(
-          controller: controller,
-          showVideoProgressIndicator: true,
-          progressIndicatorColor: Colors.amber,
-          progressColors: const ProgressBarColors(
-            playedColor: Colors.amber,
-            handleColor: Colors.amberAccent,
+        Container(
+          height: 150,
+          width: 260,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+          child: YoutubePlayer(
+            controller: _controller,
+            aspectRatio: 16 / 9,
           ),
-          onReady: () {
-            // controller.addListener(listener);
-          },
         ),
       ],
     );

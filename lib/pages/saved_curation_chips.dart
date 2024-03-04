@@ -20,6 +20,9 @@ class SavedCurationChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    homeController.isExplore.value = false;
+    homeController.isSavedCuration.value = true;
+    homeController.isMyCuration.value = false;
     List chipsData = homeController.chips;
     double screenWidth = getW(context);
     int crossAxisCount = screenWidth > 1300
@@ -34,11 +37,7 @@ class SavedCurationChips extends StatelessWidget {
                         ? 1
                         : 2;
     return Container(
-        padding: EdgeInsets.only(
-            left: 15,
-            right: getW(context) < 400
-                ? getW(context) * 0.01
-                : getW(context) * 0.03),
+        padding: EdgeInsets.only(left: 30, right: getW(context) * 0.01),
         color: ColorConst.primaryBackground,
         child: Padding(
           padding: EdgeInsets.zero,
@@ -52,7 +51,7 @@ class SavedCurationChips extends StatelessWidget {
                     children: [
                       PrimaryBoldText(
                         title,
-                        20,
+                        24,
                       ),
                     ],
                   ),
@@ -230,17 +229,8 @@ class SavedCurationChips extends StatelessWidget {
                           "https://picsum.photos/seed/picsum/300/200",
                           "https://picsum.photos/id/237/200/300"
                         ],
-                        showRSVP: false,
-                        showNestedCard: false,
-                        showYoutube: false,
-                        // nestedText: "welcome to facebook",
-                        // nestedTitle: "Facebook",
-                        // nestedImageURL:
-                        //     "https://picsum.photos/seed/picsum/300/200",
-                        // url: "www.facebook.com",
+                        showUrl: false,
                         name: '${chipsData[index]["user"]["name"]}',
-                        // youtubeURL:
-                        //     "https://www.youtube.com/shorts/KAT1R4TLDQc",
                         likes: List<String>.from(chipsData[index]["likes"]),
                         timeAdded:
                             DateTime.parse(chipsData[index]["timeAdded"]),

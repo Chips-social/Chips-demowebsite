@@ -1,5 +1,8 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Page404 extends StatelessWidget {
   Page404({super.key});
@@ -44,20 +47,42 @@ class Page404 extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(top: 100),
                 width: 100,
-                child: RichText(
-                  textHeightBehavior: TextHeightBehavior(
-                      leadingDistribution: TextLeadingDistribution.even),
-                  textScaler: TextScaler.linear(1.1),
-                  text: TextSpan(children: <TextSpan>[
-                    TextSpan(text: "Looks like\n", style: normalTextStyle),
-                    TextSpan(text: "you've  ", style: italicTextStyle),
-                    TextSpan(text: "ventured\n", style: normalTextStyle),
-                    TextSpan(text: "into the\n", style: normalTextStyle),
-                    TextSpan(
-                        text: "Bermuda Triangle\n", style: italicBoldTextStyle),
-                    TextSpan(text: "of the\n", style: normalTextStyle),
-                    TextSpan(text: "INTERNET", style: normalTextStyle),
-                  ]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      textHeightBehavior: TextHeightBehavior(
+                          leadingDistribution: TextLeadingDistribution.even),
+                      textScaler: TextScaler.linear(1.1),
+                      text: TextSpan(children: <TextSpan>[
+                        TextSpan(
+                            text: "#404 ¯\(°_o)/¯ \n \n",
+                            style: TextStyle(color: Color(0xFFF2B8B5))),
+                        TextSpan(text: "Looks like\n", style: normalTextStyle),
+                        TextSpan(text: "you've  ", style: italicTextStyle),
+                        TextSpan(text: "ventured\n", style: normalTextStyle),
+                        TextSpan(text: "into the\n", style: normalTextStyle),
+                        TextSpan(
+                            text: "Bermuda Triangle\n",
+                            style: italicBoldTextStyle),
+                        TextSpan(text: "of the\n", style: normalTextStyle),
+                        TextSpan(text: "INTERNET", style: normalTextStyle),
+                      ]),
+                    ),
+                    SizedBox(height: 15),
+                    PillButton(
+                      onTap: () async {
+                        Get.offAllNamed(
+                            '/category/${Uri.encodeComponent("Food & Drinks")}');
+                      },
+                      text: 'Return to Home',
+                      textColor: ColorConst.buttonText,
+                      backGroundColor: ColorConst.primary,
+                      borderColor: ColorConst.primary,
+                      height: 40,
+                      width: 130,
+                    )
+                  ],
                 ),
               ),
             )

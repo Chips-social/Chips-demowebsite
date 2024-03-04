@@ -21,7 +21,7 @@ class MyCurations extends StatelessWidget {
                     ? 2
                     : 1;
     return Padding(
-        padding: const EdgeInsets.only(left: 25),
+        padding: const EdgeInsets.only(left: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,7 @@ class MyCurations extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontSize: screenWidth < 360 ? 18 : 22,
+                      fontSize: screenWidth < 360 ? 18 : 24,
                       fontWeight: FontWeight.bold,
                       color: ColorConst.primary),
                 ),
@@ -100,7 +100,7 @@ class MyCurations extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
                                         border: Border.all(
-                                            width: 1, color: Colors.grey)),
+                                            width: 1, color: Colors.white)),
                                     child: Image.network(
                                       'assets/website/curation_image.png', // Replace with your image URL
                                       fit: BoxFit.cover,

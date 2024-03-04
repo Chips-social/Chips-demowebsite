@@ -40,7 +40,6 @@ class _MyCurationChipsState extends State<MyCurationChips>
   @override
   void initState() {
     super.initState();
-    // getChips();
     categoryController.curationListController =
         TabController(length: 3, vsync: this);
     print(title);
@@ -83,106 +82,111 @@ class _MyCurationChipsState extends State<MyCurationChips>
         : Container(
             color: ColorConst.primaryBackground,
             child: Padding(
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.only(left: 30),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          PrimaryBoldText(
-                            title,
-                            18,
-                          ),
-                          getW(context) > 800
-                              ? SizedBox(
-                                  width: 10,
-                                )
-                              : SizedBox(),
-                          getW(context) > 700
-                              ? Container(
-                                  child: TabBar(
-                                      isScrollable: true,
-                                      controller: categoryController
-                                          .curationListController,
-                                      indicatorSize: TabBarIndicatorSize.label,
-                                      labelColor: ColorConst.primary,
-                                      labelPadding: EdgeInsets.only(
-                                          left: getW(context) * 0.009),
-                                      labelStyle: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.normal),
-                                      indicatorColor: Colors.transparent,
-                                      dividerColor: Colors.transparent,
-                                      onTap: (index) {
-                                        categoryController
-                                            .setSelectedCurationIndex(index);
-                                        // if (index == 0) {
-                                        //   //curationId = "null";
-                                        //   categoryController.setCurationId("null");
-                                        //   categoryController.setSelectedCurationName("Queue");
-                                        // } else {
-                                        //   filteredList = [];
-                                        //   //curationId = curationsList[index - 1]["_id"];
-                                        //   categoryController.setSelectedCurationName(curationsList[index-1]["name"]);
-                                        //   categoryController.setCurationId(curationsList[index - 1]["_id"]);
-                                        //    filteredList = chipsList
-                                        //       .where(
-                                        //           (chip) => chip['curation'] == curationsList[index - 1]["_id"])
-                                        //       .toList();
-                                        //   //categoryController.getChipList(chipsList);
-                                        //   //add Filter chip list function
-                                        // }
-                                        // print(categoryController.selectedCurationId.value);
-                                        // print(
-                                        //     categoryController.selectedCurationIndex.value);
-                                        // print(
-                                        //     categoryController.selectedCurationName.value);
-                                        //print(filteredList);
-                                      },
-                                      tabs: tabs),
-                                )
-                              : Container(
-                                  margin: EdgeInsets.only(left: 15),
-                                  decoration: BoxDecoration(
-                                      color: ColorConst.chipBackground,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  padding: EdgeInsets.symmetric(vertical: 3),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<int>(
-                                      dropdownColor: ColorConst.dark,
-                                      isDense: true,
-                                      alignment:
-                                          AlignmentDirectional.bottomCenter,
-                                      value: categoryController
-                                          .selectedCurationIndex.value,
-                                      style: TextStyle(color: Colors.white),
-                                      items: curationNames
-                                          .asMap()
-                                          .entries
-                                          .map((entry) {
-                                        return DropdownMenuItem<int>(
-                                          value: entry.key,
-                                          child: Text(entry.value,
-                                              style: TextStyle(
-                                                  color: ColorConst.primary)),
-                                        );
-                                      }).toList(),
-                                      onChanged: (int? newIndex) {
-                                        if (newIndex != null) {
+                      Padding(
+                        padding: EdgeInsets.only(left: 6),
+                        child: Row(
+                          children: [
+                            PrimaryBoldText(
+                              title,
+                              24,
+                            ),
+                            getW(context) > 800
+                                ? SizedBox(
+                                    width: 10,
+                                  )
+                                : SizedBox(),
+                            getW(context) > 700
+                                ? Container(
+                                    child: TabBar(
+                                        isScrollable: true,
+                                        controller: categoryController
+                                            .curationListController,
+                                        indicatorSize:
+                                            TabBarIndicatorSize.label,
+                                        labelColor: ColorConst.primary,
+                                        labelPadding: EdgeInsets.only(
+                                            left: getW(context) * 0.009),
+                                        labelStyle: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.normal),
+                                        indicatorColor: Colors.transparent,
+                                        dividerColor: Colors.transparent,
+                                        onTap: (index) {
                                           categoryController
-                                              .setSelectedCurationIndex(
-                                                  newIndex);
-                                          categoryController
-                                              .curationListController
-                                              .index = newIndex;
-                                        }
-                                      },
+                                              .setSelectedCurationIndex(index);
+                                          // if (index == 0) {
+                                          //   //curationId = "null";
+                                          //   categoryController.setCurationId("null");
+                                          //   categoryController.setSelectedCurationName("Queue");
+                                          // } else {
+                                          //   filteredList = [];
+                                          //   //curationId = curationsList[index - 1]["_id"];
+                                          //   categoryController.setSelectedCurationName(curationsList[index-1]["name"]);
+                                          //   categoryController.setCurationId(curationsList[index - 1]["_id"]);
+                                          //    filteredList = chipsList
+                                          //       .where(
+                                          //           (chip) => chip['curation'] == curationsList[index - 1]["_id"])
+                                          //       .toList();
+                                          //   //categoryController.getChipList(chipsList);
+                                          //   //add Filter chip list function
+                                          // }
+                                          // print(categoryController.selectedCurationId.value);
+                                          // print(
+                                          //     categoryController.selectedCurationIndex.value);
+                                          // print(
+                                          //     categoryController.selectedCurationName.value);
+                                          //print(filteredList);
+                                        },
+                                        tabs: tabs),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(left: 15),
+                                    decoration: BoxDecoration(
+                                        color: ColorConst.chipBackground,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    padding: EdgeInsets.symmetric(vertical: 3),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<int>(
+                                        dropdownColor: ColorConst.dark,
+                                        isDense: true,
+                                        alignment:
+                                            AlignmentDirectional.bottomCenter,
+                                        value: categoryController
+                                            .selectedCurationIndex.value,
+                                        style: TextStyle(color: Colors.white),
+                                        items: curationNames
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
+                                          return DropdownMenuItem<int>(
+                                            value: entry.key,
+                                            child: Text(entry.value,
+                                                style: TextStyle(
+                                                    color: ColorConst.primary)),
+                                          );
+                                        }).toList(),
+                                        onChanged: (int? newIndex) {
+                                          if (newIndex != null) {
+                                            categoryController
+                                                .setSelectedCurationIndex(
+                                                    newIndex);
+                                            categoryController
+                                                .curationListController
+                                                .index = newIndex;
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -263,50 +267,53 @@ class _MyCurationChipsState extends State<MyCurationChips>
                     ],
                   ),
                   SizedBox(height: 13),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Category",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            height: 30,
-                            padding: getW(context) > 800
-                                ? EdgeInsets.symmetric(horizontal: 5)
-                                : EdgeInsets.symmetric(horizontal: 2),
-                            decoration: BoxDecoration(
-                                color: ColorConst.primary,
-                                border: Border.all(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: Text(
-                                "Food and Drinks",
-                                style: TextStyle(
-                                    color: ColorConst.buttonText,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Category",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 30,
+                              padding: getW(context) > 800
+                                  ? EdgeInsets.symmetric(horizontal: 5)
+                                  : EdgeInsets.symmetric(horizontal: 2),
+                              decoration: BoxDecoration(
+                                  color: ColorConst.primary,
+                                  border: Border.all(color: Colors.transparent),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Center(
+                                child: Text(
+                                  "Food and Drinks",
+                                  style: TextStyle(
+                                      color: ColorConst.buttonText,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "View Collabrators",
-                        style: TextStyle(
-                            color: ColorConst.primary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                          ],
+                        ),
+                        Text(
+                          "View Collabrators",
+                          style: TextStyle(
+                              color: ColorConst.primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 10),
                   Expanded(
@@ -325,17 +332,8 @@ class _MyCurationChipsState extends State<MyCurationChips>
                               "https://picsum.photos/seed/picsum/300/200",
                               "https://picsum.photos/id/237/200/300"
                             ],
-                            showRSVP: false,
-                            showNestedCard: false,
-                            showYoutube: false,
-                            // nestedText: "welcome to facebook",
-                            // nestedTitle: "Facebook",
-                            // nestedImageURL:
-                            //     "https://picsum.photos/seed/picsum/300/200",
-                            // url: "www.facebook.com",
+                            showUrl: false,
                             name: '${chipsData[index]["user"]["name"]}',
-                            // youtubeURL:
-                            //     "https://www.youtube.com/shorts/KAT1R4TLDQc",
                             likes: List<String>.from(chipsData[index]["likes"]),
                             timeAdded:
                                 DateTime.parse(chipsData[index]["timeAdded"]),

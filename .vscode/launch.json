@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
     
+    
+    
+    
+        
+
+    
 
         {
             "name": "Chips-demowebsite",
@@ -30,9 +36,12 @@
             "program": "lib/main.dart",
             "flutterMode": "debug",
             "args": [
-                "-d",
-                "chrome"
+              "--web-port=56824",
+              "-d",
+              "chrome"
             ]
-        }
+        },
+
+
     ]
 }

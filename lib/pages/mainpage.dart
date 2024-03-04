@@ -21,9 +21,10 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: ColorConst.primaryBackground,
       appBar: AppBar(
+        automaticallyImplyLeading: isNarrowScreen ? true : false,
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.white),
-        toolbarHeight: 100,
+        toolbarHeight: 90,
         leadingWidth: getW(context) > 400 ? 70 : 40,
         elevation: 0,
         title: NavBar(context),
@@ -35,14 +36,14 @@ class _MainPageState extends State<MainPage> {
           children: [
             getW(context) > 600
                 ? Positioned(
-                    top: 30,
+                    top: 14,
                     bottom: 0,
                     left: 0,
                     child: SideBar(),
                   )
                 : Container(),
             Positioned(
-              top: 20,
+              top: 14,
               bottom: 0,
               left: getW(context) > 600 ? 200 : 0,
               right: 0,

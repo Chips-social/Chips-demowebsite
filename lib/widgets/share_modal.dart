@@ -77,7 +77,9 @@ class ShareModal extends StatelessWidget {
                       color: Colors.white),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Icon(
                     Icons.close,
                     color: ColorConst.primaryGrey,
@@ -203,7 +205,7 @@ class ShareModal extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: ColorConst.websiteHomeBox,
+                          backgroundColor: ColorConst.websiteHomeBox,
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                           shape: RoundedRectangleBorder(

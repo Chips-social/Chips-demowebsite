@@ -1,26 +1,24 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/location_controller.dart';
+import 'package:chips_demowebsite/pages/success_modal.dart';
+import 'package:chips_demowebsite/services/rest.dart';
+import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
-import 'package:chips_demowebsite/widgets/chip_widget.dart';
-import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'dart:typed_data';
 import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 
 class CreateChipModal extends StatelessWidget {
   CreateChipModal({
     super.key,
-    FilePickerResult? result,
-    List? File,
   });
   final CategoryController categoryController = Get.find<CategoryController>();
   final LocationController locationController = Get.put(LocationController());
@@ -31,388 +29,622 @@ class CreateChipModal extends StatelessWidget {
     return AlertDialog(
         backgroundColor: ColorConst.primaryBackground,
         surfaceTintColor: ColorConst.primaryBackground,
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: getW(context) < 370 ? 10 : 20, vertical: 15),
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         content: Container(
-            height: MediaQuery.of(context).size.height - 200,
-            width: MediaQuery.of(context).size.width * 0.4,
+            width: 400,
             color: ColorConst.primaryBackground,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(children: [
-                    const Text(
-                      "New Chip",
-                      style: TextStyle(
-                          color: ColorConst.primaryText, fontSize: 20),
-                    ),
-                    const Spacer(),
-                    ElevatedButton(
-                        onPressed: () async {
-                          if (chipController.showPreview.value ||
-                              chipController.showImagePreview.value) {
-                            if (context.mounted) Navigator.of(context).pop();
-                            saveChipAs(context);
-
-                            //var response = await chipController.createChip();
-                            /*  if (response["success"]) {
-                              if (context.mounted) Navigator.of(context).pop();
-                            } */
-                          } else {
-                            showErrorSnackBar(
-                                heading: "Error",
-                                message:
-                                    "Can't save empty Chip. Add some fields please",
-                                icon: Icons.error,
-                                color: Colors.redAccent);
-                          }
-                          // if (chipController.showPreview.value ||
-                          //     chipController.showImagePreview.value) {
-                          //   if (categoryController
-                          //           .selectedCurationIndex.value ==
-                          //       0) {
-                          //     saveChipAs(context);
-                          //   } else {
-                          //     showErrorSnackBar(
-                          //         heading: "Error",
-                          //         message:
-                          //             "Can't save empty Chip. Add some fields please",
-                          //         icon: Icons.error,
-                          //         color: Colors.redAccent);
-                          //   }
-                          // } else {
-                          //   chipController.addChipToCuration();
-                          // }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorConst.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          padding: const EdgeInsets.only(
-                              left: 24.0, right: 24, top: 10, bottom: 10),
-                        ),
-                        child: const Text(
-                          "Save",
-                          style: TextStyle(
-                              color: ColorConst.buttonText, fontSize: 14),
-                        )),
-                  ]),
-                  const SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 60,
-                        //width: MediaQuery.of(context).size.width * 0.18,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            )
-                          ],
-                          color: ColorConst.iconBackgroundColor,
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.date_range,
-                            color: ColorConst.primary,
-                            size: 20,
-                          ),
-                          onPressed: () async {
-                            //controller
-                            chipController.isDateTime.value = true;
-                            final DateTime? selectedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1970),
-                              lastDate: DateTime(2030),
-                            );
-                            if(selectedDate != null){
-                              chipController.setDateTime(true);
-                              chipController.setDate(selectedDate);
-                              chipController.formattedDate.value = DateFormat('dd-MMM-yyyy').format(selectedDate);
-                              //print(chipController.formattedDate.value);
-                              //print(selectedDate);
-                            }
-                           /*   if (selectedDate != null) {
-                              final TimeOfDay? selectedTime =
-                                  await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ); 
-                            } */
-                          },
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        width: 60,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            )
-                          ],
-                          color: ColorConst.iconBackgroundColor,
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.image,
-                            color: ColorConst.primary,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            _getImagefromGallery();
-                          },
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        width: 60,
-                        //width: MediaQuery.of(context).size.width * 0.18,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            )
-                          ],
-                          color: ColorConst.iconBackgroundColor,
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.location_on,
-                            color: ColorConst.primary,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            locationController.openGoogleMaps();
-                            //_showCurrentLocation();
-                            //controller
-                            // addChipController.showLocationField.value = true;
-                          },
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        width: 60,
-                        //width: MediaQuery.of(context).size.width * 0.18,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            )
-                          ],
-                          color: ColorConst.iconBackgroundColor,
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.link,
-                            color: ColorConst.primary,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            //controller
-                            chipController.showUrl.value = true;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                      controller: chipController.captionController,
-                      maxLength: 500,
-                      maxLines: null,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                          labelText: "Write the Caption",
-                          contentPadding: EdgeInsets.only(top: 5)),
-                      onChanged: (value) {
-                        if (value.trim().isEmpty) {
-                          chipController.setPreview(false);
-                          chipController.setPreview(value.trim().isNotEmpty);
-                        } else {
-                          chipController.setPreview(false);
-                          chipController.setPreview(true);
-                        }
-                      }),
-                Obx(() =>chipController.isDateTime.value
-                ?
-                  Row(children: [
-                    GestureDetector(
-                      onTap:()async {
-                        final DateTime? selectedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1970),
-                              lastDate: DateTime(2030),
-                            );
-                            if(selectedDate != null){
-                              chipController.setDateTime(true);
-                              chipController.setDate(selectedDate);
-                              chipController.formattedDate.value = DateFormat('dd-MMM-yyyy').format(selectedDate);
-                              print(chipController.formattedDate.value);
-                              //print(selectedDate);
-                            }
-                      },
-                      child:Row(
-                        children: [
-                          const Icon(
-                              Icons.date_range,
-                              color: ColorConst.primaryGrey,
-                              size: 10,
-                          ),
-                          const SizedBox(width:4),
-                          Text('${chipController.formattedDate}',
-                          style:TextStyle(color:ColorConst.primaryGrey,fontSize: 14)),
-                              ],
-                            )
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: 
-                      const Icon(
-                             Icons.cancel,
-                             color: ColorConst.primaryGrey,
-                             size: 20,
-                            ),
-                            onPressed: () {
-                              chipController.isDateTime.value = false;
-                            },
-                        )
-                  ],)
-                :const SizedBox(),
-                ),
-                Obx(() => chipController.showUrl.value
-                ? Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                             Expanded(
-                              child: 
+                        Text('New Chip',
+                            style: TextStyle(
+                                fontFamily: 'Inter',
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.grey,
+                          ),
+                        )
+                      ]),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(color: Colors.black38),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Obx(
+                    () => chipController.isLocation.value
+                        ? Column(
+                            children: [
+                              SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      chipController.isLocation.value = false;
+                                    },
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Colors.grey,
+                                      size: 14,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      locationController.openGoogleMaps();
+                                      chipController.isLocation.value = false;
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: ColorConst.websiteHomeBox),
+                                      child: Text(
+                                        "Use current location",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          decorationColor: ColorConst.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12),
                               TextField(
-                                controller: chipController.urlController ,
+                                controller: chipController.locationController,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-                                    labelText: "Enter the Url",
-                                    contentPadding: EdgeInsets.only(top: 15)),
+                                    hintText: 'Search location',
+                                    hintStyle: TextStyle(color: Colors.grey)),
+                                onChanged: fetchSuggestions,
                               ),
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.cancel,
-                                color: ColorConst.dark,
-                                size: 20,
-                              ),
-                              onPressed: () {
-                                chipController.showUrl.value = false;
-                              },
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                : const SizedBox(height:4)),
-                  Obx(() => chipController.showImagePreview.value
-                      ? SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                for (var i = 0;
-                                    i < chipController.imageBytesList.length;
-                                    i++)
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: getImagePreview(
-                                        bytes: chipController.imageBytesList[i],
-                                        index: i),
+                              Obx(
+                                () => Container(
+                                  height: 240,
+                                  child: ListView.builder(
+                                    itemCount:
+                                        chipController.suggestions.length,
+                                    itemBuilder: (context, index) {
+                                      final suggestion =
+                                          chipController.suggestions[index];
+                                      return ListTile(
+                                        leading: Icon(Icons.location_on),
+                                        title: Text(
+                                          suggestion['description'].toString(),
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onTap: () {
+                                          chipController.location.value =
+                                              suggestion['description']
+                                                  .toString();
+                                          chipController.locationUrl.value =
+                                              suggestion['mapsUrl'].toString();
+                                          chipController.isLocation.value =
+                                              false;
+                                        },
+                                      );
+                                    },
                                   ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : const SizedBox()),
-                  Obx(() => chipController.showPreview.value
-                      ? getPreview(
-                          caption: chipController.captionController.text,
-                          name: authController.getCurrentUser()["name"],
-                          selectedDate:chipController.selectedDate.value.toString(),
+                                ),
+                              ),
+                            ],
                           )
-                      : const SizedBox()),
-              
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: getW(context) < 370
+                                        ? 50
+                                        : getW(context) < 450
+                                            ? 60
+                                            : 80,
+                                    height: 30,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.iconBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(100.0),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.date_range,
+                                        color: ColorConst.primary,
+                                        size: 16,
+                                      ),
+                                      onPressed: () async {
+                                        // chipController.isDateTime.value = true;
+                                        final DateTime? selectedDate =
+                                            await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1970),
+                                          lastDate: DateTime(2030),
+                                        );
+                                        if (selectedDate != null) {
+                                          chipController.setDateTime(true);
+                                          chipController.setDate(selectedDate);
+                                          chipController.formattedDate.value =
+                                              DateFormat('dd-MMM-yyyy')
+                                                  .format(selectedDate);
+                                          //print(chipController.formattedDate.value);
+                                          //print(selectedDate);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    width: getW(context) < 370
+                                        ? 50
+                                        : getW(context) < 450
+                                            ? 60
+                                            : 80,
+                                    height: 30,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.iconBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(100.0),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.image,
+                                        color: ColorConst.primary,
+                                        size: 16,
+                                      ),
+                                      onPressed: () {
+                                        try {
+                                          _getImagefromGallery();
+                                        } catch (error) {
+                                          print("Error picking image: $error");
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    width: getW(context) < 370
+                                        ? 50
+                                        : getW(context) < 450
+                                            ? 60
+                                            : 80,
+                                    height: 30,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.iconBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(100.0),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.location_on,
+                                        color: ColorConst.primary,
+                                        size: 16,
+                                      ),
+                                      onPressed: () {
+                                        chipController.isLocation.value = true;
+                                      },
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    width: getW(context) < 370
+                                        ? 50
+                                        : getW(context) < 450
+                                            ? 60
+                                            : 80,
+                                    height: 30,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.iconBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(100.0),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.link,
+                                        color: ColorConst.primary,
+                                        size: 16,
+                                      ),
+                                      onPressed: () {
+                                        //controller
+                                        chipController.showUrl.value = true;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("I'm sharing this coz",
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      )),
+                                  Obx(
+                                    () => Text(
+                                        "${chipController.counter.value}/500",
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          color: Colors.grey,
+                                          fontSize: 13,
+                                        )),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              TextField(
+                                  controller: chipController.captionController,
+                                  maxLength: 500,
+                                  maxLines: null,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Rubik",
+                                    fontSize: 13,
+                                  ),
+                                  decoration: const InputDecoration(
+                                      isDense: true,
+                                      counterText: "",
+                                      hintText:
+                                          "Tell your friends why you're sharing this",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding:
+                                          EdgeInsets.only(top: 5, bottom: 5)),
+                                  onChanged: (value) {
+                                    chipController.setCounter(value.length);
+                                  }),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Add #Tags",
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      )),
+                                  Text("min. 1 required",
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        color: Colors.grey,
+                                        fontSize: 13,
+                                      ))
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              TagText(),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Obx(
+                                () => chipController.formattedDate.value != ""
+                                    ? Row(
+                                        children: [
+                                          GestureDetector(
+                                              onTap: () async {},
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.date_range,
+                                                    color:
+                                                        ColorConst.primaryGrey,
+                                                    size: 14,
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Text(
+                                                      '${chipController.formattedDate}',
+                                                      style: TextStyle(
+                                                          color: ColorConst
+                                                              .primaryGrey,
+                                                          fontSize: 14)),
+                                                ],
+                                              )),
+                                          const Spacer(),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.cancel,
+                                              color: ColorConst.primaryGrey,
+                                              size: 18,
+                                            ),
+                                            onPressed: () {
+                                              chipController.isDateTime.value =
+                                                  false;
+                                            },
+                                          )
+                                        ],
+                                      )
+                                    : const SizedBox(height: 5),
+                              ),
+                              Obx(
+                                () => chipController.location.value != ""
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Icon(
+                                                Icons.location_on,
+                                                color: ColorConst.primaryGrey,
+                                                size: 14,
+                                              ),
+                                              const SizedBox(width: 4),
+                                              MouseRegion(
+                                                cursor:
+                                                    SystemMouseCursors.click,
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    if (!await launchUrl(
+                                                        Uri.parse(chipController
+                                                            .locationUrl
+                                                            .value)))
+                                                      throw 'Could not launch';
+                                                  },
+                                                  child: Container(
+                                                    width: getW(context) < 400
+                                                        ? getW(context) * 0.5
+                                                        : getW(context) < 500
+                                                            ? getW(context) *
+                                                                0.55
+                                                            : 320,
+                                                    child: Text(
+                                                        '${chipController.location}',
+                                                        style: TextStyle(
+                                                            color: ColorConst
+                                                                .primary,
+                                                            fontSize:
+                                                                getW(context) <
+                                                                        400
+                                                                    ? 12
+                                                                    : 14)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.cancel,
+                                              color: ColorConst.primaryGrey,
+                                              size: 18,
+                                            ),
+                                            onPressed: () {
+                                              chipController.location.value =
+                                                  "";
+                                            },
+                                          )
+                                        ],
+                                      )
+                                    : const SizedBox(height: 5),
+                              ),
+                              // Obx(() => chipController.showUrl.value
+                              //     ? Text("Enter Url",
+                              //         style: TextStyle(
+                              //           fontFamily: 'Inter',
+                              //           color: Colors.white,
+                              //           fontSize: 15,
+                              //         ))
+                              //     : Container()),
+                              Obx(() => chipController.showUrl.value
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 4),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              controller:
+                                                  chipController.urlController,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: "Rubik",
+                                                fontSize: 13,
+                                              ),
+                                              decoration: const InputDecoration(
+                                                  isDense: true,
+                                                  counterText: "",
+                                                  hintText: "Enter the link",
+                                                  focusColor:
+                                                      ColorConst.primary,
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey),
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                          top: 2, bottom: 5)),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.cancel,
+                                              color: ColorConst.primaryGrey,
+                                              size: 18,
+                                            ),
+                                            onPressed: () {
+                                              chipController.showUrl.value =
+                                                  false;
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox(height: 5)),
+                              Obx(
+                                () => chipController.showImagePreview.value
+                                    ? SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: MouseRegion(
+                                          cursor: SystemMouseCursors.grabbing,
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 5),
+                                            height: 155,
+                                            width: 390,
+                                            child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                physics:
+                                                    AlwaysScrollableScrollPhysics(),
+                                                itemCount: chipController
+                                                    .imageBytesList.length,
+                                                itemBuilder: (context, index) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 4),
+                                                    child: Stack(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          height: 150,
+                                                          width: 140,
+                                                          decoration: BoxDecoration(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
+                                                          child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              child:
+                                                                  Image.memory(
+                                                                chipController
+                                                                        .imageBytesList[
+                                                                    index],
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )),
+                                                        ), // Change to container
+                                                        Positioned(
+                                                          top: 0,
+                                                          right: 0,
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              chipController
+                                                                  .removeImage(
+                                                                      index);
+                                                            },
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(3),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              40),
+                                                                  color: ColorConst
+                                                                      .chipBackground),
+                                                              child: const Icon(
+                                                                Icons.cancel,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ),
+                              Obx(
+                                () => InkWell(
+                                  onTap: () {
+                                    if (chipController.counter.value != 0 &&
+                                        chipController.hasTags.value) {
+                                      chipController.isCreatingChip.value =
+                                          true;
+                                      Navigator.of(context).pop();
+                                      saveChipAs(context);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    margin: EdgeInsets.only(top: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(25),
+                                        border: Border.all(
+                                            color: chipController
+                                                            .counter.value !=
+                                                        0 &&
+                                                    chipController.hasTags.value
+                                                ? ColorConst.primary
+                                                : Colors.grey.shade700,
+                                            width: 0.7)),
+                                    child: Text(
+                                      "Save",
+                                      style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          color: chipController.counter.value !=
+                                                      0 &&
+                                                  chipController.hasTags.value
+                                              ? Colors.white
+                                              : Colors.grey.shade700,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
                 ],
               ),
             )));
-  }
-
-  Widget getPreview({required String caption, required String name, required String selectedDate}) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        child: ChipWidget(
-          text: caption,
-          dateTimeUrl: false,
-          imageURLS: [],
-          showRSVP: false,
-          showNestedCard: false,
-          showYoutube: false,
-          name: name,
-          likes:[],
-          //name: '${authController.getCurrentUser()["name"] ?? "User Name"}',
-          timeAdded: DateTime.now(),
-          date: selectedDate,
-        ));
-  }
-
-  void _uploadImagesToS3(List<Uint8List> imageBytesList) async {
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('http://127.0.0.1:5555/api/upload'),
-    );
-
-    for (int i = 0; i < imageBytesList.length; i++) {
-      var bytes = imageBytesList[i];
-      var multipartFile = http.MultipartFile.fromBytes(
-        'file',
-        bytes,
-        filename: 'image$i.jpg',
-        contentType: MediaType('image', 'jpeg'),
-      );
-      request.files.add(multipartFile);
-    }
-
-    try {
-      var response = await request.send();
-      if (response.statusCode == 200) {
-        print('Images uploaded successfully');
-      } else {
-        print('Error uploading images: ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      print('Exception uploading images: $e');
-    }
   }
 
   void _getImagefromGallery() async {
@@ -421,20 +653,17 @@ class CreateChipModal extends StatelessWidget {
         allowMultiple: true,
         allowedExtensions: ['png', 'jpg', 'jpeg']);
 
-    /*    if (result != null) {
-    PlatformFile file = result.files.first; // Get the first selected file
-    Uint8List imageBytes = file.bytes!; */
-
     if (result != null) {
       List<PlatformFile> files = result.files;
-      List<Uint8List> imageBytesList = [];
-
       for (PlatformFile file in files) {
-        imageBytesList.add(file.bytes!);
+        var newImageList = List<Uint8List>.from(chipController.imageBytesList);
         Uint8List bytes = file.bytes!;
-        chipController.imageBytesList.add(bytes);
+        newImageList.add(bytes);
+        chipController.imageBytesList.value = newImageList;
       }
-      _uploadImagesToS3(imageBytesList);
+      // print("okok");
+      // uploadImagesToS3(chipController.imageBytesList);
+      // print("sucess");
 
       if (chipController.imageBytesList.isNotEmpty) {
         chipController.files = List.from(chipController.imageBytesList
@@ -443,63 +672,6 @@ class CreateChipModal extends StatelessWidget {
         chipController.showImagePreview.value = true;
       }
     }
-    /*   if (result != null) {
-       chipController.files =
-          List.from(result.paths.map((path) => File(path!)).toList());
-      if (chipController.files.isNotEmpty) {
-        chipController.showImagePreview.value = true;
-      }
-    } */
-  }
-
-  Widget getImagePreview({required Uint8List bytes, required int index}) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: 150,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0), // Set desired radius
-            child: Image.memory(bytes),
-          ),
-        ), // Change to container
-        Positioned(
-          top: 0,
-          right: 0,
-          child: GestureDetector(
-            onTap: () {
-              chipController.removeImage(index);
-            },
-            child: const Icon(
-              Icons.cancel,
-              color: Colors.white70,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-   Future _showCurrentLocation() async {
-    Location location = Location();
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
-
-    PermissionStatus _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    var _locationData = await location.getLocation();
-    print(_locationData);
   }
 }
 
@@ -508,6 +680,20 @@ void saveChipAs(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return SaveChipAsModal();
+    },
+  );
+}
+
+void successChip(
+    BuildContext context, String message, Function onTap, String btnmessage) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SuccessModal(
+        message: message,
+        onTap: onTap,
+        btnmessage: btnmessage,
+      );
     },
   );
 }

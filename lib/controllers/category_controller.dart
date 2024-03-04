@@ -7,6 +7,17 @@ class CategoryController extends GetxController
   final HomeController homeController = Get.find<HomeController>();
   late TabController curationListController;
 
+  var categories = [
+    'Food & Drinks',
+    'Entertainment',
+    'Science & Tech',
+    'Art & Design',
+    'Interiors & Lifestyle',
+    'Travel',
+    'Fashion & Beauty',
+    'Health & Fitness'
+  ].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -20,7 +31,7 @@ class CategoryController extends GetxController
   }
 
   final selectedCurationIndex = 0.obs;
-  final selectedCurationId = "null".obs;
+  final selectedCurationId = "".obs;
   final selectedCurationName = "Queue".obs;
 
   setSelectedCurationName(String curationName) {

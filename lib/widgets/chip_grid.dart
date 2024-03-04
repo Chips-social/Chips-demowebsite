@@ -1,9 +1,16 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
+import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
+import 'package:chips_demowebsite/widgets/home_start_card.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -13,6 +20,9 @@ class ChipDemo extends StatelessWidget {
   ChipDemo({super.key, required this.chipDataList, required this.title});
   final String title;
 
+  final AuthController authController = Get.find<AuthController>();
+  final CreateCurationController curationController =
+      Get.find<CreateCurationController>();
   @override
   Widget build(BuildContext context) {
     double screenWidth = getW(context);
@@ -45,36 +55,46 @@ class ChipDemo extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 1),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: ColorConst.iconButtonColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Transform.rotate(
-                                angle: -30 * 3.141 / 180,
-                                child: Icon(
-                                  Icons.send_outlined,
-                                  size: 20,
-                                ))),
-                      ),
-                      const SizedBox(width: 12),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
-                          // if (authController.isLoggedIn.value) {
-                          //   createChip(context);
-                          // } else {
-                          //   showErrorSnackBar(
-                          //       heading: 'Unauthenticated User',
-                          //       message: 'Please Login to add a Chip',
-                          //       icon: Icons.error_outline,
-                          //       color: Colors.redAccent);
-                          // }
+                          showShareDialog(context, "weec", "Curation");
+                          // showErrorSnackBar(
+                          //     heading: "Account Saved",
+                          //     message: "gdndkvnd",
+                          //     icon: Icons.account_balance,
+                          //     color: Colors.white);
                         },
                         child: Container(
+                          padding: EdgeInsets.only(
+                              left: 9, right: 9, top: 11, bottom: 10),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: ColorConst.iconButtonColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icons/share_icon.svg',
+                            color: Colors.black,
+                            width: 18,
+                            height: 18,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      InkWell(
+                        onTap: () {
+                          if (authController.isLoggedIn.value) {
+                            createChip(context);
+                          } else {
+                            showErrorSnackBar(
+                                heading: 'Unauthenticated User',
+                                message: 'Please Login to add a Chip',
+                                icon: Icons.error_outline,
+                                color: Colors.redAccent);
+                          }
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
                           padding: EdgeInsets.symmetric(
                             horizontal: 10,
                           ),
@@ -97,7 +117,15 @@ class ChipDemo extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 4),
                           child: TextButton(
                             onPressed: () {
-                              // curationController.saveCuration();
+                              if (authController.isLoggedIn.value) {
+                                curationController.saveCuration(context);
+                              } else {
+                                showErrorSnackBar(
+                                    heading: 'Unauthenticated User',
+                                    message: 'Please Login to save a curation',
+                                    icon: Icons.error_outline,
+                                    color: Colors.redAccent);
+                              }
                             },
                             child: getW(context) > 700
                                 ? Text('Save to my curation',
@@ -172,22 +200,15 @@ class ChipDemo extends StatelessWidget {
                       child: ChipWidget(
                         chipId: '${chipDataList[index]['_id']}',
                         text: '${chipDataList[index]["text"]}',
-                        dateTimeUrl: false,
+                        dateTimeUrl: true,
                         imageURLS: [
                           "https://picsum.photos/seed/picsum/300/200",
                           "https://picsum.photos/id/237/200/300"
                         ],
-                        showRSVP: false,
-                        showNestedCard: false,
-                        showYoutube: false,
-                        // nestedText: "welcome to facebook",
-                        // nestedTitle: "Facebook",
-                        // nestedImageURL:
-                        //     "https://picsum.photos/seed/picsum/300/200",
-                        // url: "www.facebook.com",
+                        showUrl: true,
+                        url: "www.facebook.com",
                         name: '${chipDataList[index]["user"]["name"]}',
-                        // youtubeURL:
-                        //     "https://www.youtube.com/shorts/KAT1R4TLDQc",
+                        linkUrl: "https://www.youtube.com/watch?v=e3uBz-PAZQ4",
                         likes: List<String>.from(chipDataList[index]["likes"]),
                         timeAdded:
                             DateTime.parse(chipDataList[index]["timeAdded"]),
