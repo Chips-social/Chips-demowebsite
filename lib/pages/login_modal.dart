@@ -1,4 +1,5 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/menu_items.dart';
@@ -14,6 +15,7 @@ import '../widgets/my_snackbars.dart';
 
 class Modal extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
+  final SidebarController sidebarController = Get.find<SidebarController>();
   Modal({super.key});
   @override
   Widget build(BuildContext context) {
@@ -136,6 +138,9 @@ class Modal extends StatelessWidget {
                                                     code) {
                                               Navigator.of(context).pop();
                                               authController.verifyOtp();
+                                              sidebarController.my3Curations();
+                                              sidebarController
+                                                  .my3SavedCurations();
                                             } else {
                                               return showErrorSnackBar(
                                                   heading: 'Error',
@@ -165,8 +170,8 @@ class Modal extends StatelessWidget {
                                               cursor: SystemMouseCursors.click,
                                               child: GestureDetector(
                                                   onTap: () async {
-                                                    // await resendVerificationCode(
-                                                    //     "");
+                                                    await authController
+                                                        .authloginUser();
                                                   },
                                                   child: Text("Resend",
                                                       style: TextStyle(

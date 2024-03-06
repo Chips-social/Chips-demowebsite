@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
+import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
@@ -21,8 +22,10 @@ class ChipDemo extends StatelessWidget {
   final String title;
 
   final AuthController authController = Get.find<AuthController>();
+  final CategoryController categoryController = Get.find<CategoryController>();
+
   final CreateCurationController curationController =
-      Get.find<CreateCurationController>();
+      Get.put(CreateCurationController());
   @override
   Widget build(BuildContext context) {
     double screenWidth = getW(context);
@@ -57,7 +60,14 @@ class ChipDemo extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          showShareDialog(context, "weec", "Curation");
+                          var categoryName = Uri.encodeComponent(
+                              homeController.selctedCategoryTab.value);
+                          var title = Uri.encodeComponent(
+                              categoryController.selectedCurationName.value);
+                          showShareDialog(
+                              context,
+                              "http://localhost:50093/#/category/$categoryName/curation/$title",
+                              "Curation");
                           // showErrorSnackBar(
                           //     heading: "Account Saved",
                           //     message: "gdndkvnd",
@@ -117,25 +127,40 @@ class ChipDemo extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 4),
                           child: TextButton(
                             onPressed: () {
-                              if (authController.isLoggedIn.value) {
-                                curationController.saveCuration(context);
-                              } else {
+                              if (curationController.isCurationSaved.value) {
                                 showErrorSnackBar(
-                                    heading: 'Unauthenticated User',
-                                    message: 'Please Login to save a curation',
-                                    icon: Icons.error_outline,
-                                    color: Colors.redAccent);
+                                    heading: "Saved curation",
+                                    message:
+                                        "This curation is already saved by you.",
+                                    icon: Icons.save,
+                                    color: Colors.white);
+                              } else {
+                                if (authController.isLoggedIn.value) {
+                                  curationController.saveCuration(context);
+                                } else {
+                                  showErrorSnackBar(
+                                      heading: 'Unauthenticated User',
+                                      message:
+                                          'Please Login to save a curation',
+                                      icon: Icons.error_outline,
+                                      color: Colors.redAccent);
+                                }
                               }
                             },
                             child: getW(context) > 700
-                                ? Text('Save to my curation',
+                                ? Text(
+                                    curationController.isCurationSaved.value
+                                        ? 'Saved Curation'
+                                        : 'Save to my curation',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 13))
-                                : Icon(
-                                    Icons.save,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
+                                : curationController.isCurationSaved.value
+                                    ? Container()
+                                    : Icon(
+                                        Icons.save,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
                           ))
                     ],
                   ),
@@ -178,45 +203,64 @@ class ChipDemo extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text(
-                      "View Collabrators",
-                      style: TextStyle(
-                          color: ColorConst.primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    // Text(
+                    //   "View Collabrators",
+                    //   style: TextStyle(
+                    //       color: ColorConst.primary,
+                    //       fontSize: 12,
+                    //       fontWeight: FontWeight.bold),
+                    // ),
                   ],
                 ),
               ),
               SizedBox(height: 10),
-              Expanded(
-                child: MasonryGridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: crossAxisCount,
-                  itemCount: chipDataList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: ChipWidget(
-                        chipId: '${chipDataList[index]['_id']}',
-                        text: '${chipDataList[index]["text"]}',
-                        dateTimeUrl: true,
-                        imageURLS: [
-                          "https://picsum.photos/seed/picsum/300/200",
-                          "https://picsum.photos/id/237/200/300"
-                        ],
-                        showUrl: true,
-                        url: "www.facebook.com",
-                        name: '${chipDataList[index]["user"]["name"]}',
-                        linkUrl: "https://www.youtube.com/watch?v=e3uBz-PAZQ4",
-                        likes: List<String>.from(chipDataList[index]["likes"]),
-                        timeAdded:
-                            DateTime.parse(chipDataList[index]["timeAdded"]),
-                        date: '2024-02-13',
+              Obx(
+                () => chipDataList.isNotEmpty
+                    ? Expanded(
+                        child: MasonryGridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: crossAxisCount,
+                          itemCount: chipDataList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: ChipWidget(
+                                chipId: '${chipDataList[index]['_id']}',
+                                text: '${chipDataList[index]["text"]}',
+                                isSavedList: chipDataList[index]["saved_by"],
+                                imageURLS: chipDataList[index]["image_urls"],
+                                url: chipDataList[index]["location_desc"],
+                                locationUrl: chipDataList[index]
+                                    ["location_url"],
+                                name: '${chipDataList[index]["user"]["name"]}',
+                                linkUrl: chipDataList[index]["link_url"],
+                                likes: List<String>.from(
+                                    chipDataList[index]["likes"]),
+                                timeAdded: DateTime.parse(
+                                    chipDataList[index]["timeAdded"]),
+                                date: chipDataList[index]["date"],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Center(
+                        child: Card(
+                          margin: EdgeInsets.only(top: 20),
+                          color: ColorConst.dark,
+                          elevation: 2,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 40),
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              "No chips exist!\nCreate one by clicking + button at top",
+                              style: TextStyle(
+                                  color: Colors.white, letterSpacing: 1.4),
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                ),
               ),
             ],
           ),

@@ -14,7 +14,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  final HomeController homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.put(HomeController());
   String curationName = "";
   @override
   void initState() {

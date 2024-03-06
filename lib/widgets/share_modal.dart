@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:html' as html;
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/category_controller.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,36 +19,17 @@ class ShareModal extends StatelessWidget {
 
   ShareModal({Key? key, required this.curationLink, required this.type})
       : super(key: key);
+  final CategoryController categoryController = Get.find<CategoryController>();
 
-  Future<void> shareToWhatsApp() async {
-    try {
-      final response = await http.post(
-        Uri.parse('http://localhost:3000/api/share'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'title': 'snsns',
-          'description': "dcnd",
-          'imageUrl':
-              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-        }),
-      );
+  final HomeController homeController = Get.find<HomeController>();
 
-      if (response.statusCode == 200) {
-        final shareUrl = jsonDecode(response.body)['shareUrl'];
-        final whatsAppurl =
-            Uri.parse('https://wa.me/?text=${Uri.encodeComponent(shareUrl)}');
-        await canLaunchUrl(whatsAppurl)
-            ? await launchUrl(whatsAppurl)
-            : throw 'Could not launch $shareUrl';
-      } else {
-        throw 'Failed to load share url';
-      }
-    } catch (e) {
-      // Handle the error
-      print(e);
-    }
+  Future<void> shareWidget(String url) async {
+    var categoryName =
+        Uri.encodeComponent(homeController.selctedCategoryTab.value);
+    var title =
+        Uri.encodeComponent(categoryController.selectedCurationName.value);
+    final encodedText = "/category/$categoryName/curation/$title";
+    html.window.open('$url$encodedText', 'new tab');
   }
 
   @override
@@ -105,27 +90,43 @@ class ShareModal extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    await shareWidget(
+                        'https://www.facebook.com/sharer/sharer.php?u=');
+                  },
                   child: ShareContainer(FontAwesomeIcons.facebookF, context),
                 ),
                 InkWell(
-                  onTap: shareToWhatsApp,
+                  onTap: () async {
+                    await shareWidget("https://wa.me/?text=");
+                  },
                   child: ShareContainer(FontAwesomeIcons.whatsapp, context),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    await shareWidget('https://twitter.com/intent/tweet?text=');
+                  },
                   child: ShareContainer(FontAwesomeIcons.xTwitter, context),
                 ),
                 getW(context) > 460
                     ? InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          await shareWidget('https://t.me/share/url?url=');
+                        },
                         child: ShareContainer(
                             FontAwesomeIcons.telegramPlane, context),
                       )
                     : Container(),
                 getW(context) > 460
                     ? InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          // await shareWidget("https://www.instagram.com/");
+                          showErrorSnackBar(
+                              heading: "Coming Soon",
+                              message: "Soon you will share in instagram",
+                              icon: FontAwesomeIcons.instagram,
+                              color: Colors.white);
+                        },
                         child:
                             ShareContainer(FontAwesomeIcons.instagram, context),
                       )

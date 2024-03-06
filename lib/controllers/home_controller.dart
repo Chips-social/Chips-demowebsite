@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/services/rest.dart';
@@ -7,9 +8,12 @@ import 'package:go_router/go_router.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
+  late TabController curationListController;
+
   final ScrollController scrollController = ScrollController();
   late List<GlobalKey<NavigatorState>> navigatorKeys = [];
   final RxList<int> _navigationStack = RxList<int>();
+  final CategoryController categoryController = Get.put(CategoryController());
 
   // late AnimationController animationController;
   // late Animation<Offset> animation;
@@ -32,8 +36,15 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     tabController = TabController(length: categories.length, vsync: this);
     // setupAnimations();
 
-    allChips();
+    // allChips();
     allCurations();
+  }
+
+  setTabController() {
+    curationListController =
+        TabController(length: (curations.length + 1), vsync: this);
+
+    categoryController.setSelectedCurationIndex(0);
   }
 
   void changeTab(int index, BuildContext context) {
@@ -90,16 +101,13 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   allChips() async {
     isLoading.value = true;
-    var data = {
-      'category': selctedCategoryTab.value,
-    };
+    var data = {'curation_id': categoryController.selectedCurationId.value};
 
-    var response =
-        await postRequestUnAuthenticated(endpoint: '/fetch/chips', data: data);
+    var response = await postRequestUnAuthenticated(
+        endpoint: '/fetch/all/chips/of/curation', data: data);
     if (response["success"]) {
       chips = List.from(response["chips"]).obs;
       update();
-      // print(chips);
       isLoading.value = false;
     } else {
       showErrorSnackBar(
@@ -124,7 +132,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         endpoint: '/fetch/curations', data: data);
     if (response["success"]) {
       curations = List.from(response["curations"]).obs;
-      ////
       isCurationListLoading.value = false;
     } else {
       showErrorSnackBar(

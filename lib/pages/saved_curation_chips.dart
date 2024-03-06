@@ -20,10 +20,6 @@ class SavedCurationChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    homeController.isExplore.value = false;
-    homeController.isSavedCuration.value = true;
-    homeController.isMyCuration.value = false;
-    List chipsData = homeController.chips;
     double screenWidth = getW(context);
     int crossAxisCount = screenWidth > 1300
         ? 4
@@ -192,49 +188,57 @@ class SavedCurationChips extends StatelessWidget {
                       ),
                     ],
                   ),
-                  screenWidth < 715
-                      ? Container()
-                      : Text(
-                          "View Collabrators",
-                          style: TextStyle(
-                              color: ColorConst.primary,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                        ),
+                  // screenWidth < 715
+                  //     ? Container()
+                  //     : Text(
+                  //         "View Collabrators",
+                  //         style: TextStyle(
+                  //             color: ColorConst.primary,
+                  //             fontSize: 12,
+                  //             fontWeight: FontWeight.bold),
+                  //       ),
                 ],
               ),
               SizedBox(height: 10),
-              screenWidth > 715
-                  ? Container()
-                  : Text(
-                      "View Collabrators",
-                      style: TextStyle(
-                          color: ColorConst.primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
+              // screenWidth > 715
+              //     ? Container()
+              //     : Text(
+              //         "View Collabrators",
+              //         style: TextStyle(
+              //             color: ColorConst.primary,
+              //             fontSize: 12,
+              //             fontWeight: FontWeight.bold),
+              //       ),
               Expanded(
                 child: MasonryGridView.count(
                   shrinkWrap: true,
                   crossAxisCount: crossAxisCount,
-                  itemCount: chipsData.length,
+                  itemCount: chipController.chipsofCuration.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(4),
                       child: ChipWidget(
-                        chipId: '${chipsData[index]['_id']}',
-                        text: '${chipsData[index]["text"]}',
-                        dateTimeUrl: false,
-                        imageURLS: [
-                          "https://picsum.photos/seed/picsum/300/200",
-                          "https://picsum.photos/id/237/200/300"
-                        ],
-                        showUrl: false,
-                        name: '${chipsData[index]["user"]["name"]}',
-                        likes: List<String>.from(chipsData[index]["likes"]),
-                        timeAdded:
-                            DateTime.parse(chipsData[index]["timeAdded"]),
-                        date: '2024-02-13',
+                        chipId:
+                            '${chipController.chipsofCuration[index]['_id']}',
+                        text:
+                            '${chipController.chipsofCuration[index]["text"]}',
+                        isSavedList: chipController.chipsofCuration[index]
+                            ["saved_by"],
+                        imageURLS: chipController.chipsofCuration[index]
+                            ["image_urls"],
+                        url: chipController.chipsofCuration[index]
+                            ["location_desc"],
+                        locationUrl: chipController.chipsofCuration[index]
+                            ["location_url"],
+                        name:
+                            '${chipController.chipsofCuration[index]["user"]["name"]}',
+                        linkUrl: chipController.chipsofCuration[index]
+                            ["link_url"],
+                        likes: List<String>.from(
+                            chipController.chipsofCuration[index]["likes"]),
+                        timeAdded: DateTime.parse(
+                            chipController.chipsofCuration[index]["timeAdded"]),
+                        date: chipController.chipsofCuration[index]["date"],
                       ),
                     );
                   },

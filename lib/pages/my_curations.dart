@@ -1,13 +1,40 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
+import 'package:chips_demowebsite/data/data.dart';
+import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MyCurations extends StatelessWidget {
+class MyCurations extends StatefulWidget {
   MyCurations({
     super.key,
   });
+
+  @override
+  State<MyCurations> createState() => _MyCurationsState();
+}
+
+class _MyCurationsState extends State<MyCurations> {
+  // List mycurations=[];
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   sidebarController.myCurations().then((_) {
+  //     mycurations = sidebarController.mycurations;
+  //   });
+  // }
+
+  final SidebarController sidebarController = Get.put(SidebarController());
+
+  final ChipController chipController = Get.find<ChipController>();
+
+  final HomeController homeController = Get.find<HomeController>();
+
   String title = Get.parameters['title'] ?? 'abcde';
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = getW(context);
@@ -44,7 +71,8 @@ class MyCurations extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 4),
                     child: TextButton(
                       onPressed: () {
-                        // curationController.saveCuration();
+                        newCurationModal(context);
+                        Navigator.of(context).pop();
                       },
                       child: const Row(
                         children: [
@@ -67,20 +95,18 @@ class MyCurations extends StatelessWidget {
                     crossAxisSpacing: 10,
                     crossAxisCount: crossAxisCount,
                   ),
-                  itemCount: 15,
+                  itemCount: sidebarController.mycurations.length,
                   itemBuilder: (context, index) {
                     return MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
-                        onTap: () {
-                          // Navigator.of(context).pushNamed(
-                          //   '/details',
-                          //   arguments: {
-                          //     'chipsList': widget.chipsList,
-                          //     'filteredList': filteredList,
-                          //     'title': widget.title,
-                          //   },
-                          // );
+                        onTap: () async {
+                          chipController.openCurationId.value =
+                              sidebarController.my3curations[index]['_id'];
+                          await chipController.fetchchipsoCuration(context);
+                          var gotourl = Uri.encodeComponent(
+                              sidebarController.mycurations[index]['name']);
+                          Get.toNamed('/curationchips/$gotourl');
                         },
                         child: Card(
                           clipBehavior: Clip.antiAlias,
@@ -97,14 +123,15 @@ class MyCurations extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)),
-                                        border: Border.all(
-                                            width: 1, color: Colors.white)),
-                                    child: Image.network(
-                                      'assets/website/curation_image.png', // Replace with your image URL
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Image.asset(
+                                      CurationImages[homeController.categories
+                                          .indexOf(sidebarController
+                                              .mycurations[index]['category'])],
                                       fit: BoxFit.cover,
-                                      height: 150, // Adjust the height
+                                      height: 150,
                                       width: double.infinity,
                                     ),
                                   ),
@@ -114,14 +141,14 @@ class MyCurations extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     left: 5, right: 5, top: 5),
                                 child: Text(
-                                  'Item $index', // Replace with your item title
+                                  sidebarController.mycurations[index]['name'],
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
                                 ),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +156,8 @@ class MyCurations extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(left: 5),
                                     child: Text(
-                                      'Subtitle', // Replace with your item subtitle
+                                      sidebarController.mycurations[index]
+                                          ['user_id']['name'],
                                       style: TextStyle(
                                           fontSize: 13, color: Colors.grey),
                                     ),
@@ -137,7 +165,7 @@ class MyCurations extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(right: 5),
                                     child: Text(
-                                      '31 Chips', // Replace with your chips count
+                                      '',
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.grey),
                                     ),

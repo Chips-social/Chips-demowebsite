@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/location_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/pages/success_modal.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
@@ -24,6 +25,7 @@ class CreateChipModal extends StatelessWidget {
   final LocationController locationController = Get.put(LocationController());
   final ChipController chipController = Get.put(ChipController());
   final AuthController authController = Get.find<AuthController>();
+  final SidebarController sidebarController = Get.find<SidebarController>();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -386,6 +388,8 @@ class CreateChipModal extends StatelessWidget {
                                               size: 18,
                                             ),
                                             onPressed: () {
+                                              chipController
+                                                  .formattedDate.value = "";
                                               chipController.isDateTime.value =
                                                   false;
                                             },
@@ -504,6 +508,8 @@ class CreateChipModal extends StatelessWidget {
                                               size: 18,
                                             ),
                                             onPressed: () {
+                                              chipController
+                                                  .urlController.text = "";
                                               chipController.showUrl.value =
                                                   false;
                                             },
@@ -600,11 +606,15 @@ class CreateChipModal extends StatelessWidget {
                               ),
                               Obx(
                                 () => InkWell(
-                                  onTap: () {
+                                  onTap: () async {
                                     if (chipController.counter.value != 0 &&
                                         chipController.hasTags.value) {
                                       chipController.isCreatingChip.value =
                                           true;
+                                      await sidebarController.myCurations();
+                                      await sidebarController
+                                          .mySavedCurations();
+
                                       Navigator.of(context).pop();
                                       saveChipAs(context);
                                     }

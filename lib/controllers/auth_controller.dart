@@ -1,4 +1,5 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/main.dart';
 import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/services/rest.dart';
@@ -9,13 +10,18 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
+  AuthController() {
+    String? token = getAuthToken();
+    authToken.value = token;
+    isLoggedIn.value = token != null;
+    currentUser = getCurrentUser();
+  }
   final box = GetStorage("chips_user");
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
-
   RxBool isLogIn = false.obs;
   RxBool isVerifyPage = false.obs;
   RxBool isButtonLoad = false.obs;
@@ -34,6 +40,7 @@ class AuthController extends GetxController {
     String? token = getAuthToken();
     authToken.value = token;
     isLoggedIn.value = token != null;
+    currentUser = getCurrentUser();
   }
 
   void toggleLogin() {
@@ -145,7 +152,7 @@ class AuthController extends GetxController {
             message: response["message"],
             icon: Icons.check_circle,
             color: ColorConst.success);
-        return {"success": true, "message": "Auth Successful"};
+        return "success";
       } else {
         isLoggedIn.value = false;
         return {"success": false, "message": response["message"]};

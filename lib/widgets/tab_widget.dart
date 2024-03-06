@@ -42,7 +42,7 @@ class _TabWidgetState extends State<TabWidget> {
 
   @override
   Widget build(BuildContext context) {
-    categoryController.setTabController();
+    homeController.setTabController();
     double screenWidth = getW(context);
     int crossAxisCount = screenWidth > 1200
         ? 5
@@ -158,20 +158,20 @@ class _TabWidgetState extends State<TabWidget> {
                     return MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           categoryController.setSelectedCurationIndex(index);
-                          // filteredList = [];
                           categoryController.setSelectedCurationName(
                               homeController.curations[index]["name"]);
                           categoryController.setCurationId(
                               homeController.curations[index]["_id"]);
-                          homeController.filteredList.value = homeController
-                              .chips
-                              .where((chip) =>
-                                  chip['curation'] ==
-                                  homeController.curations[index]["_id"])
-                              .toList();
 
+                          await homeController.allChips();
+                          homeController.filteredList.value =
+                              homeController.chips;
+                          if (homeController.curations[index]['saved_by']
+                              .contains(authController.currentUser['_id'])) {
+                            curationController.isCurationSaved.value = true;
+                          }
                           var categoryName = Uri.encodeComponent(
                               homeController.selctedCategoryTab.value);
                           var title = Uri.encodeComponent(
@@ -196,15 +196,13 @@ class _TabWidgetState extends State<TabWidget> {
                                   borderRadius: BorderRadius.circular(20),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)),
-                                        border: Border.all(
-                                            width: 1, color: Colors.white)),
-                                    child: SvgPicture.asset(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Image.asset(
                                       CurationImages[homeController.categories
                                           .indexOf(homeController
-                                              .selctedCategoryTab
-                                              .value)], // Replace with your image URL
+                                              .selctedCategoryTab.value)],
                                       fit: BoxFit.cover,
                                       height: 150, // Adjust the height
                                       width: double.infinity,
@@ -224,7 +222,7 @@ class _TabWidgetState extends State<TabWidget> {
                                       color: Colors.white),
                                 ),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +230,9 @@ class _TabWidgetState extends State<TabWidget> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 5),
                                     child: Text(
-                                      'Subtitle', // Replace with your item subtitle
+                                      homeController.curations[index]['user_id']
+                                              ['name'] ??
+                                          "Chips.Social",
                                       style: TextStyle(
                                           fontSize: 13, color: Colors.grey),
                                     ),
@@ -240,7 +240,7 @@ class _TabWidgetState extends State<TabWidget> {
                                   Padding(
                                     padding: EdgeInsets.only(right: 5),
                                     child: Text(
-                                      '31 Chips', // Replace with your chips count
+                                      '', // Replace with your chips count
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.grey),
                                     ),

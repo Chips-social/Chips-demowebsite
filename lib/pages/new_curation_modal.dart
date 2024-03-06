@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
@@ -17,6 +18,7 @@ class NewCurationModal extends StatelessWidget {
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
   final ChipController chipController = Get.put(ChipController());
+  final SidebarController sidebarController = Get.find<SidebarController>();
 
   @override
   Widget build(BuildContext context) {
@@ -452,6 +454,8 @@ class NewCurationModal extends StatelessWidget {
                                                           curationController
                                                               .isPageLoading
                                                               .value = false;
+                                                          await sidebarController
+                                                              .myCurations();
                                                           showErrorSnackBar(
                                                               heading:
                                                                   "Curation created",

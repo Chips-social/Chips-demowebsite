@@ -1,6 +1,7 @@
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/services/rest.dart';
@@ -13,11 +14,22 @@ import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
-class SaveChipAsModal extends StatelessWidget {
+class SaveChipAsModal extends StatefulWidget {
   SaveChipAsModal({super.key});
+
+  @override
+  State<SaveChipAsModal> createState() => _SaveChipAsModalState();
+}
+
+class _SaveChipAsModalState extends State<SaveChipAsModal> {
   final HomeController homeController = Get.find<HomeController>();
+
   final ChipController chipController = Get.put(ChipController());
+
   final CategoryController categoryController = Get.find<CategoryController>();
+
+  final SidebarController sidebarController = Get.find<SidebarController>();
+
   List<String> curationNames = ['My Curationd', 'Saved'];
 
   @override
@@ -79,8 +91,6 @@ class SaveChipAsModal extends StatelessWidget {
                                         fontSize: 15)),
                                 InkWell(
                                   onTap: () {
-                                    uploadImagesToS3(
-                                        chipController.imageBytesList);
                                     newCurationModal(context);
                                   },
                                   child: Container(
@@ -127,9 +137,12 @@ class SaveChipAsModal extends StatelessWidget {
                                                 fontSize: 12)),
                                         Spacer(),
                                         InkWell(
-                                          onTap: () {
+                                          onTap: () async {
+                                            await uploadImagesToS3(
+                                                chipController.imageBytesList);
                                             chipController
                                                 .addChipToCuration(context);
+                                            Navigator.of(context).pop();
                                           },
                                           child: const Icon(
                                             Icons.arrow_right_alt_sharp,
@@ -149,7 +162,8 @@ class SaveChipAsModal extends StatelessWidget {
                                 SizedBox(
                                   width: 240,
                                   child: TextField(
-                                    // textAlign: TextAlign.center,
+                                    controller:
+                                        chipController.searchSaveController,
                                     style: const TextStyle(color: Colors.white),
                                     decoration: InputDecoration(
                                       filled: true,
@@ -246,151 +260,332 @@ class SaveChipAsModal extends StatelessWidget {
                                 )
                               ],
                             ),
-                            Container(
-                              height: 260,
-                              margin: EdgeInsets.only(top: 12),
-                              child: Obx(
-                                () => GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisSpacing: 0,
-                                          crossAxisSpacing: 10,
-                                          crossAxisCount: 4,
-                                          childAspectRatio: 0.85),
-                                  itemCount:
-                                      chipController.filteredNames.length,
-                                  itemBuilder: (context, index) {
-                                    return MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          chipController.selectModalCard(index);
-                                        },
-                                        child: Card(
-                                          clipBehavior: Clip.antiAlias,
-                                          elevation: 0,
-                                          color: Colors.transparent,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Obx(
-                                                () => Container(
-                                                  height: chipController
-                                                              .selectedCurationModalIndex
-                                                              .value ==
-                                                          index
-                                                      ? 74
-                                                      : 72,
-                                                  width: chipController
-                                                              .selectedCurationModalIndex
-                                                              .value ==
-                                                          index
-                                                      ? 74
-                                                      : 72,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                    gradient: chipController
-                                                                .selectedCurationModalIndex
-                                                                .value ==
-                                                            index
-                                                        ? LinearGradient(
-                                                            colors: [
-                                                              ColorConst
-                                                                  .websiteHomeBox,
-                                                              ColorConst
-                                                                  .primary,
-                                                              Colors.white
-                                                            ], // Your gradient colors
-                                                            begin: Alignment
-                                                                .topLeft,
-                                                            end: Alignment
-                                                                .bottomRight,
-                                                          )
-                                                        : LinearGradient(
-                                                            colors: [
-                                                                Colors.white,
-                                                                Colors.white
-                                                              ]),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                20)),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    child: Image.asset(
-                                                      'assets/background/curation_background.png', // Replace with your image URL
-                                                      fit: BoxFit.cover,
-                                                      height:
-                                                          70, // Adjust the height
-                                                      width: 70,
+                            Obx(
+                              () => chipController.filteredNamesC.isEmpty ||
+                                      chipController
+                                          .searchSaveController.text.isEmpty
+                                  ? Container(
+                                      height: 260,
+                                      margin: EdgeInsets.only(top: 12),
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                mainAxisSpacing: 0,
+                                                crossAxisSpacing: 10,
+                                                crossAxisCount: 4,
+                                                childAspectRatio: 0.85),
+                                        itemCount: chipController
+                                                .selectedSavedCurationIndex
+                                                .value
+                                            ? sidebarController
+                                                .mysavedCurations.length
+                                            : sidebarController
+                                                .mycurations.length,
+                                        itemBuilder: (context, index) {
+                                          var finalList = chipController
+                                                  .selectedSavedCurationIndex
+                                                  .value
+                                              ? sidebarController
+                                                  .mysavedCurations
+                                              : sidebarController.mycurations;
+                                          return MouseRegion(
+                                            cursor: SystemMouseCursors.click,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                chipController.selectModalCard(
+                                                    finalList[index]['name'],
+                                                    finalList[index]['_id'],
+                                                    finalList[index]
+                                                        ['category']);
+                                              },
+                                              child: Card(
+                                                clipBehavior: Clip.antiAlias,
+                                                elevation: 0,
+                                                color: Colors.transparent,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Obx(
+                                                      () => Container(
+                                                        height: chipController
+                                                                    .selectedName
+                                                                    .value ==
+                                                                finalList[index]
+                                                                    ['name']
+                                                            ? 70
+                                                            : 66,
+                                                        width: chipController
+                                                                    .selectedName
+                                                                    .value ==
+                                                                finalList[index]
+                                                                    ['name']
+                                                            ? 70
+                                                            : 66,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          gradient: chipController
+                                                                      .selectedName
+                                                                      .value ==
+                                                                  finalList[
+                                                                          index]
+                                                                      ['name']
+                                                              ? LinearGradient(
+                                                                  colors: [
+                                                                    ColorConst
+                                                                        .websiteHomeBox,
+                                                                    ColorConst
+                                                                        .primary,
+                                                                    Colors.white
+                                                                  ], // Your gradient colors
+                                                                  begin: Alignment
+                                                                      .topLeft,
+                                                                  end: Alignment
+                                                                      .bottomRight,
+                                                                )
+                                                              : LinearGradient(
+                                                                  colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white
+                                                                    ]),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          child: Image.asset(
+                                                            CurationImages[homeController
+                                                                .categories
+                                                                .indexOf(finalList[
+                                                                        index][
+                                                                    'category'])],
+                                                            fit: BoxFit.cover,
+                                                            height:
+                                                                66, // Adjust the height
+                                                            width: 66,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 4),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                        finalList[index]
+                                                            ['name'],
+                                                        style: TextStyle(
+                                                            // overflow: TextOverflow
+                                                            //     .ellipsis,
+
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 4),
-                                                child: Text(
-                                                  chipController.filteredNames[
-                                                      index], // Replace with your item title
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                    )
+                                  : Container(
+                                      height: 260,
+                                      margin: EdgeInsets.only(top: 12),
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                mainAxisSpacing: 0,
+                                                crossAxisSpacing: 10,
+                                                crossAxisCount: 4,
+                                                childAspectRatio: 0.85),
+                                        itemCount: chipController
+                                            .filteredNamesC.length,
+                                        itemBuilder: (context, index) {
+                                          return MouseRegion(
+                                            cursor: SystemMouseCursors.click,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                chipController.selectModalCard(
+                                                    chipController
+                                                            .filteredNamesC[
+                                                        index]['name'],
+                                                    chipController
+                                                            .filteredNamesC[
+                                                        index]['_id'],
+                                                    chipController
+                                                            .filteredNamesC[
+                                                        index]['category']);
+                                              },
+                                              child: Card(
+                                                clipBehavior: Clip.antiAlias,
+                                                elevation: 0,
+                                                color: Colors.transparent,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Obx(
+                                                      () => Container(
+                                                        height: chipController
+                                                                    .selectedName
+                                                                    .value ==
+                                                                chipController
+                                                                        .filteredNamesC[
+                                                                    index]['name']
+                                                            ? 70
+                                                            : 66,
+                                                        width: chipController
+                                                                    .selectedName
+                                                                    .value ==
+                                                                chipController
+                                                                        .filteredNamesC[
+                                                                    index]['name']
+                                                            ? 70
+                                                            : 66,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          gradient: chipController
+                                                                      .selectedName
+                                                                      .value ==
+                                                                  chipController
+                                                                              .filteredNamesC[
+                                                                          index]
+                                                                      ['name']
+                                                              ? LinearGradient(
+                                                                  colors: [
+                                                                    ColorConst
+                                                                        .websiteHomeBox,
+                                                                    ColorConst
+                                                                        .primary,
+                                                                    Colors.white
+                                                                  ], // Your gradient colors
+                                                                  begin: Alignment
+                                                                      .topLeft,
+                                                                  end: Alignment
+                                                                      .bottomRight,
+                                                                )
+                                                              : LinearGradient(
+                                                                  colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white
+                                                                    ]),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          child: Image.asset(
+                                                            CurationImages[homeController
+                                                                .categories
+                                                                .indexOf(chipController
+                                                                            .filteredNamesC[
+                                                                        index][
+                                                                    'category'])],
+                                                            fit: BoxFit.cover,
+                                                            height:
+                                                                66, // Adjust the height
+                                                            width: 66,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 4),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                        chipController
+                                                                .filteredNamesC[
+                                                            index]['name'],
+                                                        style: TextStyle(
+                                                            // overflow: TextOverflow
+                                                            //     .ellipsis,
+
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                             ),
                           ]),
                     ),
                     Obx(
                       () => InkWell(
                         onTap: () async {
-                          if (chipController.selectedCurationModalIndex.value !=
-                              -1) {
+                          if (chipController.selectedName.isNotEmpty &&
+                              chipController.selectedId.isNotEmpty) {
                             categoryController.selectedCurationName.value =
-                                chipController.filteredNames[chipController
-                                    .selectedCurationModalIndex.value];
+                                chipController.selectedName.value;
+                            categoryController
+                                .setCurationId(chipController.selectedId.value);
+
                             await uploadImagesToS3(
                                 chipController.imageBytesList);
-                            chipController.addChipToCuration(context);
-                            successChip(
-                                context,
-                                "You have successfully created a Chip in ${categoryController.selectedCurationName.value}. You can find it in your Saved curations.",
-                                () {},
-                                "Go to Saved Curations");
+                            if (chipController.isCreatingChip.value) {
+                              await chipController.addChipToCuration(context);
+                              chipController.clearData();
+                            } else {
+                              await chipController.saveChipToCuration(context);
+                              chipController.clearData();
+                            }
                           }
                         },
                         child: Container(
                           height: 45,
                           decoration: BoxDecoration(
-                              color: chipController
-                                          .selectedCurationModalIndex.value ==
-                                      -1
+                              color: chipController.selectedId.isEmpty
                                   ? ColorConst.dark
                                   : ColorConst.websiteHomeBox),
                           alignment: Alignment.center,
                           child: Text(
                             "Save",
                             style: TextStyle(
-                                color: chipController
-                                            .selectedCurationModalIndex.value ==
-                                        -1
+                                color: chipController.selectedId.isEmpty
                                     ? Colors.grey
                                     : Colors.white),
                           ),

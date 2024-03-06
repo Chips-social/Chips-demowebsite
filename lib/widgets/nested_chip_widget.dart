@@ -23,7 +23,11 @@ class _NestedChipState extends State<NestedChip> {
   void initState() {
     super.initState();
     // Initialize the future
-    metadataFuture = fetchMetadata(widget.url);
+    metadataFuture = getData();
+  }
+
+  Future<Map<String, dynamic>> getData() async {
+    return await fetchMetadata(widget.url);
   }
 
   @override
@@ -59,69 +63,86 @@ class _NestedChipState extends State<NestedChip> {
                   print('Could not launch ${widget.url}');
                 }
               },
-              child: Card(
-                margin: EdgeInsets.only(top: 10),
-                color: Colors
-                    .grey[850], // Adjust according to your ColorConst.dark
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: Color(
-                              0xFF02a6f7), // Adjust according to your color constants
-                          fontSize: 16,
+              child: !data['ogSiteName'] && !data['ogDescription']
+                  ? Row(children: [
+                      const Icon(
+                        Icons.location_on,
+                        color: Colors.white54,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          widget.url,
+                          style: const TextStyle(
+                              color: Colors.white54, fontSize: 13),
+                        ),
+                      )
+                    ])
+                  : Card(
+                      margin: EdgeInsets.only(top: 10),
+                      color: Colors.grey[
+                          850], // Adjust according to your ColorConst.dark
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                color: Color(
+                                    0xFF02a6f7), // Adjust according to your color constants
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                                height:
+                                    5), // Added space between title and description
+                            Text(
+                              description,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors
+                                    .white, // Adjust according to your ColorConst.primaryText
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            if (imageUrl !=
+                                "") // Check if an image URL is available
+                              Container(
+                                height: 140,
+                                width: double
+                                    .infinity, // Use double.infinity to stretch to the full width
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            if (siteName
+                                .isNotEmpty) // Optionally display the site name
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  'Source: $siteName',
+                                  style: TextStyle(
+                                    color: Colors
+                                        .white70, // Adjust according to your color constants
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                          height:
-                              5), // Added space between title and description
-                      Text(
-                        description,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors
-                              .white, // Adjust according to your ColorConst.primaryText
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      if (imageUrl != "") // Check if an image URL is available
-                        Container(
-                          height: 140,
-                          width: double
-                              .infinity, // Use double.infinity to stretch to the full width
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      if (siteName
-                          .isNotEmpty) // Optionally display the site name
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Text(
-                            'Source: $siteName',
-                            style: TextStyle(
-                              color: Colors
-                                  .white70, // Adjust according to your color constants
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             );
           } else {
             // If the Future is complete but no data, display a message to the user

@@ -76,21 +76,21 @@ class SuccessModal extends StatelessWidget {
                                   color: ColorConst.subscriptionSubtext,
                                   fontSize: 15)),
                           const SizedBox(height: 15),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: ColorConst.primary),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 6),
-                              child: Text(
-                                btnmessage,
-                                style: TextStyle(
-                                    color: ColorConst.buttonText, fontSize: 13),
-                              ),
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: () {},
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(15),
+                          //         color: ColorConst.primary),
+                          //     padding: EdgeInsets.symmetric(
+                          //         horizontal: 10, vertical: 6),
+                          //     child: Text(
+                          //       btnmessage,
+                          //       style: TextStyle(
+                          //           color: ColorConst.buttonText, fontSize: 13),
+                          //     ),
+                          //   ),
+                          // ),
                         ])))
           ],
         ));

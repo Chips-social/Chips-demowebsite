@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController
     with GetTickerProviderStateMixin {
-  final HomeController homeController = Get.find<HomeController>();
-  late TabController curationListController;
-
   var categories = [
     'Food & Drinks',
     'Entertainment',
@@ -17,18 +13,6 @@ class CategoryController extends GetxController
     'Fashion & Beauty',
     'Health & Fitness'
   ].obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  setTabController() {
-    curationListController = TabController(
-        length: (homeController.curations.length + 1), vsync: this);
-
-    setSelectedCurationIndex(0);
-  }
 
   final selectedCurationIndex = 0.obs;
   final selectedCurationId = "".obs;

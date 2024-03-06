@@ -1,5 +1,6 @@
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
@@ -11,6 +12,7 @@ class CreateCurationController extends GetxController {
   final HomeController homeController = Get.find<HomeController>();
   //final ChipController chipController = Get.put(ChipController());
   final CategoryController categoryController = Get.find<CategoryController>();
+  final SidebarController sidebarController = Get.find<SidebarController>();
   final TextEditingController curationCaptionController =
       TextEditingController();
   final isPageLoading = false.obs;
@@ -19,6 +21,9 @@ class CreateCurationController extends GetxController {
   final isAlreadyExist = false.obs;
   List exisitingCurators = [].obs;
   Rx<int> existingchips = 0.obs;
+  List savedCurationsList = [].obs;
+
+  final isCurationSaved = false.obs;
 
   var selectedValue = "".obs;
 
@@ -38,11 +43,11 @@ class CreateCurationController extends GetxController {
 
   saveCuration(context) async {
     if (categoryController.selectedCurationId.value != "null") {
-      var data = {"curation_id": categoryController.selectedCurationId.value};
+      var data = {"curations": categoryController.selectedCurationId.value};
       var response = await postRequestAuthenticated(
-          endpoint: '/curation/saved/by', data: data);
+          endpoint: '/save/curation', data: data);
       if (response["success"]) {
-        print('saved successfully');
+        sidebarController.my3SavedCurations();
         successChip(
             context,
             "You have successfully created a Chip in abc. You can find it in your Saved curations.",
@@ -81,6 +86,7 @@ class CreateCurationController extends GetxController {
       setPageLoading(false);
       categoryController.selectedCurationId.value = response['curation']['_id'];
       homeController.allCurations();
+      sidebarController.my3Curations();
       return "success";
     } else {
       setPageLoading(false);
@@ -109,6 +115,20 @@ class CreateCurationController extends GetxController {
           message: 'Error whil making a collabration',
           icon: Icons.error,
           color: Colors.redAccent);
+    }
+  }
+
+  mysavedCurationsList() async {
+    setPageLoading(true);
+    var response =
+        await getRequestAuthenticated(endpoint: '/fetch/saved/curation');
+    if (response["success"]) {
+      setPageLoading(false);
+      savedCurationsList = response['curations'];
+      return "success";
+    } else {
+      setPageLoading(false);
+      return "No Saved curations";
     }
   }
 }

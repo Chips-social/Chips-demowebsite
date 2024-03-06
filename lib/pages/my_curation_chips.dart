@@ -3,10 +3,12 @@ import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/widgets/help_widgets.dart';
+import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -24,6 +26,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
     with SingleTickerProviderStateMixin {
   final HomeController homeController = Get.put(HomeController());
   final CategoryController categoryController = Get.put(CategoryController());
+  final SidebarController sidebarController = Get.find<SidebarController>();
   var myGroup = AutoSizeGroup();
 
   String title = Get.parameters['chip'].toString();
@@ -40,7 +43,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
   @override
   void initState() {
     super.initState();
-    categoryController.curationListController =
+    homeController.curationListController =
         TabController(length: 3, vsync: this);
     print(title);
   }
@@ -48,7 +51,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
   @override
   void dispose() {
     super.dispose();
-    categoryController.curationListController.dispose();
+    homeController.curationListController.dispose();
   }
 
   @override
@@ -62,7 +65,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
             curationId: 'null', // Adjust if you have specific IDs
           ));
     }).toList();
-    List chipsData = homeController.chips;
+
     double screenWidth = getW(context);
     int crossAxisCount = screenWidth > 1300
         ? 4
@@ -75,7 +78,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                     : screenWidth < 490
                         ? 1
                         : 2;
-    return chipsData.isEmpty
+    return chipController.chipsofCuration.isEmpty
         ? Center(
             child: CircularProgressIndicator(),
           )
@@ -105,7 +108,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                 ? Container(
                                     child: TabBar(
                                         isScrollable: true,
-                                        controller: categoryController
+                                        controller: homeController
                                             .curationListController,
                                         indicatorSize:
                                             TabBarIndicatorSize.label,
@@ -177,7 +180,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                             categoryController
                                                 .setSelectedCurationIndex(
                                                     newIndex);
-                                            categoryController
+                                            homeController
                                                 .curationListController
                                                 .index = newIndex;
                                           }
@@ -193,28 +196,28 @@ class _MyCurationChipsState extends State<MyCurationChips>
                         children: [
                           // getW(context) > 750 || getW(context) < 700
                           //     ?
-                          getW(context) < 380
-                              ? Container()
-                              : Container(
-                                  width: getW(context) < 940 ? 90 : 180,
-                                  child: RichText(
-                                    textScaler: const TextScaler.linear(1),
-                                    text: TextSpan(children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Last created ",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: ColorConst.primary),
-                                      ),
-                                      TextSpan(
-                                          text: "One month ago ",
-                                          style: TextStyle(
-                                              fontSize: 11,
-                                              color: ColorConst.primary)),
-                                    ]),
-                                  ),
-                                ),
+                          // getW(context) < 380
+                          //     ? Container()
+                          //     : Container(
+                          //         width: getW(context) < 940 ? 90 : 180,
+                          //         child: RichText(
+                          //           textScaler: const TextScaler.linear(1),
+                          //           text: TextSpan(children: <TextSpan>[
+                          //             TextSpan(
+                          //               text: "Last created ",
+                          //               style: TextStyle(
+                          //                   fontSize: 14,
+                          //                   fontWeight: FontWeight.bold,
+                          //                   color: ColorConst.primary),
+                          //             ),
+                          //             TextSpan(
+                          //                 text: "One month ago ",
+                          //                 style: TextStyle(
+                          //                     fontSize: 11,
+                          //                     color: ColorConst.primary)),
+                          //           ]),
+                          //         ),
+                          //       ),
                           // : Container(),
                           // : Container(),
                           GestureDetector(
@@ -305,13 +308,13 @@ class _MyCurationChipsState extends State<MyCurationChips>
                             ),
                           ],
                         ),
-                        Text(
-                          "View Collabrators",
-                          style: TextStyle(
-                              color: ColorConst.primary,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        // Text(
+                        //   "View Collabrators",
+                        //   style: TextStyle(
+                        //       color: ColorConst.primary,
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.bold),
+                        // ),
                       ],
                     ),
                   ),
@@ -320,24 +323,32 @@ class _MyCurationChipsState extends State<MyCurationChips>
                     child: MasonryGridView.count(
                       shrinkWrap: true,
                       crossAxisCount: crossAxisCount,
-                      itemCount: chipsData.length,
+                      itemCount: chipController.chipsofCuration.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(4),
                           child: ChipWidget(
-                            chipId: '${chipsData[index]['_id']}',
-                            text: '${chipsData[index]["text"]}',
-                            dateTimeUrl: false,
-                            imageURLS: [
-                              "https://picsum.photos/seed/picsum/300/200",
-                              "https://picsum.photos/id/237/200/300"
-                            ],
-                            showUrl: false,
-                            name: '${chipsData[index]["user"]["name"]}',
-                            likes: List<String>.from(chipsData[index]["likes"]),
-                            timeAdded:
-                                DateTime.parse(chipsData[index]["timeAdded"]),
-                            date: '2024-02-13',
+                            chipId:
+                                '${chipController.chipsofCuration[index]['_id']}',
+                            text:
+                                '${chipController.chipsofCuration[index]["text"]}',
+                            isSavedList: chipController.chipsofCuration[index]
+                                ["saved_by"],
+                            imageURLS: chipController.chipsofCuration[index]
+                                ["image_urls"],
+                            url: chipController.chipsofCuration[index]
+                                ["location_desc"],
+                            locationUrl: chipController.chipsofCuration[index]
+                                ["location_url"],
+                            name:
+                                '${chipController.chipsofCuration[index]["user"]["name"]}',
+                            linkUrl: chipController.chipsofCuration[index]
+                                ["link_url"],
+                            likes: List<String>.from(
+                                chipController.chipsofCuration[index]["likes"]),
+                            timeAdded: DateTime.parse(chipController
+                                .chipsofCuration[index]["timeAdded"]),
+                            date: chipController.chipsofCuration[index]["date"],
                           ),
                         );
                       },

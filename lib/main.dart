@@ -1,7 +1,9 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/pages/page404.dart';
 import 'package:chips_demowebsite/routes/routes.dart';
 import 'package:flutter/gestures.dart';
@@ -18,11 +20,13 @@ final GoogleSignIn googleSignIn = GoogleSignIn(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init("chips_user");
+  Get.put(CategoryController());
   Get.put(HomeController());
   Get.put(AuthController());
-  Get.put(CategoryController());
+  Get.put(SidebarController());
 
   Get.put(CreateCurationController());
+  Get.put(ChipController());
 
   runApp(MyApp());
 }

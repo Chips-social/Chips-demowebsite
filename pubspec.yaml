@@ -92,11 +92,11 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/categories/
     - assets/fonts/rubik/
     - assets/background/
     - assets/subscription/
     - assets/website/
-    - assets/categories/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
