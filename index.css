@@ -1,0 +1,22 @@
+/* ::-webkit-scrollbar {
+    width: 20px; 
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #fcf7f7; 
+    border-radius: 20px; 
+    border: 3px solid #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f1efef; 
+  }
+  
+  * {
+    scrollbar-width: 20px;
+    scrollbar-color: #ffffff #f1f1f1; 
+  } */
