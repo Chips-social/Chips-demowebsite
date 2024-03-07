@@ -1,13 +1,11 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/pages/sidebar.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({required this.child});
+  const MainPage({super.key, required this.child});
   final Widget child;
 
   @override
@@ -23,7 +21,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         automaticallyImplyLeading: isNarrowScreen ? true : false,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         toolbarHeight: 90,
         leadingWidth: getW(context) > 400 ? 70 : 40,
         elevation: 0,

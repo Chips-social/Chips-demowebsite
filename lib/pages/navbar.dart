@@ -1,16 +1,12 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
-import 'package:chips_demowebsite/pages/create_chip_modal.dart';
-import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
-import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 final AuthController authController = Get.put(AuthController());
 final ChipController chipController = Get.find<ChipController>();
@@ -60,7 +56,7 @@ Widget NavBar(context) {
           () => authController.isLoggedIn.value
               ? PopupMenuButton<String>(
                   position: PopupMenuPosition.under,
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   color: ColorConst.dark,
                   onSelected: (String result) {
                     switch (result) {
@@ -86,7 +82,7 @@ Widget NavBar(context) {
                     //   value: 'Settings',
                     //   child: Text('Settings'),
                     // ),
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'Logout',
                       child: Text(
                         'Logout',

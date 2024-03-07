@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController
@@ -16,7 +15,7 @@ class CategoryController extends GetxController
 
   final selectedCurationIndex = 0.obs;
   final selectedCurationId = "".obs;
-  final selectedCurationName = "Queue".obs;
+  final selectedCurationName = "".obs;
 
   setSelectedCurationName(String curationName) {
     selectedCurationName.value = curationName;

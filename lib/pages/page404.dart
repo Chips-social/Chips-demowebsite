@@ -1,23 +1,22 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Page404 extends StatelessWidget {
-  Page404({super.key});
+  const Page404({super.key});
 
-  TextStyle normalTextStyle = TextStyle(
+  final TextStyle normalTextStyle = const TextStyle(
     fontSize: 45,
     color: ColorConst.primary,
     fontWeight: FontWeight.w700,
   );
-  TextStyle italicBoldTextStyle = TextStyle(
+  final TextStyle italicBoldTextStyle = const TextStyle(
       fontSize: 45,
       color: ColorConst.primary,
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.italic);
-  TextStyle italicTextStyle = TextStyle(
+  final italicTextStyle = const TextStyle(
     fontSize: 45,
     color: ColorConst.primary,
     fontWeight: FontWeight.w400,

@@ -1,22 +1,34 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
-import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
-import 'package:chips_demowebsite/widgets/menu_items.dart';
 import 'package:chips_demowebsite/widgets/pin_widgets.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/widgets/pill_button.dart';
 
 import '../widgets/my_snackbars.dart';
 
-class Modal extends StatelessWidget {
+class Modal extends StatefulWidget {
+  const Modal({super.key});
+
+  @override
+  State<Modal> createState() => _ModalState();
+}
+
+class _ModalState extends State<Modal> {
   final AuthController authController = Get.put(AuthController());
+
   final SidebarController sidebarController = Get.find<SidebarController>();
-  Modal({super.key});
+
+  Future getofftoHome() async {
+    await authController.verifyOtp();
+    await sidebarController.my3Curations();
+    await sidebarController.my3SavedCurations();
+    Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -70,7 +82,7 @@ class Modal extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -79,7 +91,7 @@ class Modal extends StatelessWidget {
                                     authController.isVerifyPage.value
                                         ? "Verify email"
                                         : 'Portal to Chips',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: ColorConst.primaryText,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600)),
@@ -90,7 +102,7 @@ class Modal extends StatelessWidget {
                           ),
 
                           const SizedBox(height: 5),
-                          Container(
+                          SizedBox(
                             width: 180,
                             child: Obx(
                               () => Text(
@@ -99,7 +111,7 @@ class Modal extends StatelessWidget {
                                       : authController.isVerifyPage.value
                                           ? "The guardians of the gateway need to confirm your entry."
                                           : 'Share the details and unlock the enchantment.',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: ColorConst.primaryGrey,
                                       fontSize: 12)),
                             ),
@@ -118,29 +130,28 @@ class Modal extends StatelessWidget {
                                       children: [
                                         Text(
                                           "Enter the verification code we just sent to your email Id ${authController.emailController.text}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 13),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Pinput(
                                           defaultPinTheme: defaultPinTheme,
                                           length: 6,
                                           animationDuration:
-                                              Duration(milliseconds: 100),
-                                          scrollPadding: EdgeInsets.all(5),
+                                              const Duration(milliseconds: 100),
+                                          scrollPadding:
+                                              const EdgeInsets.all(5),
                                           submittedPinTheme: submittedPinTheme,
                                           validator: (code) {
                                             if (code!.length == 6 &&
                                                 authController.otpCode ==
                                                     code) {
                                               Navigator.of(context).pop();
-                                              authController.verifyOtp();
-                                              sidebarController.my3Curations();
-                                              sidebarController
-                                                  .my3SavedCurations();
+
+                                              getofftoHome();
                                             } else {
                                               return showErrorSnackBar(
                                                   heading: 'Error',
@@ -148,20 +159,22 @@ class Modal extends StatelessWidget {
                                                   icon: Icons.error,
                                                   color: Colors.redAccent);
                                             }
+                                            return null;
                                           },
                                           pinputAutovalidateMode:
                                               PinputAutovalidateMode.onSubmit,
                                           showCursor: true,
                                           onCompleted: (pin) => print(pin),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 15,
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text("Didn't received code?   ",
+                                            const Text(
+                                                "Didn't received code?   ",
                                                 style: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 10,
@@ -173,7 +186,7 @@ class Modal extends StatelessWidget {
                                                     await authController
                                                         .authloginUser();
                                                   },
-                                                  child: Text("Resend",
+                                                  child: const Text("Resend",
                                                       style: TextStyle(
                                                           fontSize: 11,
                                                           color: Color.fromRGBO(
@@ -193,7 +206,7 @@ class Modal extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 80,
                                         )
                                       ],
@@ -212,7 +225,7 @@ class Modal extends StatelessWidget {
                                               keyboard: TextInputType.name,
                                             )
                                           : Container(),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 12,
                                       ),
                                       !authController.isLogIn.value
@@ -335,12 +348,12 @@ class Modal extends StatelessWidget {
                                                       ColorConst.primaryGrey,
                                                   backgroundColor:
                                                       ColorConst.primary,
-                                                  side: BorderSide(
+                                                  side: const BorderSide(
                                                       color: Colors.transparent,
                                                       width: 1)),
                                               child: authController
                                                       .isButtonLoad.value
-                                                  ? SizedBox(
+                                                  ? const SizedBox(
                                                       height: 20,
                                                       width: 20,
                                                       child:
@@ -351,7 +364,7 @@ class Modal extends StatelessWidget {
                                                               .isLogIn.value
                                                           ? "Login"
                                                           : 'Register',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontFamily: 'Inter',
                                                           color: ColorConst
                                                               .buttonText,
@@ -361,12 +374,12 @@ class Modal extends StatelessWidget {
                                                     )),
                                         ),
                                       ),
-                                      SizedBox(height: 15),
-                                      Center(
+                                      const SizedBox(height: 15),
+                                      const Center(
                                           child: Text("or",
                                               style: TextStyle(
                                                   color: Colors.white))),
-                                      SizedBox(height: 15),
+                                      const SizedBox(height: 15),
                                       Center(
                                         child: TextButton(
                                           style: TextButton.styleFrom(
@@ -382,7 +395,7 @@ class Modal extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 12),
                                             decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     20, 18, 24, 0.8),
                                                 border: Border.all(
                                                     color: Colors.transparent),
@@ -399,7 +412,7 @@ class Modal extends StatelessWidget {
                                                   "assets/website/google_logo.png",
                                                   width: 30,
                                                 ),
-                                                Text(
+                                                const Text(
                                                   "Sign in with google",
                                                   style: TextStyle(
                                                       color: Colors.white,
@@ -410,7 +423,7 @@ class Modal extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                     ],
                                   ),
                           ),
@@ -428,7 +441,7 @@ class Modal extends StatelessWidget {
                                               : !authController.isLogIn.value
                                                   ? "Already have an account?  "
                                                   : "Don't have a account?   ",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 11,
                                       )),
@@ -458,7 +471,7 @@ class Modal extends StatelessWidget {
                                                             .isLogIn.value
                                                         ? "Login"
                                                         : "Register ",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 13,
                                                 color: Color.fromRGBO(
                                                     173, 168, 245, 1.0),

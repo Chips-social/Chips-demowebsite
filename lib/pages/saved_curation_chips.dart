@@ -3,7 +3,6 @@ import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
-import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -16,7 +15,7 @@ class SavedCurationChips extends StatelessWidget {
 
   final CategoryController categoryController = Get.put(CategoryController());
 
-  String title = Get.parameters['chip'].toString();
+  final String title = Get.parameters['chip'].toString();
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +65,13 @@ class SavedCurationChips extends StatelessWidget {
                           ),
                           child: Transform.rotate(
                               angle: -30 * 3.141 / 180,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.send_outlined,
                                 size: 20,
                               )),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
                           // if (authController.isLoggedIn.value) {
@@ -93,13 +92,13 @@ class SavedCurationChips extends StatelessWidget {
                             color: ColorConst.iconButtonColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Text(
+                          child: const Text(
                             "+",
                             style: TextStyle(fontSize: 24),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
                         height: 35,
                         padding: EdgeInsets.symmetric(
@@ -121,7 +120,7 @@ class SavedCurationChips extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -145,7 +144,7 @@ class SavedCurationChips extends StatelessWidget {
                             color: ColorConst.chipBackground,
                             border: Border.all(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(30)),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "Subscribed",
                             style: TextStyle(
@@ -199,7 +198,7 @@ class SavedCurationChips extends StatelessWidget {
                   //       ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // screenWidth > 715
               //     ? Container()
               //     : Text(

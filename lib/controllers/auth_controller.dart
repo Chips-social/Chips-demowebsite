@@ -1,7 +1,5 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/main.dart';
-import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
@@ -146,7 +144,6 @@ class AuthController extends GetxController {
         saveAuthToken(response['auth_token']);
         setCurrentUser(response['user']);
         userId.value = response['user']['_id'];
-        Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
         showErrorSnackBar(
             heading: 'Success',
             message: response["message"],
@@ -169,8 +166,7 @@ class AuthController extends GetxController {
       if (account != null) {
         print("Signed in with Google: ${account.email}");
 
-        final GoogleSignInAuthentication? googleAuth =
-            await account.authentication;
+        await account.authentication;
 
         var data = {"email": account.email, "name": account.displayName};
         var response =

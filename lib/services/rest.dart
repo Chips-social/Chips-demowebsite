@@ -5,7 +5,6 @@ import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:chips_demowebsite/globals.dart' as globals;
 import 'package:http_parser/http_parser.dart';
@@ -118,27 +117,27 @@ Future getRequestAuthenticated({required String endpoint}) async {
   }
 }
 
-Future addFileToAWSServiceWeb(fileBytes) async {
-  try {
-    final request =
-        http.MultipartRequest('POST', Uri.parse('$fileUploadUrl/api/upload'));
-    request.files.add(await http.MultipartFile.fromBytes('file', fileBytes,
-        filename: '${DateTime.now()}.pdf',
-        contentType: MediaType.parse("application/pdf")));
-    final response = await request.send();
-    if (response.statusCode == 200) {
-      print('File uploaded successfully!');
-      final respStr = await response.stream.bytesToString();
-      return jsonDecode(respStr);
-    } else {
-      print('Error uploading File: ${response.reasonPhrase}');
-      final respStr = await response.stream.bytesToString();
-      return {"message": "Error"};
-    }
-  } catch (e) {
-    print('Error uploading video: $e');
-  }
-}
+// Future addFileToAWSServiceWeb(fileBytes) async {
+//   try {
+//     final request =
+//         http.MultipartRequest('POST', Uri.parse('$fileUploadUrl/api/upload'));
+//     request.files.add(http.MultipartFile.fromBytes('file', fileBytes,
+//         filename: '${DateTime.now()}.pdf',
+//         contentType: MediaType.parse("application/pdf")));
+//     final response = await request.send();
+//     if (response.statusCode == 200) {
+//       print('File uploaded successfully!');
+//       final respStr = await response.stream.bytesToString();
+//       return jsonDecode(respStr);
+//     } else {
+//       print('Error uploading File: ${response.reasonPhrase}');
+//       final respStr = await response.stream.bytesToString();
+//       return {"message": "Error"};
+//     }
+//   } catch (e) {
+//     print('Error uploading video: $e');
+//   }
+// }
 
 // Future<void> sendTokenToServer(String idToken) async {
 //   final url = '$hostUrl/api/google-sign';
@@ -237,7 +236,7 @@ Future<void> uploadImagesToS3(List<Uint8List> imageBytesList) async {
       final responseJson = jsonDecode(responseBody);
       chipController.imageUrls = List<String>.from(responseJson['urls']);
       chipController.isLoading.value = false;
-      print('Images uploaded successfully');
+      // print('Images uploaded successfully');
     } else {
       showErrorSnackBar(
           heading: "Uploading error",

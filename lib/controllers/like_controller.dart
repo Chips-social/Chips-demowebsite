@@ -4,8 +4,6 @@ import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-import 'dart:typed_data';
 import 'dart:convert';
 
 class LikeController extends GetxController {

@@ -1,14 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
-import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/widgets/help_widgets.dart';
-import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -79,20 +77,20 @@ class _MyCurationChipsState extends State<MyCurationChips>
                         ? 1
                         : 2;
     return chipController.chipsofCuration.isEmpty
-        ? Center(
+        ? const Center(
             child: CircularProgressIndicator(),
           )
         : Container(
             color: ColorConst.primaryBackground,
             child: Padding(
-              padding: EdgeInsets.only(left: 30),
+              padding: const EdgeInsets.only(left: 30),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 6),
+                        padding: const EdgeInsets.only(left: 6),
                         child: Row(
                           children: [
                             PrimaryBoldText(
@@ -100,10 +98,10 @@ class _MyCurationChipsState extends State<MyCurationChips>
                               24,
                             ),
                             getW(context) > 800
-                                ? SizedBox(
+                                ? const SizedBox(
                                     width: 10,
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                             getW(context) > 700
                                 ? Container(
                                     child: TabBar(
@@ -115,7 +113,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                         labelColor: ColorConst.primary,
                                         labelPadding: EdgeInsets.only(
                                             left: getW(context) * 0.009),
-                                        labelStyle: TextStyle(
+                                        labelStyle: const TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.normal),
                                         indicatorColor: Colors.transparent,
@@ -149,12 +147,13 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                         tabs: tabs),
                                   )
                                 : Container(
-                                    margin: EdgeInsets.only(left: 15),
+                                    margin: const EdgeInsets.only(left: 15),
                                     decoration: BoxDecoration(
                                         color: ColorConst.chipBackground,
                                         borderRadius:
                                             BorderRadius.circular(15)),
-                                    padding: EdgeInsets.symmetric(vertical: 3),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 3),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<int>(
                                         dropdownColor: ColorConst.dark,
@@ -163,7 +162,8 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                             AlignmentDirectional.bottomCenter,
                                         value: categoryController
                                             .selectedCurationIndex.value,
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                         items: curationNames
                                             .asMap()
                                             .entries
@@ -171,7 +171,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                           return DropdownMenuItem<int>(
                                             value: entry.key,
                                             child: Text(entry.value,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: ColorConst.primary)),
                                           );
                                         }).toList(),
@@ -232,13 +232,13 @@ class _MyCurationChipsState extends State<MyCurationChips>
                               ),
                               child: Transform.rotate(
                                   angle: -30 * 3.141 / 180,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.send_outlined,
                                     size: 20,
                                   )),
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           GestureDetector(
                             onTap: () {
                               // if (authController.isLoggedIn.value) {
@@ -252,14 +252,14 @@ class _MyCurationChipsState extends State<MyCurationChips>
                               // }
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
                               ),
                               decoration: BoxDecoration(
                                 color: ColorConst.iconButtonColor,
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Text(
+                              child: const Text(
                                 "+",
                                 style: TextStyle(fontSize: 28),
                               ),
@@ -269,34 +269,34 @@ class _MyCurationChipsState extends State<MyCurationChips>
                       ),
                     ],
                   ),
-                  SizedBox(height: 13),
+                  const SizedBox(height: 13),
                   Padding(
-                    padding: EdgeInsets.only(left: 6),
+                    padding: const EdgeInsets.only(left: 6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               "Category",
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Container(
                               height: 30,
                               padding: getW(context) > 800
-                                  ? EdgeInsets.symmetric(horizontal: 5)
-                                  : EdgeInsets.symmetric(horizontal: 2),
+                                  ? const EdgeInsets.symmetric(horizontal: 5)
+                                  : const EdgeInsets.symmetric(horizontal: 2),
                               decoration: BoxDecoration(
                                   color: ColorConst.primary,
                                   border: Border.all(color: Colors.transparent),
                                   borderRadius: BorderRadius.circular(30)),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   "Food and Drinks",
                                   style: TextStyle(
@@ -318,7 +318,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Expanded(
                     child: MasonryGridView.count(
                       shrinkWrap: true,

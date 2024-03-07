@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:html' as html;
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
@@ -9,9 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import "package:http/http.dart" as http;
 
 class ShareModal extends StatelessWidget {
   final String curationLink;
@@ -43,7 +39,7 @@ class ShareModal extends StatelessWidget {
       ),
       content: Container(
         width: 500,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -54,7 +50,7 @@ class ShareModal extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Spread the Magic',
                   style: TextStyle(
                       fontSize: 20,
@@ -65,7 +61,7 @@ class ShareModal extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.close,
                     color: ColorConst.primaryGrey,
                     size: 15,
@@ -73,19 +69,19 @@ class ShareModal extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             const Divider(height: 0.05, color: ColorConst.dark),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Share this $type via',
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.white),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -154,24 +150,24 @@ class ShareModal extends StatelessWidget {
                     ],
                   )
                 : Container(),
-            SizedBox(height: 20),
-            Padding(
+            const SizedBox(height: 20),
+            const Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
                 'Or',
                 style: TextStyle(color: Colors.grey, fontSize: 13),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
               height: 55,
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
               decoration: BoxDecoration(
                   border: Border.all(color: ColorConst.dark, width: 0.5)),
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       FontAwesomeIcons.link,
                       size: 16,
                       color: ColorConst.primary,
@@ -179,7 +175,7 @@ class ShareModal extends StatelessWidget {
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: curationLink));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Link copied to clipboard!'),
                         ),
                       );
@@ -188,7 +184,7 @@ class ShareModal extends StatelessWidget {
                   Expanded(
                     child: Text(
                       curationLink,
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ),
                   ElevatedButton(
@@ -196,25 +192,25 @@ class ShareModal extends StatelessWidget {
                         // Logic to copy the link
                         Clipboard.setData(ClipboardData(text: curationLink));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Link copied to clipboard!'),
                           ),
                         );
                       },
-                      child: Text(
-                        'Copy',
-                        style: TextStyle(color: Colors.white),
-                      ),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConst.websiteHomeBox,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 5),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)))),
+                              borderRadius: BorderRadius.circular(10))),
+                      child: const Text(
+                        'Copy',
+                        style: TextStyle(color: Colors.white),
+                      )),
                 ],
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -224,7 +220,7 @@ class ShareModal extends StatelessWidget {
 
 Widget ShareContainer(icon, context) {
   return Container(
-    padding: EdgeInsets.all(16),
+    padding: const EdgeInsets.all(16),
     alignment: Alignment.center,
     decoration: BoxDecoration(
         color: ColorConst.iconBackgroundColor,

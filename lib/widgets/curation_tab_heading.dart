@@ -1,5 +1,4 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class CurationTabHeading extends StatelessWidget {
@@ -16,7 +15,7 @@ class CurationTabHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
           color: isSelected ? ColorConst.primary : ColorConst.chipBackground,
           border: Border.all(color: Colors.transparent),

@@ -1,7 +1,5 @@
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
 class NestedChip extends StatefulWidget {
@@ -41,7 +39,7 @@ class _NestedChipState extends State<NestedChip> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // If the Future is still running, show a loading indicator
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             // If we run into an error, display it to the user
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -80,7 +78,7 @@ class _NestedChipState extends State<NestedChip> {
                       )
                     ])
                   : Card(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: const EdgeInsets.only(top: 10),
                       color: Colors.grey[
                           850], // Adjust according to your ColorConst.dark
                       shape: RoundedRectangleBorder(
@@ -92,24 +90,24 @@ class _NestedChipState extends State<NestedChip> {
                           children: [
                             Text(
                               title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(
                                     0xFF02a6f7), // Adjust according to your color constants
                                 fontSize: 16,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                                 height:
                                     5), // Added space between title and description
                             Text(
                               description,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                                 color: Colors
                                     .white, // Adjust according to your ColorConst.primaryText
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             if (imageUrl !=
                                 "") // Check if an image URL is available
                               Container(
@@ -132,7 +130,7 @@ class _NestedChipState extends State<NestedChip> {
                                 padding: const EdgeInsets.only(top: 4.0),
                                 child: Text(
                                   'Source: $siteName',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors
                                         .white70, // Adjust according to your color constants
                                     fontSize: 12,
@@ -146,7 +144,7 @@ class _NestedChipState extends State<NestedChip> {
             );
           } else {
             // If the Future is complete but no data, display a message to the user
-            return Center(child: Text('No data found for this URL'));
+            return const Center(child: Text('No data found for this URL'));
           }
         },
       ),

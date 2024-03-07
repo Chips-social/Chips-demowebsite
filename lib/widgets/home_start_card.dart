@@ -25,7 +25,7 @@ Widget HomeStartCard(context) {
           height: 50, width: getW(context) > 600 ? 200 : 150),
       // ),
       Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(
             children: [
               Row(

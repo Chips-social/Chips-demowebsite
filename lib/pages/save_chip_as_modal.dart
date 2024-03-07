@@ -3,19 +3,14 @@ import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/data/data.dart';
-import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/services/rest.dart';
-import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
-import 'package:chips_demowebsite/widgets/pill_button.dart';
-import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
 class SaveChipAsModal extends StatefulWidget {
-  SaveChipAsModal({super.key});
+  const SaveChipAsModal({super.key});
 
   @override
   State<SaveChipAsModal> createState() => _SaveChipAsModalState();
@@ -58,7 +53,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Save Chip',
+                                  const Text('Save Chip',
                                       style: TextStyle(
                                           fontFamily: 'Inter',
                                           color: Colors.white,
@@ -68,17 +63,17 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                     onTap: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.close,
                                       color: Colors.grey,
                                     ),
                                   )
                                 ]),
-                            SizedBox(
+                            const SizedBox(
                               height: 6,
                             ),
-                            Divider(color: ColorConst.dividerLine),
-                            SizedBox(
+                            const Divider(color: ColorConst.dividerLine),
+                            const SizedBox(
                               height: 6,
                             ),
                             Row(
@@ -94,7 +89,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                     newCurationModal(context);
                                   },
                                   child: Container(
-                                      padding: EdgeInsets.all(3),
+                                      padding: const EdgeInsets.all(3),
                                       decoration: BoxDecoration(
                                         color: ColorConst.primary,
                                         borderRadius:
@@ -110,7 +105,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                             ),
                             Obx(
                               () => chipController.isCreatingChip.value
-                                  ? SizedBox(
+                                  ? const SizedBox(
                                       height: 12,
                                     )
                                   : Container(),
@@ -124,7 +119,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                         Text(
                                             categoryController
                                                 .selectedCurationName.value,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontFamily: 'Inter',
                                                 color: ColorConst
                                                     .subscriptionSubtext,
@@ -135,7 +130,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                 color: Colors.grey,
                                                 fontStyle: FontStyle.italic,
                                                 fontSize: 12)),
-                                        Spacer(),
+                                        const Spacer(),
                                         InkWell(
                                           onTap: () async {
                                             await uploadImagesToS3(
@@ -196,8 +191,8 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                   child: Obx(
                                     () => Container(
                                       height: 34,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
                                       decoration: BoxDecoration(
                                           color: chipController
                                                   .selectedSavedCurationIndex
@@ -231,8 +226,8 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                   child: Obx(
                                     () => Container(
                                       height: 34,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
                                       decoration: BoxDecoration(
                                           color: chipController
                                                   .selectedSavedCurationIndex
@@ -266,14 +261,14 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                           .searchSaveController.text.isEmpty
                                   ? Container(
                                       height: 260,
-                                      margin: EdgeInsets.only(top: 12),
+                                      margin: const EdgeInsets.only(top: 12),
                                       child: GridView.builder(
                                         gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
                                                 mainAxisSpacing: 0,
                                                 crossAxisSpacing: 10,
                                                 crossAxisCount: 4,
-                                                childAspectRatio: 0.85),
+                                                childAspectRatio: 0.9),
                                         itemCount: chipController
                                                 .selectedSavedCurationIndex
                                                 .value
@@ -336,7 +331,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                   finalList[
                                                                           index]
                                                                       ['name']
-                                                              ? LinearGradient(
+                                                              ? const LinearGradient(
                                                                   colors: [
                                                                     ColorConst
                                                                         .websiteHomeBox,
@@ -349,7 +344,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                   end: Alignment
                                                                       .bottomRight,
                                                                 )
-                                                              : LinearGradient(
+                                                              : const LinearGradient(
                                                                   colors: [
                                                                       Colors
                                                                           .white,
@@ -357,8 +352,8 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                           .white
                                                                     ]),
                                                           borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
+                                                              const BorderRadius
+                                                                  .all(Radius
                                                                       .circular(
                                                                           20)),
                                                         ),
@@ -389,7 +384,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                       child: Text(
                                                         finalList[index]
                                                             ['name'],
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             // overflow: TextOverflow
                                                             //     .ellipsis,
 
@@ -410,10 +405,10 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                     )
                                   : Container(
                                       height: 260,
-                                      margin: EdgeInsets.only(top: 12),
+                                      margin: const EdgeInsets.only(top: 12),
                                       child: GridView.builder(
                                         gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
                                                 mainAxisSpacing: 0,
                                                 crossAxisSpacing: 10,
                                                 crossAxisCount: 4,
@@ -477,7 +472,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                               .filteredNamesC[
                                                                           index]
                                                                       ['name']
-                                                              ? LinearGradient(
+                                                              ? const LinearGradient(
                                                                   colors: [
                                                                     ColorConst
                                                                         .websiteHomeBox,
@@ -490,7 +485,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                   end: Alignment
                                                                       .bottomRight,
                                                                 )
-                                                              : LinearGradient(
+                                                              : const LinearGradient(
                                                                   colors: [
                                                                       Colors
                                                                           .white,
@@ -498,8 +493,8 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                           .white
                                                                     ]),
                                                           borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
+                                                              const BorderRadius
+                                                                  .all(Radius
                                                                       .circular(
                                                                           20)),
                                                         ),
@@ -532,7 +527,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                         chipController
                                                                 .filteredNamesC[
                                                             index]['name'],
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             // overflow: TextOverflow
                                                             //     .ellipsis,
 
@@ -559,19 +554,24 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                         onTap: () async {
                           if (chipController.selectedName.isNotEmpty &&
                               chipController.selectedId.isNotEmpty) {
+                            var oldvalue =
+                                categoryController.selectedCurationName.value;
                             categoryController.selectedCurationName.value =
                                 chipController.selectedName.value;
                             categoryController
                                 .setCurationId(chipController.selectedId.value);
-
-                            await uploadImagesToS3(
-                                chipController.imageBytesList);
                             if (chipController.isCreatingChip.value) {
+                              await uploadImagesToS3(
+                                  chipController.imageBytesList);
                               await chipController.addChipToCuration(context);
                               chipController.clearData();
+                              categoryController.selectedCurationName.value =
+                                  oldvalue;
                             } else {
                               await chipController.saveChipToCuration(context);
                               chipController.clearData();
+                              categoryController.selectedCurationName.value =
+                                  oldvalue;
                             }
                           }
                         },

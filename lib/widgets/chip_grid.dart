@@ -2,30 +2,46 @@ import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
-import 'package:chips_demowebsite/pages/create_chip_modal.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
-import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
-import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:flutter_initicon/flutter_initicon.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
-class ChipDemo extends StatelessWidget {
-  final List chipDataList;
-  ChipDemo({super.key, required this.chipDataList, required this.title});
-  final String title;
+class ChipDemo extends StatefulWidget {
+  const ChipDemo({super.key});
 
+  @override
+  State<ChipDemo> createState() => _ChipDemoState();
+}
+
+class _ChipDemoState extends State<ChipDemo> {
   final AuthController authController = Get.find<AuthController>();
+
   final CategoryController categoryController = Get.find<CategoryController>();
+
+  final HomeController homeController = Get.find<HomeController>();
+
+  final String title = Get.parameters['title'] ?? "";
+
+  final String curId = Get.parameters['id'] ?? "";
 
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
+
+  @override
+  void initState() {
+    super.initState();
+    categoryController.setCurationId(curId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.allChips();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = getW(context);
@@ -66,16 +82,11 @@ class ChipDemo extends StatelessWidget {
                               categoryController.selectedCurationName.value);
                           showShareDialog(
                               context,
-                              "http://localhost:50093/#/category/$categoryName/curation/$title",
+                              "http://localhost:64140/#/category/$categoryName/curation/$title/id/$curId",
                               "Curation");
-                          // showErrorSnackBar(
-                          //     heading: "Account Saved",
-                          //     message: "gdndkvnd",
-                          //     icon: Icons.account_balance,
-                          //     color: Colors.white);
                         },
                         child: Container(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 9, right: 9, top: 11, bottom: 10),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
@@ -105,14 +116,14 @@ class ChipDemo extends StatelessWidget {
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                           ),
                           decoration: BoxDecoration(
                             color: ColorConst.iconButtonColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Text(
+                          child: const Text(
                             "+",
                             style: TextStyle(fontSize: 28),
                           ),
@@ -121,10 +132,10 @@ class ChipDemo extends StatelessWidget {
                       const SizedBox(width: 12),
                       Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(127, 62, 255, 60),
+                            color: const Color.fromRGBO(127, 62, 255, 60),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 4),
+                          padding: const EdgeInsets.symmetric(vertical: 4),
                           child: TextButton(
                             onPressed: () {
                               if (curationController.isCurationSaved.value) {
@@ -152,11 +163,11 @@ class ChipDemo extends StatelessWidget {
                                     curationController.isCurationSaved.value
                                         ? 'Saved Curation'
                                         : 'Save to my curation',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white, fontSize: 13))
                                 : curationController.isCurationSaved.value
                                     ? Container()
-                                    : Icon(
+                                    : const Icon(
                                         Icons.save,
                                         size: 20,
                                         color: Colors.white,
@@ -166,32 +177,32 @@ class ChipDemo extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         Text(
-                          "Paloma J",
-                          style: TextStyle(
+                          homeController.ownerName.value,
+                          style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         Container(
                           height: 28,
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                               color: ColorConst.chipBackground,
                               border: Border.all(color: Colors.transparent),
                               borderRadius: BorderRadius.circular(30)),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Subscribed",
                               style: TextStyle(
@@ -213,55 +224,64 @@ class ChipDemo extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
-              Obx(
-                () => chipDataList.isNotEmpty
-                    ? Expanded(
-                        child: MasonryGridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: crossAxisCount,
-                          itemCount: chipDataList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: ChipWidget(
-                                chipId: '${chipDataList[index]['_id']}',
-                                text: '${chipDataList[index]["text"]}',
-                                isSavedList: chipDataList[index]["saved_by"],
-                                imageURLS: chipDataList[index]["image_urls"],
-                                url: chipDataList[index]["location_desc"],
-                                locationUrl: chipDataList[index]
-                                    ["location_url"],
-                                name: '${chipDataList[index]["user"]["name"]}',
-                                linkUrl: chipDataList[index]["link_url"],
-                                likes: List<String>.from(
-                                    chipDataList[index]["likes"]),
-                                timeAdded: DateTime.parse(
-                                    chipDataList[index]["timeAdded"]),
-                                date: chipDataList[index]["date"],
+              const SizedBox(height: 10),
+              Obx(() => homeController.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : homeController.chips.isEmpty
+                      ? const Center(
+                          child: Card(
+                            margin: EdgeInsets.only(top: 20),
+                            color: ColorConst.dark,
+                            elevation: 2,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 40),
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                "No chips exist!\nCreate one by clicking + button at top",
+                                style: TextStyle(
+                                    color: Colors.white, letterSpacing: 1.4),
                               ),
-                            );
-                          },
-                        ),
-                      )
-                    : Center(
-                        child: Card(
-                          margin: EdgeInsets.only(top: 20),
-                          color: ColorConst.dark,
-                          elevation: 2,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 40),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              "No chips exist!\nCreate one by clicking + button at top",
-                              style: TextStyle(
-                                  color: Colors.white, letterSpacing: 1.4),
                             ),
                           ),
-                        ),
-                      ),
-              ),
+                        )
+                      : Expanded(
+                          child: MasonryGridView.count(
+                            shrinkWrap: true,
+                            crossAxisCount: crossAxisCount,
+                            itemCount: homeController.chips.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: ChipWidget(
+                                  chipId:
+                                      '${homeController.chips[index]['_id']}',
+                                  text:
+                                      '${homeController.chips[index]["text"]}',
+                                  isSavedList: homeController.chips[index]
+                                      ["saved_by"],
+                                  imageURLS: homeController.chips[index]
+                                      ["image_urls"],
+                                  url: homeController.chips[index]
+                                      ["location_desc"],
+                                  locationUrl: homeController.chips[index]
+                                      ["location_url"],
+                                  name:
+                                      '${homeController.chips[index]["user"]["name"]}',
+                                  linkUrl: homeController.chips[index]
+                                      ["link_url"],
+                                  likes: List<String>.from(
+                                      homeController.chips[index]["likes"]),
+                                  timeAdded: DateTime.parse(
+                                      homeController.chips[index]["timeAdded"]),
+                                  date: homeController.chips[index]["date"],
+                                ),
+                              );
+                            },
+                          ),
+                        )),
             ],
           ),
         ));

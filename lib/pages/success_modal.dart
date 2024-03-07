@@ -4,10 +4,6 @@ import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
-import 'package:chips_demowebsite/widgets/pill_button.dart';
-import 'package:chips_demowebsite/widgets/text_field.dart';
-import 'package:chips_demowebsite/pages/new_curation_modal.dart';
 
 class SuccessModal extends StatelessWidget {
   SuccessModal(
@@ -47,7 +43,7 @@ class SuccessModal extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Success',
+                                const Text('Success',
                                     style: TextStyle(
                                         fontFamily: 'Inter',
                                         color: Colors.white,
@@ -57,21 +53,21 @@ class SuccessModal extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.close,
                                     color: Colors.grey,
                                   ),
                                 )
                               ]),
-                          SizedBox(
+                          const SizedBox(
                             height: 6,
                           ),
-                          Divider(color: Colors.black38),
-                          SizedBox(
+                          const Divider(color: Colors.black38),
+                          const SizedBox(
                             height: 6,
                           ),
                           Text(message,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: 'Inter',
                                   color: ColorConst.subscriptionSubtext,
                                   fontSize: 15)),

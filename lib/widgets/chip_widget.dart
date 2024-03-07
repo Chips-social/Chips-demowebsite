@@ -9,8 +9,6 @@ import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:chips_demowebsite/widgets/nested_chip_widget.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
-import 'package:chips_demowebsite/widgets/share_modal.dart';
-import 'package:chips_demowebsite/widgets/tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
@@ -19,7 +17,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ChipWidget extends StatelessWidget {
+class ChipWidget extends StatefulWidget {
   final String chipId;
   final String name;
   final DateTime timeAdded;
@@ -32,7 +30,7 @@ class ChipWidget extends StatelessWidget {
   final String linkUrl;
   final List likes;
 
-  ChipWidget({
+  const ChipWidget({
     super.key,
     this.chipId = 'null',
     required this.text,
@@ -51,16 +49,38 @@ class ChipWidget extends StatelessWidget {
     this.sharedBy=0 */
   });
 
+  @override
+  State<ChipWidget> createState() => _ChipWidgetState();
+}
+
+class _ChipWidgetState extends State<ChipWidget> {
   final ChipController chipController = Get.put(ChipController());
+
   final AuthController authController = Get.find<AuthController>();
+
   final LikeController likeController = Get.put(LikeController());
+
   final SidebarController sidebarController = Get.find<SidebarController>();
+
+  bool isLiked = false;
+  int likeCount = 0;
+  bool isSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isLiked = authController.isLoggedIn.value &&
+        widget.likes.contains(authController.currentUser['_id']);
+    likeCount = widget.likes.length;
+    isSaved = authController.isLoggedIn.value &&
+        widget.isSavedList.contains(authController.currentUser['_id']);
+  }
 
   @override
   Widget build(BuildContext context) {
-    String urlType = identifyPlatform(linkUrl);
+    String urlType = identifyPlatform(widget.linkUrl);
 
-    likeController.checkLikedStatus(likes, authController.userId.value);
+    likeController.checkLikedStatus(widget.likes, authController.userId.value);
 
     return Card(
       color: ColorConst.chipBackground,
@@ -78,7 +98,7 @@ class ChipWidget extends StatelessWidget {
                 Row(
                   children: [
                     Initicon(
-                      text: name,
+                      text: widget.name,
                       elevation: 4,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: Colors.white, width: 2.0),
@@ -87,19 +107,19 @@ class ChipWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: getW(context) > 600 ? 120 : 100,
                           child: AutoSizeText(
-                            name,
+                            widget.name,
                             maxLines: 2,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontFamily: "Inter",
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
                         Text(
-                          timeago.format(timeAdded, allowFromNow: false),
+                          timeago.format(widget.timeAdded, allowFromNow: false),
                           style: TextStyle(
                             color: Colors.white54,
                             fontFamily: 'Inter',
@@ -112,14 +132,16 @@ class ChipWidget extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    chipController.isCreatingChip.value = false;
-                    chipController.selectedChipId.value = chipId;
-                    await sidebarController.myCurations();
-                    await sidebarController.mySavedCurations();
-                    saveChip(context);
+                    if (authController.isLoggedIn.value) {
+                      chipController.isCreatingChip.value = false;
+                      chipController.selectedChipId.value = widget.chipId;
+                      await sidebarController.myCurations();
+                      await sidebarController.mySavedCurations();
+                      saveChip(context);
+                    }
                   },
                   child: SvgPicture.asset(
-                    isSavedList.contains(authController.currentUser['_id'])
+                    isSaved
                         ? 'assets/icons/bookmark_selected_state.svg'
                         : 'assets/icons/bookmark_empty.svg',
                     width: 32,
@@ -132,13 +154,13 @@ class ChipWidget extends StatelessWidget {
           const SizedBox(height: 12),
 
           // Text Widget
-          text == "null"
+          widget.text == "null"
               ? const SizedBox()
               : Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: getW(context) * 0.013),
                   child: Text(
-                    text,
+                    widget.text,
                     textAlign: TextAlign.justify,
                     style: const TextStyle(color: Colors.white),
                   ),
@@ -146,7 +168,7 @@ class ChipWidget extends StatelessWidget {
 
           //Date/Time/Url
 
-          date == ""
+          widget.date == ""
               ? const SizedBox()
               : Padding(
                   padding:
@@ -154,7 +176,7 @@ class ChipWidget extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
@@ -174,7 +196,7 @@ class ChipWidget extends StatelessWidget {
                                       const SizedBox(width: 10),
                                       Flexible(
                                         child: Text(
-                                          date,
+                                          widget.date,
                                           style: const TextStyle(
                                               color: Colors.white54),
                                         ),
@@ -204,36 +226,40 @@ class ChipWidget extends StatelessWidget {
                               //     )),
                             ]),
                         const SizedBox(height: 8),
-                        GestureDetector(
-                          onTap: () async {
-                            if (!await launchUrl(Uri.parse(locationUrl)))
-                              throw 'Could not launch';
-                          },
-                          child: Row(children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: Colors.white54,
-                              size: 18,
-                            ),
-                            const SizedBox(width: 10),
-                            Flexible(
-                              child: Text(
-                                url,
-                                style: const TextStyle(
-                                    color: Colors.white54, fontSize: 13),
-                              ),
-                            )
-                          ]),
-                        ),
+                        widget.url != ""
+                            ? GestureDetector(
+                                onTap: () async {
+                                  if (!await launchUrl(
+                                      Uri.parse(widget.locationUrl))) {
+                                    throw 'Could not launch';
+                                  }
+                                },
+                                child: Row(children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    color: Colors.white54,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Flexible(
+                                    child: Text(
+                                      widget.url,
+                                      style: const TextStyle(
+                                          color: Colors.white54, fontSize: 13),
+                                    ),
+                                  )
+                                ]),
+                              )
+                            : Container(),
                         const SizedBox(height: 5)
                       ]),
                 ),
 
           const SizedBox(height: 10),
           // Image Widget
-          imageURLS.isEmpty
+          widget.imageURLS.isEmpty
               ? const SizedBox()
-              : imageURLS.length == 1
+              : widget.imageURLS.length == 1
                   ? Center(
                       child: Container(
                       height: 190,
@@ -244,21 +270,21 @@ class ChipWidget extends StatelessWidget {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(
-                            imageURLS[0],
+                            widget.imageURLS[0],
                             fit: BoxFit.cover,
                           )),
                     ))
                   : MouseRegion(
                       cursor: SystemMouseCursors.grabbing,
-                      child: Container(
+                      child: SizedBox(
                         height: 190,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: imageURLS.length,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: widget.imageURLS.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                margin: EdgeInsets.only(left: 16),
+                                margin: const EdgeInsets.only(left: 16),
                                 height: 190,
                                 width: 190,
                                 decoration: BoxDecoration(
@@ -267,25 +293,26 @@ class ChipWidget extends StatelessWidget {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
                                     child: Image(
-                                        image: NetworkImage(imageURLS[index]),
+                                        image: NetworkImage(
+                                            widget.imageURLS[index]),
                                         fit: BoxFit.cover)),
                               );
                             }),
                       ),
                     ),
 
-          linkUrl == ""
+          widget.linkUrl == ""
               ? const SizedBox()
               : urlType == "YouTube"
                   ? Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: getW(context) * 0.013, vertical: 10),
-                      child: YoutubeChip(youtubeURL: linkUrl),
+                      child: YoutubeChip(youtubeURL: widget.linkUrl),
                     )
                   : Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: getW(context) * 0.01),
-                      child: NestedChip(url: linkUrl),
+                      child: NestedChip(url: widget.linkUrl),
                     ),
 
           Padding(
@@ -296,28 +323,46 @@ class ChipWidget extends StatelessWidget {
                 children: [
                   InkWell(
                       onTap: () async {
-                        var chip = await likeController.setChipId(chipId);
-                        if (chip.isNotEmpty) {
-                          await likeController.likeUnlikeChip();
+                        if (authController.isLoggedIn.value) {
+                          var chip = likeController.setChipId(widget.chipId);
+                          if (chip.isNotEmpty) {
+                            setState(() {
+                              isLiked = !isLiked;
+                              isLiked ? likeCount++ : likeCount--;
+                            });
+                            await likeController.likeUnlikeChip();
+                          }
+                        } else {
+                          showErrorSnackBar(
+                              heading: "Authentication Failed",
+                              message: "Please Login to continue",
+                              icon: Icons.person,
+                              color: Colors.white);
                         }
                       },
-                      child: Container(
+                      child: SizedBox(
                         height: 50,
                         width: 50,
                         child: Row(children: [
-                          SvgPicture.asset(
-                            likes.contains(authController.currentUser['_id'])
-                                ? 'assets/icons/liked.svg' // Liked icon
-                                : 'assets/icons/like.svg',
-                            /* authController.userId != 'null' && likes.contains(authController.userId)
-                                ? 'assets/icons/liked.svg' // Liked icon
-                                : 'assets/icons/like.svg', */
-                            width: 20,
-                            height: 20,
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            transitionBuilder:
+                                (Widget child, Animation<double> animation) {
+                              return ScaleTransition(
+                                  scale: animation, child: child);
+                            },
+                            child: SvgPicture.asset(
+                              isLiked
+                                  ? 'assets/icons/liked.svg'
+                                  : 'assets/icons/like.svg',
+                              key: ValueKey<bool>(isLiked),
+                              width: 20,
+                              height: 20,
+                            ),
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            likes.length.toString(),
+                            widget.likes.length.toString(),
                             // likeCount.toString(),
                             style: const TextStyle(
                               fontSize: 16,
@@ -337,7 +382,7 @@ class ChipWidget extends StatelessWidget {
                         // showShareDialog(context, "scscs", "chip");
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 1),
+                        margin: const EdgeInsets.only(top: 1),
                         height: 50,
                         width: 50,
                         child: Row(children: [
@@ -347,10 +392,10 @@ class ChipWidget extends StatelessWidget {
                             height: 20,
                           ),
                           const SizedBox(width: 4),
-                          Text(
+                          const Text(
                             '',
                             // likeCount.toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               color: Colors.white54,
                             ),
@@ -377,7 +422,7 @@ class ChipWidget extends StatelessWidget {
                       )),
                 ]),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
       // )

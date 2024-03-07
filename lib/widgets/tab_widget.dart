@@ -4,23 +4,15 @@ import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/data/data.dart';
-import 'package:chips_demowebsite/pages/details_page.dart';
-import 'package:chips_demowebsite/pages/page404.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
-import 'package:chips_demowebsite/widgets/chip_grid.dart';
-import 'package:chips_demowebsite/widgets/curation_tab_heading.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
-import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'dart:math' as math;
-import 'package:get_storage/get_storage.dart';
 
 class TabWidget extends StatefulWidget {
-  TabWidget({
+  const TabWidget({
     super.key,
   });
 
@@ -116,10 +108,10 @@ class _TabWidgetState extends State<TabWidget> {
                     const SizedBox(width: 12),
                     Container(
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(127, 62, 255, 60),
+                          color: const Color.fromRGBO(127, 62, 255, 60),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                         child: TextButton(
                           onPressed: () {
                             authController.isLoggedIn.value
@@ -142,7 +134,7 @@ class _TabWidgetState extends State<TabWidget> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -166,18 +158,18 @@ class _TabWidgetState extends State<TabWidget> {
                               homeController.curations[index]["_id"]);
 
                           await homeController.allChips();
-                          homeController.filteredList.value =
-                              homeController.chips;
                           if (homeController.curations[index]['saved_by']
                               .contains(authController.currentUser['_id'])) {
                             curationController.isCurationSaved.value = true;
                           }
+                          homeController.ownerName.value = homeController
+                              .curations[index]["user_id"]["name"];
                           var categoryName = Uri.encodeComponent(
                               homeController.selctedCategoryTab.value);
                           var title = Uri.encodeComponent(
                               homeController.curations[index]['name']);
                           Get.toNamed(
-                            '/category/$categoryName/curation/$title',
+                            '/category/$categoryName/curation/$title/id/${categoryController.selectedCurationId.value}',
                           );
                         },
                         child: Card(
@@ -195,7 +187,7 @@ class _TabWidgetState extends State<TabWidget> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(20)),
                                     ),
@@ -216,7 +208,7 @@ class _TabWidgetState extends State<TabWidget> {
                                 child: Text(
                                   homeController.curations[index]
                                       ['name'], // Replace with your item title
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
@@ -228,16 +220,16 @@ class _TabWidgetState extends State<TabWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(left: 5),
+                                    padding: const EdgeInsets.only(left: 5),
                                     child: Text(
                                       homeController.curations[index]['user_id']
                                               ['name'] ??
                                           "Chips.Social",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 13, color: Colors.grey),
                                     ),
                                   ),
-                                  Padding(
+                                  const Padding(
                                     padding: EdgeInsets.only(right: 5),
                                     child: Text(
                                       '', // Replace with your chips count
@@ -274,7 +266,7 @@ void saveChipAs(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return SaveChipAsModal();
+      return const SaveChipAsModal();
     },
   );
 }

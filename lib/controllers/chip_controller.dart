@@ -2,7 +2,6 @@ import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
-import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/services/rest.dart';
@@ -249,7 +248,7 @@ class ChipController extends GetxController {
 
   void clearData() {
     captionController.clear();
-    tagController.clearTags();
+    // tagController.clearTags();
     imageBytesList.value = [];
     imageUrls = [];
     location.value = "";

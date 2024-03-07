@@ -1,10 +1,8 @@
 import 'package:chips_demowebsite/controllers/category_controller.dart';
-import 'package:chips_demowebsite/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
@@ -14,6 +12,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   late List<GlobalKey<NavigatorState>> navigatorKeys = [];
   final RxList<int> _navigationStack = RxList<int>();
   final CategoryController categoryController = Get.put(CategoryController());
+
+  var ownerName = "".obs;
 
   // late AnimationController animationController;
   // late Animation<Offset> animation;
@@ -56,16 +56,10 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     update();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    // animationController.dispose();
-  }
-
   var chips = [].obs;
   var curations = [].obs;
   var chips_len = [].obs;
-  var filteredList = [].obs;
+  // var filteredList = [].obs;
 
   final isLoading = false.obs;
   final isCurationListLoading = false.obs;

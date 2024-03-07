@@ -2,12 +2,11 @@ import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/widgets/tab_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -24,7 +23,7 @@ class _HomeState extends State<Home> {
       physics: const NeverScrollableScrollPhysics(),
       controller: homeController.tabController,
       children: homeController.categories.map((String category) {
-        int tabIndex = homeController.categories.indexOf(category);
+        // int tabIndex = homeController.categories.indexOf(category);
         return Obx(
           () => homeController.isLoading.value ||
                   homeController.isCurationListLoading.value
@@ -34,7 +33,7 @@ class _HomeState extends State<Home> {
                     child: CircularProgressIndicator(),
                   ),
                 )
-              : TabWidget(),
+              : const TabWidget(),
         );
       }).toList(),
     );
