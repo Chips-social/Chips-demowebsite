@@ -82,7 +82,7 @@ class _ChipDemoState extends State<ChipDemo> {
                               categoryController.selectedCurationName.value);
                           showShareDialog(
                               context,
-                              "http://localhost:64140/#/category/$categoryName/curation/$title/id/$curId",
+                              "http://chips.social/#/category/$categoryName/curation/$title/id/$curId",
                               "Curation");
                         },
                         child: Container(
