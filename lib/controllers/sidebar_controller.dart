@@ -15,6 +15,7 @@ class SidebarController extends GetxController {
   var myChipsofSavedCurations = [].obs;
   final isPageLoading = false.obs;
   var savedCurationName = "".obs;
+  var savedOwnerName = "".obs;
 
   @override
   void onInit() {
@@ -104,6 +105,7 @@ class SidebarController extends GetxController {
       return "failure";
     }
   }
+
   // fetchmySavedCurationChips() async {
   //   setPageLoading(true);
   //   var data = {
@@ -123,4 +125,20 @@ class SidebarController extends GetxController {
   //     return "failure";
   //   }
   // }
+  usernamefromChip(String id) async {
+    setPageLoading(true);
+    var data = {
+      "curation_id": id,
+    };
+    var response =
+        await postRequestAuthenticated(endpoint: '/get/username', data: data);
+    if (response["success"]) {
+      setPageLoading(false);
+      savedOwnerName.value = response['curation']['user_id']['name'];
+      return {"success": true};
+    } else {
+      setPageLoading(false);
+      return {"success": false};
+    }
+  }
 }

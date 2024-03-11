@@ -32,6 +32,6 @@ const CurationImages = [
   "assets/website/interior__lifestyle.png",
   "assets/website/travel.png",
   "assets/website/fashion__beauty.png",
-  "assets/website/health__fitness.png",
+  "assets/website/heath__fitness.png",
   "assets/website/games__sports.png",
 ];

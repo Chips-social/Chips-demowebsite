@@ -61,10 +61,10 @@ class _NestedChipState extends State<NestedChip> {
                   print('Could not launch ${widget.url}');
                 }
               },
-              child: !data['ogSiteName'] && !data['ogDescription']
+              child: data['ogSiteName'] == null && data['ogDescription'] == null
                   ? Row(children: [
                       const Icon(
-                        Icons.location_on,
+                        Icons.link,
                         color: Colors.white54,
                         size: 18,
                       ),

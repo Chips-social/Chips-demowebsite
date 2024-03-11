@@ -321,7 +321,7 @@ class _ChipWidgetState extends State<ChipWidget> {
                       ),
                     ),
 
-          widget.linkUrl == ""
+          widget.linkUrl == ''
               ? const SizedBox()
               : urlType == "YouTube"
                   ? Padding(

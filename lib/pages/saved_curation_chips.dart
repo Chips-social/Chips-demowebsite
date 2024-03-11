@@ -38,6 +38,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
     chipController.openCurationId.value = curId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chipController.fetchchipsoCuration(context);
+      sidebarController.usernamefromChip(curId);
     });
   }
 
@@ -163,13 +164,14 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        // // sidebarController.savedCurationName.value,
-                        "Changed",
-                        style: TextStyle(
-                            fontSize: getW(context) < 400 ? 11 : 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
+                      Obx(
+                        () => Text(
+                          sidebarController.savedOwnerName.value,
+                          style: TextStyle(
+                              fontSize: getW(context) < 400 ? 11 : 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
                       ),
                       SizedBox(
                         width: getW(context) < 400 ? 4 : 8,

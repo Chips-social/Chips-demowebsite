@@ -136,7 +136,6 @@ class SideBar extends StatelessWidget {
                                                     .openCurationId.value =
                                                 sidebarController
                                                     .my3curations[index]['_id'];
-
                                             await chipController
                                                 .fetchchipsoCuration(context);
                                             var urltogo = Uri.encodeComponent(
