@@ -65,79 +65,78 @@ class _CategoryTabState extends State<CategoryTab> {
         return true;
         // return homeController.back();
       },
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                SizedBox(width: getW(context) * 0.025),
-                Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height - 130,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            getW(context) > 600
-                                ? IconButton(
-                                    icon: Icon(Icons.navigate_before_rounded),
-                                    color: ColorConst.primary,
-                                    onPressed: scrollTabsLeft,
-                                  )
-                                : Container(),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                controller: homeController.scrollController,
-                                scrollDirection: Axis.horizontal,
-                                child: TabBar(
-                                  controller: homeController.tabController,
-                                  tabAlignment: TabAlignment.start,
-                                  isScrollable: true,
-                                  padding: EdgeInsets.zero,
-                                  unselectedLabelColor: Colors.grey,
-                                  labelPadding:
-                                      EdgeInsets.symmetric(horizontal: 25),
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  labelColor: ColorConst.primary,
-                                  indicatorPadding: EdgeInsets.zero,
-                                  indicatorColor: ColorConst.primary,
-                                  dividerHeight: 0.3,
-                                  dividerColor: Colors.grey,
-                                  onTap: (index) {
-                                    homeController.changeTab(index, context);
-                                  },
-                                  tabs: homeController.categories
-                                      .map((category) => Tab(text: category))
-                                      .toList(),
-                                ),
+      child: Padding(
+        padding: EdgeInsets.only(left: getW(context) * 0.024),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: getW(context) * 0.025),
+              Expanded(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height - 130,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          getW(context) > 600
+                              ? IconButton(
+                                  icon: Icon(Icons.navigate_before_rounded),
+                                  color: ColorConst.primary,
+                                  onPressed: scrollTabsLeft,
+                                )
+                              : Container(),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              controller: homeController.scrollController,
+                              scrollDirection: Axis.horizontal,
+                              child: TabBar(
+                                controller: homeController.tabController,
+                                tabAlignment: TabAlignment.start,
+                                isScrollable: true,
+                                padding: EdgeInsets.zero,
+                                unselectedLabelColor: Colors.grey,
+                                labelPadding:
+                                    EdgeInsets.symmetric(horizontal: 25),
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                labelColor: ColorConst.primary,
+                                indicatorPadding: EdgeInsets.zero,
+                                indicatorColor: ColorConst.primary,
+                                dividerHeight: 0.3,
+                                dividerColor: Colors.grey,
+                                onTap: (index) {
+                                  homeController.changeTab(index, context);
+                                },
+                                tabs: homeController.categories
+                                    .map((category) => Tab(text: category))
+                                    .toList(),
                               ),
                             ),
-                            getW(context) > 600
-                                ? IconButton(
-                                    icon: Icon(Icons.navigate_next_rounded),
-                                    color: ColorConst.primary,
-                                    onPressed: scrollTabsRight,
-                                  )
-                                : Container(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Expanded(flex: 1, child: widget.child)
-                      ],
-                    ),
+                          ),
+                          getW(context) > 600
+                              ? IconButton(
+                                  icon: Icon(Icons.navigate_next_rounded),
+                                  color: ColorConst.primary,
+                                  onPressed: scrollTabsRight,
+                                )
+                              : Container(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Expanded(flex: 1, child: widget.child)
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ]),
+              ),
+            ]),
+      ),
     );
   }
 }

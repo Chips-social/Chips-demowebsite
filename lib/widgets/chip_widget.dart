@@ -70,7 +70,7 @@ class _ChipWidgetState extends State<ChipWidget> {
 
   bool isLiked = false;
   int likeCount = 0;
-  bool isSaved = false;
+  // bool isSaved = false;
 
   @override
   void initState() {
@@ -78,7 +78,7 @@ class _ChipWidgetState extends State<ChipWidget> {
     isLiked = authController.isLoggedIn.value &&
         widget.likes.contains(authController.currentUser['_id']);
     likeCount = widget.likes.length;
-    isSaved = authController.isLoggedIn.value &&
+    chipController.isChipSaved.value = authController.isLoggedIn.value &&
         widget.isSavedList.contains(authController.currentUser['_id']);
   }
 
@@ -136,37 +136,39 @@ class _ChipWidgetState extends State<ChipWidget> {
                     ),
                   ],
                 ),
-                InkWell(
-                  onTap: () async {
-                    if (authController.isLoggedIn.value) {
-                      chipController.isCreatingChip.value = false;
-                      chipController.selectedChipId.value = widget.chipId;
-                      chipController.selectedCurationId.value = widget.curId;
-                      await sidebarController.myCurations();
-                      await sidebarController.mySavedCurations();
-                      if (isSaved) {
-                        await chipController.unsaveChip(widget.curId);
-                        setState(() {
-                          isSaved = false;
-                        });
-                        showErrorSnackBar(
-                            heading: "Chip",
-                            message: "Unsaved chip",
-                            icon: Icons.save,
-                            color: Colors.white);
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      if (authController.isLoggedIn.value) {
+                        chipController.isCreatingChip.value = false;
+                        chipController.selectedChipId.value = widget.chipId;
+                        chipController.selectedCurationId.value = widget.curId;
+
+                        if (chipController.isChipSaved.value) {
+                          await chipController.unsaveChip(widget.curId);
+                          chipController.isChipSaved.value = false;
+
+                          showErrorSnackBar(
+                              heading: "Chip",
+                              message: "Unsaved chip",
+                              icon: Icons.save,
+                              color: Colors.white);
+                        } else {
+                          await sidebarController.myCurations();
+                          await sidebarController.mySavedCurations();
+                          saveChip(context);
+                        }
                       } else {
-                        saveChip(context);
+                        showLoginDialog(context);
                       }
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: SvgPicture.asset(
-                    isSaved
-                        ? 'icons/bookmark_selected_state.svg'
-                        : 'assets/icons/bookmark_empty.svg',
-                    width: 32,
-                    height: 32,
+                    },
+                    child: SvgPicture.asset(
+                      chipController.isChipSaved.value
+                          ? 'icons/bookmark_selected_state.svg'
+                          : 'assets/icons/bookmark_empty.svg',
+                      width: 32,
+                      height: 32,
+                    ),
                   ),
                 )
               ],

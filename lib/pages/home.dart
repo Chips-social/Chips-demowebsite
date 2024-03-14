@@ -1,6 +1,8 @@
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:chips_demowebsite/widgets/tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,16 +25,10 @@ class _HomeState extends State<Home> {
       physics: const NeverScrollableScrollPhysics(),
       controller: homeController.tabController,
       children: homeController.categories.map((String category) {
-        // int tabIndex = homeController.categories.indexOf(category);
         return Obx(
           () => homeController.isLoading.value ||
                   homeController.isCurationListLoading.value
-              ? SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
+              ? buildShimmerCuration(8, getW(context))
               : const TabWidget(),
         );
       }).toList(),

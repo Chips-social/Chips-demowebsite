@@ -15,8 +15,7 @@ Widget NavBar(context) {
   return Container(
     margin: EdgeInsets.only(
         left: getW(context) * 0.03,
-        right: getW(context) < 450 ? 10 : getW(context) * 0.025),
-    height: 100,
+        right: getW(context) < 450 ? 0 : getW(context) * 0.025),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -28,32 +27,7 @@ Widget NavBar(context) {
             : Container(),
         // getW(context) > 600
         //     ?r
-        SizedBox(
-            width: getW(context) < 600
-                ? getW(context) * 0.5
-                : getW(context) < 450
-                    ? getW(context) * 0.6
-                    : getW(context) * 0.4,
-            child: TextField(
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: ColorConst.dark,
-                hintText: 'Search',
-                hintStyle: const TextStyle(
-                  color: ColorConst.textFieldColor,
-                ),
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: ColorConst.textFieldColor,
-                ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-            )),
+
         // : Container(),
         Obx(
           () => authController.isLoggedIn.value
@@ -111,7 +85,11 @@ Widget NavBar(context) {
                   backGroundColor: ColorConst.primary,
                   borderColor: ColorConst.primary,
                   height: 40,
-                  width: getW(context) > 600 ? 150 : 70,
+                  width: getW(context) < 600
+                      ? 70
+                      : getW(context) < 660
+                          ? 130
+                          : 150,
                 ),
         )
         // : Container()

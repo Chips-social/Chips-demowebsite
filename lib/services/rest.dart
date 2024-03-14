@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:http_parser/http_parser.dart';
 
 final AuthController auth = Get.put(AuthController());
 final ChipController chipController = Get.put(ChipController());
+final HomeController homeController = Get.find<HomeController>();
 
 String hostUrl = globals.hostUrl;
 String fileUploadUrl = globals.fileUploadUrl;

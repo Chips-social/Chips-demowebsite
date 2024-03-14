@@ -8,6 +8,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
   late TabController curationListController;
 
+  final TextEditingController globalSearchController = TextEditingController();
+
   final ScrollController scrollController = ScrollController();
   late List<GlobalKey<NavigatorState>> navigatorKeys = [];
   final RxList<int> _navigationStack = RxList<int>();
@@ -59,7 +61,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   var chips = [].obs;
   var curations = [].obs;
   var chips_len = [].obs;
-  // var filteredList = [].obs;
+
+  var searchSuggestions = [].obs;
 
   final isLoading = false.obs;
   final isCurationListLoading = false.obs;
@@ -67,6 +70,25 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   final isExplore = true.obs;
   final isSavedCuration = false.obs;
   final isMyCuration = false.obs;
+  final drawerOpen = false.obs;
+
+  fetchSearchSuggestions(String input) async {
+    if (input.isEmpty) {
+      searchSuggestions.value = [];
+      return;
+    }
+    var data = {
+      "name": input,
+    };
+    var response = await postRequestUnAuthenticated(
+        endpoint: '/curation/search', data: data);
+    if (response['success']) {
+      searchSuggestions.value = response['curation'];
+    } else {
+      searchSuggestions.value = [];
+    }
+    update();
+  }
 
   // bool back() {
   //   if (_navigationStack.length > 1) {
@@ -137,5 +159,22 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       isCurationListLoading.value = false;
     }
     update();
+  }
+
+  getUserName(String id) async {
+    isLoading.value = true;
+    var data = {
+      "curation_id": id,
+    };
+    var response =
+        await postRequestUnAuthenticated(endpoint: '/get/username', data: data);
+    if (response["success"]) {
+      isLoading.value = false;
+      ownerName.value = response['curation']['user_id']['name'];
+      return "success";
+    } else {
+      isLoading.value = false;
+      return "No Saved curations";
+    }
   }
 }

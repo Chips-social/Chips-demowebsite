@@ -65,6 +65,7 @@ class ChipController extends GetxController {
   RxInt selectedCurationModalIndex = (-1).obs;
   final RxBool hasTags = false.obs;
   var isChipOwner = false.obs;
+  var isChipSaved = false.obs;
 
   RxList<Uint8List> imageBytesList = <Uint8List>[].obs;
   List<File> files = [];
@@ -279,7 +280,7 @@ class ChipController extends GetxController {
     var response =
         await postRequestAuthenticated(endpoint: '/unsave/chip', data: data);
     if (response["success"]) {
-      // await homeController.allChips();
+      await homeController.allChips();
       return {"success": true, "message": "Unsaved Chip"};
     } else {
       showErrorSnackBar(

@@ -8,6 +8,7 @@ import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/widgets/empty_chips.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

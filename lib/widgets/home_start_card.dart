@@ -2,6 +2,7 @@ import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/pages/login_modal.dart';
+import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
@@ -43,7 +44,11 @@ Widget HomeStartCard(context) {
               const SizedBox(height: 10),
               PillButton(
                   onTap: () async {
-                    newCurationModal(context);
+                    if (authController.isLoggedIn.value) {
+                      newCurationModal(context);
+                    } else {
+                      showLoginDialog(context);
+                    }
                   },
                   text: 'Start curating',
                   textColor: Colors.black,

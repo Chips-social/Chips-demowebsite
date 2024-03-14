@@ -57,6 +57,13 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
           useMaterial3: true,
+          scrollbarTheme: ScrollbarThemeData(
+            thumbColor: MaterialStateProperty.all(
+                Colors.grey), // Customize scrollbar thumb color
+            thickness: MaterialStateProperty.all(
+                8.0), // Optional: Customize scrollbar thickness
+            radius: Radius.circular(8), // Optional: Customize scrollbar radius
+          ),
         ),
         getPages: AppRoutes.routes);
   }

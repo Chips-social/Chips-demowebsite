@@ -328,7 +328,8 @@ class CreateChipModal extends StatelessWidget {
                                       contentPadding:
                                           EdgeInsets.only(top: 5, bottom: 5)),
                                   onChanged: (value) {
-                                    chipController.setCounter(value.length);
+                                    String text = value.trim();
+                                    chipController.setCounter(text.length);
                                   }),
                               SizedBox(
                                 height: 16,

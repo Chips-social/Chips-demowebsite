@@ -6,6 +6,7 @@ import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/pages/create_chip_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/empty_chips.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
@@ -52,6 +53,7 @@ class _ChipDemoState extends State<ChipDemo> {
           break;
         }
       }
+      await homeController.getUserName(curId);
     });
   }
 
@@ -79,12 +81,15 @@ class _ChipDemoState extends State<ChipDemo> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                        fontSize: screenWidth < 360 ? 18 : 22,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConst.primary),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                          fontSize: screenWidth < 360 ? 18 : 22,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConst.primary),
+                    ),
                   ),
                   Row(
                     children: [
@@ -115,7 +120,7 @@ class _ChipDemoState extends State<ChipDemo> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: getW(context) > 700 ? 12 : 5),
                       InkWell(
                         onTap: () {
                           if (authController.isLoggedIn.value) {
@@ -138,7 +143,7 @@ class _ChipDemoState extends State<ChipDemo> {
                           ),
                         ),
                       ),
-                      SizedBox(width: getW(context) > 700 ? 12 : 2),
+                      SizedBox(width: getW(context) > 700 ? 12 : 0),
                       Obx(
                         () => curationController.isCurationOwner.value
                             ? InkWell(
@@ -164,11 +169,18 @@ class _ChipDemoState extends State<ChipDemo> {
                                                   fontSize: 13)),
                                         ),
                                       )
-                                    : Padding(
-                                        padding: EdgeInsets.only(top: 4),
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 8),
+                                        decoration: BoxDecoration(
+                                          color: ColorConst.iconButtonColor,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
                                         child: Icon(
                                           Icons.delete,
-                                          color: Colors.white,
+                                          color: ColorConst.websiteHomeBox,
                                         ),
                                       ),
                               )
@@ -223,13 +235,15 @@ class _ChipDemoState extends State<ChipDemo> {
                                       )
                                     : Obx(
                                         () => Padding(
-                                          padding: EdgeInsets.only(top: 4),
+                                          padding:
+                                              const EdgeInsets.only(top: 8),
                                           child: SvgPicture.asset(
-                                            height: 56,
                                             curationController
                                                     .isCurationSaved.value
                                                 ? 'assets/icons/bookmark_selected_state.svg'
                                                 : 'assets/icons/bookmark_empty.svg',
+                                            height: 50,
+                                            width: 50,
                                           ),
                                         ),
                                       ),
@@ -239,26 +253,31 @@ class _ChipDemoState extends State<ChipDemo> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Text(
-                          homeController.ownerName.value,
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                        Obx(
+                          () => Padding(
+                            padding: EdgeInsets.only(left: 18),
+                            child: Text(
+                              homeController.ownerName.value,
+                              style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Container(
-                          height: 28,
+                          height: 26,
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                               color: ColorConst.chipBackground,
@@ -288,9 +307,7 @@ class _ChipDemoState extends State<ChipDemo> {
               ),
               const SizedBox(height: 10),
               Obx(() => homeController.isLoading.value
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
+                  ? CircularProgressIndicator()
                   : homeController.chips.isEmpty
                       ? EmptyChipsCard(title: 'chip')
                       : Expanded(
