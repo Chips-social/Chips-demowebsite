@@ -21,8 +21,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init("chips_user");
   Get.put(CategoryController());
-  Get.put(HomeController());
   Get.put(AuthController());
+
+  Get.put(HomeController());
   Get.put(SidebarController());
 
   Get.put(CreateCurationController());
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/category/${Uri.encodeComponent("Food & Drinks")}',
+        initialRoute: '/',
         title: 'Chips.Social',
         scrollBehavior: MaterialScrollBehavior().copyWith(
           dragDevices: {

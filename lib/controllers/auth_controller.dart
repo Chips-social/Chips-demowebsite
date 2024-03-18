@@ -1,5 +1,8 @@
+import 'package:chips_demowebsite/constants/color_constants.dart';
+import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/main.dart';
 import 'package:chips_demowebsite/services/rest.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -78,10 +81,11 @@ class AuthController extends GetxController {
     await box.remove('user_data');
     isLoggedIn.value = false;
     await deleteAuth();
+    homeController.getData();
     isLogIn.value = false;
     isVerifyPage.value = false;
     isButtonLoad.value = false;
-    Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
+    Get.offAllNamed('/');
     return true;
   }
 
@@ -141,7 +145,15 @@ class AuthController extends GetxController {
         isLoggedIn.value = true;
         saveAuthToken(response['auth_token']);
         setCurrentUser(response['user']);
+        homeController.getData();
         userId.value = response['user']['_id'];
+        showErrorSnackBar(
+            heading: 'Success',
+            message: response["message"],
+            icon: Icons.check_circle,
+            color: ColorConst.success);
+        Get.offAllNamed('/');
+
         return {"success": true};
       } else {
         isLoggedIn.value = false;
@@ -168,7 +180,9 @@ class AuthController extends GetxController {
           isLoggedIn.value = true;
           saveAuthToken(response['auth_token']);
           setCurrentUser(response['user']);
+          homeController.getData();
           userId.value = response['user']['_id'];
+          Get.offAllNamed('/');
           return {"success": true};
         } else {
           isLoggedIn.value = false;

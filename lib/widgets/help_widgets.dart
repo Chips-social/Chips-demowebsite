@@ -45,6 +45,8 @@ Widget TagText() {
             style: TextStyle(color: Colors.white, fontSize: 13),
             decoration: InputDecoration(
               isDense: true,
+              focusColor: ColorConst.primary,
+              hoverColor: ColorConst.primary,
               counterText: "",
               contentPadding: EdgeInsets.only(bottom: 5, top: 2),
               hintText: "#",

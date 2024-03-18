@@ -10,6 +10,7 @@ import 'package:chips_demowebsite/widgets/chip_grid.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
+  static const String routee = '/';
   static const String homeRoute = '/category/:categoryName';
   static const String curationRoute =
       '/category/:categoryName/curation/:title/id/:id';
@@ -21,6 +22,10 @@ class AppRoutes {
   // static const String categoryRoute = '/category/:categoryName';
 
   static final List<GetPage> routes = [
+    GetPage(
+      name: routee,
+      page: () => const MainPage(child: CategoryTab(child: Home())),
+    ),
     GetPage(
       name: homeRoute,
       page: () => const MainPage(child: CategoryTab(child: Home())),

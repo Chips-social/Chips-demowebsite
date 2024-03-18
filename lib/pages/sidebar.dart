@@ -47,8 +47,7 @@ class SideBar extends StatelessWidget {
                         homeController.isExplore.value = true;
                         homeController.isSavedCuration.value = false;
                         homeController.isMyCuration.value = false;
-                        Get.offAllNamed(
-                            '/category/${Uri.encodeComponent("Food & Drinks")}');
+                        Get.offAllNamed('/');
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,
@@ -261,7 +260,6 @@ class SideBar extends StatelessWidget {
                                                 .value = sidebarController
                                                     .my3savedCurations[index]
                                                 ['_id'];
-                                            ////////
                                             await chipController
                                                 .fetchchipsoCuration(context);
                                             homeController.selctedCategoryTab
@@ -269,10 +267,6 @@ class SideBar extends StatelessWidget {
                                                     .my3curations[index]
                                                 ['category'];
 
-                                            // sidebarController.savedCurationName
-                                            //     .value = sidebarController
-                                            //         .my3savedCurations[index]
-                                            //     ['user_id']['name'];
                                             var urltogo = Uri.encodeComponent(
                                                 sidebarController
                                                     .my3savedCurations[index]
@@ -375,7 +369,7 @@ class SideBar extends StatelessWidget {
                         onPressed: () {
                           _launchUrl("https://discord.gg/zDKq4QSmQK");
                         },
-                        child: smallText("Chips.Social")),
+                        child: smallText("Product updates")),
                   ),
                   const SizedBox(height: 10),
                 ],

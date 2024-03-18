@@ -71,8 +71,7 @@ class Page404 extends StatelessWidget {
                     SizedBox(height: 15),
                     PillButton(
                       onTap: () async {
-                        Get.offAllNamed(
-                            '/category/${Uri.encodeComponent("Food & Drinks")}');
+                        Get.offAllNamed('/');
                       },
                       text: 'Return to Home',
                       textColor: ColorConst.buttonText,

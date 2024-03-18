@@ -18,21 +18,24 @@ class _CategoryTabState extends State<CategoryTab> {
   final AuthController authController = Get.put(AuthController());
   final HomeController homeController = Get.put(HomeController());
   final CategoryController categoryController = Get.put(CategoryController());
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final initialCategory =
-          Uri.decodeComponent(Get.parameters['categoryName'] ?? "");
+      homeController.getData();
+      var initialCategory = Uri.decodeComponent(
+          Get.parameters['categoryName'] ??
+              Uri.encodeComponent("From our Desk"));
+      if (authController.isLoggedIn.value) {
+        initialCategory = Uri.decodeComponent(Get.parameters['categoryName'] ??
+            Uri.encodeComponent("Made by Chips"));
+      }
       final initialIndex = homeController.categories.indexOf(initialCategory);
       if (initialIndex != -1) {
         homeController.selctedCategoryTab.value =
             homeController.categories[initialIndex];
-        homeController.tabController.animateTo(
-            initialIndex); // Consider using animateTo for a smoother transition
-        homeController
-            .allCurations(); // This now uses the updated selectedCategoryTab value
+        homeController.tabController.animateTo(initialIndex);
+        homeController.allCurations();
       }
     });
   }
@@ -62,8 +65,17 @@ class _CategoryTabState extends State<CategoryTab> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        if (homeController.navigationStack.length >= 2) {
+          homeController.navigationStack.removeLast();
+          int last = homeController.navigationStack.last;
+          homeController.selctedCategoryTab.value =
+              homeController.categories[last];
+          homeController.tabController.animateTo(last);
+          homeController.allCurations();
+          Get.back();
+          return false;
+        }
         return true;
-        // return homeController.back();
       },
       child: Padding(
         padding: EdgeInsets.only(left: getW(context) * 0.024),
@@ -109,6 +121,8 @@ class _CategoryTabState extends State<CategoryTab> {
                                 indicatorColor: ColorConst.primary,
                                 dividerHeight: 0.3,
                                 dividerColor: Colors.grey,
+                                labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                                 onTap: (index) {
                                   homeController.changeTab(index, context);
                                 },

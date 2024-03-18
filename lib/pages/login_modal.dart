@@ -28,12 +28,6 @@ class _ModalState extends State<Modal> {
     if (response['success']) {
       await sidebarController.my3Curations();
       await sidebarController.my3SavedCurations();
-      showErrorSnackBar(
-          heading: 'Success',
-          message: response["message"],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
-      Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
     }
   }
 
@@ -75,15 +69,13 @@ class _ModalState extends State<Modal> {
                       child: Container(
                           alignment: Alignment.center,
                           decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment(-1.0, -0.4),
-                              end: Alignment(0.5, 1.0),
-                              colors: [
-                                Color.fromARGB(255, 201, 199, 206),
-                                Color(0xFFD0BCFF)
-                              ],
-                              stops: [0.012, 0.8833],
-                            ),
+                            // gradient: LinearGradient(
+                            //   begin: Alignment(-1.0, -0.4),
+                            //   end: Alignment(0.5, 1.0),
+                            //   colors: [Color(0xFFD0BCFF), Color(0xFFD0BCFF)],
+                            //   stops: [0.012, 0.8833],
+                            // ),
+                            color: Color(0xFFD0BCFF),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(32),
                               bottomLeft: Radius.circular(32),

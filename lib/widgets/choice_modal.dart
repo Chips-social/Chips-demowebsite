@@ -32,11 +32,10 @@ class ChoiceModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-                width: 350,
+                width: 330,
                 color: ColorConst.primaryBackground,
                 child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,37 +44,52 @@ class ChoiceModal extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Are you sure?',
+                                const Text('Action Confirmation',
                                     style: TextStyle(
                                         fontFamily: 'Inter',
-                                        color: Colors.white,
+                                        color: ColorConst.textFieldColor,
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: Colors.grey,
-                                  ),
-                                )
+                                        fontWeight: FontWeight.w600)),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.of(context).pop();
+                                //   },
+                                //   child: const Icon(
+                                //     Icons.close,
+                                //     color: Colors.grey,
+                                //   ),
+                                // )
                               ]),
                           const SizedBox(
-                            height: 6,
-                          ),
-                          const Divider(color: Colors.black38),
-                          const SizedBox(
-                            height: 6,
+                            height: 16,
                           ),
                           Text(message,
                               style: const TextStyle(
                                   fontFamily: 'Inter',
-                                  color: ColorConst.subscriptionSubtext,
-                                  fontSize: 15)),
+                                  color: ColorConst.textFieldColor,
+                                  fontSize: 17)),
                           const SizedBox(height: 15),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: ColorConst.primary),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 24, vertical: 12),
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                        color: ColorConst.buttonText,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
                               InkWell(
                                 onTap: () async {
                                   Navigator.of(context).pop();
@@ -98,36 +112,16 @@ class ChoiceModal extends StatelessWidget {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: ColorConst.primary),
+                                      borderRadius: BorderRadius.circular(25),
+                                      border: Border.all(
+                                          color: ColorConst.primary)),
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 6),
+                                      horizontal: 20, vertical: 12),
                                   child: Text(
-                                    "Confirm",
+                                    "Yes, delete",
                                     style: TextStyle(
-                                        color: ColorConst.buttonText,
-                                        fontSize: 13),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: ColorConst.primary),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 6),
-                                  child: Text(
-                                    "Cancel",
-                                    style: TextStyle(
-                                        color: ColorConst.buttonText,
-                                        fontSize: 13),
+                                        color: ColorConst.primary,
+                                        fontSize: 14),
                                   ),
                                 ),
                               ),

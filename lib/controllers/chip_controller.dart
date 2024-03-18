@@ -170,6 +170,7 @@ class ChipController extends GetxController {
   }
 
   addChipToCuration(context) async {
+    isLoading.value = true;
     var data = {
       "user": authController.currentUser['name'],
       "text": captionController.text,
@@ -185,6 +186,8 @@ class ChipController extends GetxController {
     var response = await postRequestAuthenticated(
         endpoint: '/add/chip', data: jsonEncode(data));
     if (response["success"]) {
+      isLoading.value = false;
+
       homeController.allChips();
       Navigator.of(context).pop();
       successChip(
@@ -194,6 +197,7 @@ class ChipController extends GetxController {
           "Go to");
       return {"success": true, "message": "added Chip to Curation"};
     } else {
+      isLoading.value = false;
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
@@ -204,6 +208,7 @@ class ChipController extends GetxController {
   }
 
   saveChipToCuration(context) async {
+    isLoading.value = true;
     var data = {
       "chip_id": selectedChipId.value,
       "curation_id": selectedId.value,
@@ -216,6 +221,7 @@ class ChipController extends GetxController {
     var response =
         await postRequestAuthenticated(endpoint: '/save/chip', data: data);
     if (response["success"]) {
+      isLoading.value = false;
       homeController.allChips();
       Navigator.of(context).pop();
 
@@ -226,6 +232,7 @@ class ChipController extends GetxController {
           "Go to");
       return {"success": true, "message": "added Chip to Curation"};
     } else {
+      isLoading.value = false;
       showErrorSnackBar(
           heading: 'Error',
           message: response["message"],

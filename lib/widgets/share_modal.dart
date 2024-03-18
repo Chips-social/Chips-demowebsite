@@ -21,14 +21,8 @@ class ShareModal extends StatelessWidget {
   final HomeController homeController = Get.find<HomeController>();
 
   Future<void> shareWidget(String url) async {
-    var categoryName =
-        Uri.encodeComponent(homeController.selctedCategoryTab.value);
-    var title =
-        Uri.encodeComponent(categoryController.selectedCurationName.value);
-    var id = categoryController.selectedCurationId.value;
-    final encodedText =
-        "http://chips.social/#/category/$categoryName/curation/$title/id/$id";
-    if (!await launchUrl(Uri.parse('$url$encodedText'))) {
+    String encodedCurationLink = Uri.encodeComponent(curationLink);
+    if (!await launchUrl(Uri.parse('$url$encodedCurationLink'))) {
       throw Exception('Could not launch $url');
     }
   }
@@ -165,7 +159,7 @@ class ShareModal extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              height: 55,
+              height: 65,
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
               decoration: BoxDecoration(
                   border: Border.all(color: ColorConst.dark, width: 0.5)),
@@ -189,12 +183,11 @@ class ShareModal extends StatelessWidget {
                   Expanded(
                     child: Text(
                       curationLink,
-                      style: const TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        // Logic to copy the link
                         Clipboard.setData(ClipboardData(text: curationLink));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

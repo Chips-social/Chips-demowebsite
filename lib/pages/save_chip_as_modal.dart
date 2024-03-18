@@ -5,6 +5,7 @@ import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
@@ -39,20 +40,19 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
         backgroundColor: ColorConst.primaryBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         surfaceTintColor: ColorConst.primaryBackground,
-        contentPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.symmetric(horizontal: 15),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-                width: 460,
+                width: 420,
                 color: ColorConst.primaryBackground,
                 child: Column(
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
-                          top: 15,
-                          left: getW(context) < 440 ? 5 : 15,
-                          right: getW(context) < 440 ? 5 : 15),
+                        top: 15,
+                      ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -66,7 +66,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                           fontFamily: 'Inter',
                                           color: Colors.white,
                                           fontSize: 18,
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight: FontWeight.w600)),
                                   InkWell(
                                     onTap: () {
                                       Navigator.of(context).pop();
@@ -157,7 +157,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                     )
                                   : Container(),
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 20),
                             getW(context) <= 440
                                 ? Container(
                                     margin: const EdgeInsets.only(bottom: 8),
@@ -295,6 +295,8 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                   child: Obx(
                                     () => Container(
                                       height: 34,
+                                      margin: EdgeInsets.only(
+                                          left: getW(context) < 530 ? 10 : 0),
                                       padding: EdgeInsets.symmetric(
                                           horizontal:
                                               getW(context) < 530 ? 3 : 8),
@@ -357,11 +359,29 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                             cursor: SystemMouseCursors.click,
                                             child: GestureDetector(
                                               onTap: () {
-                                                chipController.selectModalCard(
-                                                    finalList[index]['name'],
-                                                    finalList[index]['_id'],
+                                                if (finalList[index]
+                                                            ['category'] ==
+                                                        "Made by Chips" ||
                                                     finalList[index]
-                                                        ['category']);
+                                                            ['category'] ==
+                                                        "From our Desk") {
+                                                  showErrorSnackBar(
+                                                      heading:
+                                                          "Permision Denied",
+                                                      message:
+                                                          "Don't have permission to save chip in this curation.",
+                                                      icon: Icons.warning,
+                                                      color: Colors.white);
+                                                } else {
+                                                  chipController
+                                                      .selectModalCard(
+                                                          finalList[index]
+                                                              ['name'],
+                                                          finalList[index]
+                                                              ['_id'],
+                                                          finalList[index]
+                                                              ['category']);
+                                                }
                                               },
                                               child: Card(
                                                 clipBehavior: Clip.antiAlias,
@@ -432,11 +452,14 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                               BorderRadius
                                                                   .circular(20),
                                                           child: Image.asset(
-                                                            CurationImages[homeController
-                                                                .categories
-                                                                .indexOf(finalList[
-                                                                        index][
-                                                                    'category'])],
+                                                            homeController
+                                                                    .CurationImages[
+                                                                homeController
+                                                                    .categories
+                                                                    .indexOf(finalList[
+                                                                            index]
+                                                                        [
+                                                                        'category'])],
                                                             fit: BoxFit.cover,
                                                             height:
                                                                 66, // Adjust the height
@@ -446,6 +469,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                       ),
                                                     ),
                                                     Container(
+                                                      width: 70,
                                                       padding:
                                                           const EdgeInsets.only(
                                                               top: 4),
@@ -490,16 +514,33 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                             cursor: SystemMouseCursors.click,
                                             child: GestureDetector(
                                               onTap: () {
-                                                chipController.selectModalCard(
+                                                if (chipController.filteredNamesC[
+                                                                index]
+                                                            ['category'] ==
+                                                        "Made by Chips" ||
                                                     chipController
-                                                            .filteredNamesC[
-                                                        index]['name'],
-                                                    chipController
-                                                            .filteredNamesC[
-                                                        index]['_id'],
-                                                    chipController
-                                                            .filteredNamesC[
-                                                        index]['category']);
+                                                                .filteredNamesC[
+                                                            index]['category'] ==
+                                                        "From our Desk") {
+                                                  showErrorSnackBar(
+                                                      heading:
+                                                          "Permision Denied",
+                                                      message:
+                                                          "Don't have permission to save chip in this curation.",
+                                                      icon: Icons.warning,
+                                                      color: Colors.white);
+                                                } else {
+                                                  chipController.selectModalCard(
+                                                      chipController
+                                                              .filteredNamesC[
+                                                          index]['name'],
+                                                      chipController
+                                                              .filteredNamesC[
+                                                          index]['_id'],
+                                                      chipController
+                                                              .filteredNamesC[
+                                                          index]['category']);
+                                                }
                                               },
                                               child: Card(
                                                 clipBehavior: Clip.antiAlias,
@@ -521,7 +562,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                 chipController
                                                                         .filteredNamesC[
                                                                     index]['name']
-                                                            ? 70
+                                                            ? 72
                                                             : 66,
                                                         width: chipController
                                                                     .selectedName
@@ -529,7 +570,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                 chipController
                                                                         .filteredNamesC[
                                                                     index]['name']
-                                                            ? 70
+                                                            ? 72
                                                             : 66,
                                                         alignment:
                                                             Alignment.center,
@@ -543,6 +584,10 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                           index]
                                                                       ['name']
                                                               ? const LinearGradient(
+                                                                  stops: [
+                                                                    0.5,
+                                                                    1.0
+                                                                  ],
                                                                   colors: [
                                                                     ColorConst
                                                                         .websiteHomeBox,
@@ -573,12 +618,14 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                               BorderRadius
                                                                   .circular(20),
                                                           child: Image.asset(
-                                                            CurationImages[homeController
-                                                                .categories
-                                                                .indexOf(chipController
-                                                                            .filteredNamesC[
-                                                                        index][
-                                                                    'category'])],
+                                                            homeController
+                                                                    .CurationImages[
+                                                                homeController
+                                                                    .categories
+                                                                    .indexOf(chipController
+                                                                            .filteredNamesC[index]
+                                                                        [
+                                                                        'category'])],
                                                             fit: BoxFit.cover,
                                                             height:
                                                                 66, // Adjust the height
@@ -588,6 +635,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                       ),
                                                     ),
                                                     Container(
+                                                      width: 70,
                                                       padding:
                                                           const EdgeInsets.only(
                                                               top: 4),
@@ -647,13 +695,19 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                         },
                         child: Container(
                           height: 45,
+                          width: 420,
                           decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  bottomRight: Radius.circular(15)),
                               color: chipController.selectedId.isEmpty
                                   ? ColorConst.dark
                                   : ColorConst.websiteHomeBox),
                           alignment: Alignment.center,
                           child: Text(
-                            "Save",
+                            chipController.isLoading.value
+                                ? "Please Wait..."
+                                : "Save",
                             style: TextStyle(
                                 color: chipController.selectedId.isEmpty
                                     ? Colors.grey

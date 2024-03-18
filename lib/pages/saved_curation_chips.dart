@@ -103,39 +103,44 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      InkWell(
-                        onTap: () {
-                          // if (authController.isLoggedIn.value) {
-                          //   createChip(context);
-                          // } else {
-                          //   showErrorSnackBar(
-                          //       heading: 'Unauthenticated User',
-                          //       message: 'Please Login to add a Chip',
-                          //       icon: Icons.error_outline,
-                          //       color: Colors.redAccent);
-                          // }
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            categoryController.selectedCurationName.value =
-                                title;
-                            createChip(context);
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: ColorConst.iconButtonColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              color: ColorConst.websiteHomeBox,
-                            ),
-                          ),
-                        ),
-                      ),
+                      homeController.selctedCategoryTab.value !=
+                                  'From our Desk' &&
+                              homeController.selctedCategoryTab.value !=
+                                  "Made by Chips"
+                          ? InkWell(
+                              onTap: () {
+                                // if (authController.isLoggedIn.value) {
+                                //   createChip(context);
+                                // } else {
+                                //   showErrorSnackBar(
+                                //       heading: 'Unauthenticated User',
+                                //       message: 'Please Login to add a Chip',
+                                //       icon: Icons.error_outline,
+                                //       color: Colors.redAccent);
+                                // }
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  categoryController
+                                      .selectedCurationName.value = title;
+                                  createChip(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: ColorConst.iconButtonColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: ColorConst.websiteHomeBox,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
                       const SizedBox(width: 10),
                       Container(
                         height: 35,

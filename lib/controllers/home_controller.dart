@@ -1,3 +1,4 @@
+import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/services/rest.dart';
@@ -12,15 +13,18 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   final ScrollController scrollController = ScrollController();
   late List<GlobalKey<NavigatorState>> navigatorKeys = [];
-  final RxList<int> _navigationStack = RxList<int>();
+  final RxList<int> navigationStack = RxList<int>();
   final CategoryController categoryController = Get.put(CategoryController());
+  final AuthController authController = Get.find<AuthController>();
 
   var ownerName = "".obs;
 
   // late AnimationController animationController;
   // late Animation<Offset> animation;
 
-  final categories = [
+  var categories = [
+    'From our Desk',
+    'Made by Chips',
     'Food & Drinks',
     'Entertainment',
     'Science & Tech',
@@ -30,16 +34,91 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     'Fashion & Beauty',
     'Health & Fitness',
     "Games & Sports"
-  ];
+  ].obs;
+  var CurationImages = [
+    "assets/website/curation_image.png",
+    "assets/website/curation_image.png",
+    "assets/website/food_drinks.png",
+    "assets/website/entertainment.png",
+    "assets/website/science__tech.png",
+    "assets/website/art__design.png",
+    "assets/website/interior_lifestyle.png",
+    "assets/website/travel.png",
+    "assets/website/fashion__beauty.png",
+    "assets/website/heath_fitness.png",
+    "assets/website/games__sports.png",
+  ].obs;
 
   @override
   void onInit() {
     super.onInit();
     tabController = TabController(length: categories.length, vsync: this);
+    getData();
+
     // setupAnimations();
 
     // allChips();
     allCurations();
+  }
+
+  getData() {
+    if (authController.isLoggedIn.value) {
+      selctedCategoryTab.value = 'Food & Drinks';
+      categories.value = [
+        'Made by Chips',
+        'Food & Drinks',
+        'Entertainment',
+        'Science & Tech',
+        'Art & Design',
+        'Interiors & Lifestyle',
+        'Travel',
+        'Fashion & Beauty',
+        'Health & Fitness',
+        "Games & Sports",
+        'From our Desk',
+      ];
+      CurationImages.value = [
+        "assets/website/curation_image.png",
+        "assets/website/food_drinks.png",
+        "assets/website/entertainment.png",
+        "assets/website/science__tech.png",
+        "assets/website/art__design.png",
+        "assets/website/interior__lifestyle.png",
+        "assets/website/travel.png",
+        "assets/website/fashion__beauty.png",
+        "assets/website/heath__fitness.png",
+        "assets/website/games__sports.png",
+        "assets/website/curation_image.png",
+      ];
+    } else {
+      selctedCategoryTab.value = 'From our Desk';
+      categories.value = [
+        'From our Desk',
+        'Made by Chips',
+        'Food & Drinks',
+        'Entertainment',
+        'Science & Tech',
+        'Art & Design',
+        'Interiors & Lifestyle',
+        'Travel',
+        'Fashion & Beauty',
+        'Health & Fitness',
+        "Games & Sports",
+      ];
+      CurationImages.value = [
+        "assets/website/curation_image.png",
+        "assets/website/curation_image.png",
+        "assets/website/food_drinks.png",
+        "assets/website/entertainment.png",
+        "assets/website/science__tech.png",
+        "assets/website/art__design.png",
+        "assets/website/interior__lifestyle.png",
+        "assets/website/travel.png",
+        "assets/website/fashion__beauty.png",
+        "assets/website/heath__fitness.png",
+        "assets/website/games__sports.png",
+      ];
+    }
   }
 
   setTabController() {
@@ -54,7 +133,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     allCurations();
     var categoryName = Uri.encodeComponent(selctedCategoryTab.value);
     Get.toNamed('/category/$categoryName');
-    _navigationStack.add(index);
+    navigationStack.add(index);
+    print(navigationStack);
     update();
   }
 
@@ -66,7 +146,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   final isLoading = false.obs;
   final isCurationListLoading = false.obs;
-  final selctedCategoryTab = "Food & Drinks".obs;
+  final selctedCategoryTab = "From our Desk".obs;
   final isExplore = true.obs;
   final isSavedCuration = false.obs;
   final isMyCuration = false.obs;
@@ -89,16 +169,6 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     }
     update();
   }
-
-  // bool back() {
-  //   if (_navigationStack.length > 1) {
-  //     _navigationStack.removeLast();
-  //     selctedCategoryTab.value = categories[_navigationStack.last];
-  //     update();
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   // void setupAnimations() {
   //   animationController = AnimationController(

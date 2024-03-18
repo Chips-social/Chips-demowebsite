@@ -295,6 +295,7 @@ class CreateChipModal extends StatelessWidget {
                                   Text("I'm sharing this coz",
                                       style: TextStyle(
                                         fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w400,
                                         color: Colors.white,
                                         fontSize: 15,
                                       )),
@@ -309,24 +310,32 @@ class CreateChipModal extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: 10),
                               TextField(
                                   controller: chipController.captionController,
                                   maxLength: 500,
                                   maxLines: null,
+                                  keyboardType: TextInputType.multiline,
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontFamily: "Rubik",
-                                    fontSize: 13,
+                                    height: 1.5,
+                                    fontFamily: "Inter",
+                                    fontSize: 14,
+                                    letterSpacing: 1.1,
                                   ),
                                   decoration: const InputDecoration(
                                       isDense: true,
                                       counterText: "",
+                                      focusColor: ColorConst.primary,
+                                      hoverColor: ColorConst.primary,
                                       hintText:
                                           "Tell your friends why you're sharing this",
-                                      hintStyle: TextStyle(color: Colors.grey),
+                                      hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
                                       contentPadding:
-                                          EdgeInsets.only(top: 5, bottom: 5)),
+                                          EdgeInsets.only(top: 5, bottom: 10)),
                                   onChanged: (value) {
                                     String text = value.trim();
                                     chipController.setCounter(text.length);

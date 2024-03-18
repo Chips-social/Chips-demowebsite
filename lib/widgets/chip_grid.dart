@@ -86,7 +86,7 @@ class _ChipDemoState extends State<ChipDemo> {
                     child: Text(
                       title,
                       style: TextStyle(
-                          fontSize: screenWidth < 360 ? 18 : 22,
+                          fontSize: screenWidth < 360 ? 18 : 24,
                           fontWeight: FontWeight.bold,
                           color: ColorConst.primary),
                     ),
@@ -97,11 +97,11 @@ class _ChipDemoState extends State<ChipDemo> {
                         onTap: () {
                           var categoryName = Uri.encodeComponent(
                               homeController.selctedCategoryTab.value);
-                          var title = Uri.encodeComponent(
-                              categoryController.selectedCurationName.value);
+                          // var title = Uri.encodeComponent(
+                          //     categoryController.selectedCurationName.value);
                           showShareDialog(
                               context,
-                              "http://chips.social/#/category/$categoryName/curation/$title/id/$curId",
+                              "https://chips.social/#/category/$categoryName/curation/$title/id/$curId",
                               "Curation");
                         },
                         child: Container(
@@ -121,134 +121,146 @@ class _ChipDemoState extends State<ChipDemo> {
                         ),
                       ),
                       SizedBox(width: getW(context) > 700 ? 12 : 5),
-                      InkWell(
-                        onTap: () {
-                          if (authController.isLoggedIn.value) {
-                            createChip(context);
-                          } else {
-                            showLoginDialog(context);
-                          }
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: ColorConst.iconButtonColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            color: ColorConst.websiteHomeBox,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: getW(context) > 700 ? 12 : 0),
                       Obx(
-                        () => curationController.isCurationOwner.value
+                        () => ((homeController.selctedCategoryTab.value ==
+                                            "From our Desk" ||
+                                        homeController
+                                                .selctedCategoryTab.value !=
+                                            "Made by Chips") &&
+                                    authController.isLoggedIn.value &&
+                                    authController.currentUser['email'] ==
+                                        'meenakshi@chips.social') ||
+                                (homeController.selctedCategoryTab.value !=
+                                        "From our Desk" &&
+                                    homeController.selctedCategoryTab.value !=
+                                        "Made by Chips")
                             ? InkWell(
                                 onTap: () {
-                                  choiceModal(
-                                      context,
-                                      "You want to delete this chip.",
-                                      "Curation");
-                                },
-                                child: getW(context) > 700
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.redAccent.shade200,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 4),
-                                          child: Text('Delete Curation',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 13)),
-                                        ),
-                                      )
-                                    : Container(
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 8),
-                                        decoration: BoxDecoration(
-                                          color: ColorConst.iconButtonColor,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                        child: Icon(
-                                          Icons.delete,
-                                          color: ColorConst.websiteHomeBox,
-                                        ),
-                                      ),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  if (curationController
-                                      .isCurationSaved.value) {
-                                    curationController.unsaveCuration();
-                                    showErrorSnackBar(
-                                        heading: "Curation",
-                                        message: "Unsaved curation",
-                                        icon: Icons.save,
-                                        color: Colors.white);
+                                  if (authController.isLoggedIn.value) {
+                                    createChip(context);
                                   } else {
-                                    if (authController.isLoggedIn.value) {
-                                      curationController.saveCuration();
-                                      successChip(
-                                          context,
-                                          "You have successfully saved a curation. You can find it in your Saved curations.",
-                                          () {},
-                                          "Go to saved curations");
-                                    } else {
-                                      showLoginDialog(context);
-                                    }
+                                    showLoginDialog(context);
                                   }
                                 },
-                                child: getW(context) > 700
-                                    ? Obx(
-                                        () => Container(
-                                          decoration: BoxDecoration(
-                                            color: curationController
-                                                    .isCurationSaved.value
-                                                ? ColorConst.chipBackground
-                                                : Color.fromRGBO(
-                                                    127, 62, 255, 60),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 4),
-                                            child: Text(
-                                                curationController
-                                                        .isCurationSaved.value
-                                                    ? 'Remove from saved'
-                                                    : 'Save to my curation',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 13)),
-                                          ),
-                                        ),
-                                      )
-                                    : Obx(
-                                        () => Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8),
-                                          child: SvgPicture.asset(
-                                            curationController
-                                                    .isCurationSaved.value
-                                                ? 'assets/icons/bookmark_selected_state.svg'
-                                                : 'assets/icons/bookmark_empty.svg',
-                                            height: 50,
-                                            width: 50,
-                                          ),
-                                        ),
-                                      ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: ColorConst.iconButtonColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: ColorConst.websiteHomeBox,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      ),
+                      SizedBox(width: getW(context) > 700 ? 12 : 0),
+                      Obx(() => curationController.isCurationOwner.value
+                          ? InkWell(
+                              onTap: () {
+                                choiceModal(
+                                    context,
+                                    "Are you sure you want to delete this curation? Once it is deleted, you won`t be able to retrieve it back.",
+                                    "Curation");
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 9, right: 9, top: 11, bottom: 10),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: ColorConst.iconButtonColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/delete.svg',
+                                  color: ColorConst.websiteHomeBox,
+                                  width: 24,
+                                  height: 24,
+                                ),
                               ),
-                      )
+                            )
+                          : Obx(
+                              () => (homeController.selctedCategoryTab.value ==
+                                              "From our Desk" &&
+                                          authController.isLoggedIn.value &&
+                                          authController.currentUser['email'] ==
+                                              'meenakshi@chips.social') ||
+                                      (homeController
+                                              .selctedCategoryTab.value !=
+                                          "From our Desk")
+                                  ? InkWell(
+                                      onTap: () {
+                                        if (curationController
+                                            .isCurationSaved.value) {
+                                          curationController.unsaveCuration();
+                                          showErrorSnackBar(
+                                              heading: "Curation",
+                                              message: "Unsaved curation",
+                                              icon: Icons.save,
+                                              color: Colors.white);
+                                        } else {
+                                          if (authController.isLoggedIn.value) {
+                                            curationController.saveCuration();
+                                            successChip(
+                                                context,
+                                                "You have successfully saved a curation. You can find it in your Saved curations.",
+                                                () {},
+                                                "Go to saved curations");
+                                          } else {
+                                            showLoginDialog(context);
+                                          }
+                                        }
+                                      },
+                                      child: getW(context) > 700
+                                          ? Obx(
+                                              () => Container(
+                                                decoration: BoxDecoration(
+                                                  color: curationController
+                                                          .isCurationSaved.value
+                                                      ? ColorConst
+                                                          .chipBackground
+                                                      : Color.fromRGBO(
+                                                          127, 62, 255, 60),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 4),
+                                                  child: Text(
+                                                      curationController
+                                                              .isCurationSaved
+                                                              .value
+                                                          ? 'Remove from saved'
+                                                          : 'Save to my curation',
+                                                      style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 13)),
+                                                ),
+                                              ),
+                                            )
+                                          : Obx(
+                                              () => Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8),
+                                                child: SvgPicture.asset(
+                                                  curationController
+                                                          .isCurationSaved.value
+                                                      ? 'assets/icons/bookmark_selected2.svg'
+                                                      : 'assets/icons/bookmark_empty2.svg',
+                                                  height: 50,
+                                                  width: 50,
+                                                ),
+                                              ),
+                                            ),
+                                    )
+                                  : Container(),
+                            ))
                     ],
                   ),
                 ],

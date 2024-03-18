@@ -24,14 +24,4 @@
 //   'Item 12',
 // ];
 
-const CurationImages = [
-  "assets/website/food_drinks.png",
-  "assets/website/entertainment.png",
-  "assets/website/science__tech.png",
-  "assets/website/art__design.png",
-  "assets/website/interior__lifestyle.png",
-  "assets/website/travel.png",
-  "assets/website/fashion__beauty.png",
-  "assets/website/heath__fitness.png",
-  "assets/website/games__sports.png",
-];
+

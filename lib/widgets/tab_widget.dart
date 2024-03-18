@@ -33,7 +33,6 @@ class _TabWidgetState extends State<TabWidget> {
       Get.find<CreateCurationController>();
 
   final HomeController homeController = Get.put(HomeController());
-
   @override
   Widget build(BuildContext context) {
     homeController.setTabController();
@@ -48,7 +47,7 @@ class _TabWidgetState extends State<TabWidget> {
                     ? 2
                     : 1;
     return Padding(
-        padding: const EdgeInsets.only(left: 25),
+        padding: EdgeInsets.only(left: getW(context) < 400 ? 15 : 25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +59,7 @@ class _TabWidgetState extends State<TabWidget> {
                   () => Text(
                     homeController.selctedCategoryTab.value,
                     style: TextStyle(
-                        fontSize: screenWidth < 360 ? 18 : 22,
+                        fontSize: screenWidth < 360 ? 18 : 24,
                         fontWeight: FontWeight.bold,
                         color: ColorConst.primary),
                   ),
@@ -108,26 +107,40 @@ class _TabWidgetState extends State<TabWidget> {
                     //       )),
                     // ),
                     const SizedBox(width: 12),
-                    Container(
-                        decoration: BoxDecoration(
-                          color: ColorConst.websiteHomeBox,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: TextButton(
-                          onPressed: () {
-                            authController.isLoggedIn.value
-                                ? newCurationModal(context)
-                                : showLoginDialog(context);
-                          },
-                          child: const Row(
-                            children: [
-                              Text('+ New Curation',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 13)),
-                            ],
-                          ),
-                        ))
+                    Obx(
+                      () => ((homeController.selctedCategoryTab.value ==
+                                          "From our Desk" ||
+                                      homeController.selctedCategoryTab.value ==
+                                          "Made by Chips") &&
+                                  authController.isLoggedIn.value &&
+                                  authController.currentUser['email'] ==
+                                      'meenakshi@chips.social') ||
+                              (homeController.selctedCategoryTab.value !=
+                                      "From our Desk" &&
+                                  homeController.selctedCategoryTab.value !=
+                                      "Made by Chips")
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: ColorConst.websiteHomeBox,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: TextButton(
+                                onPressed: () {
+                                  authController.isLoggedIn.value
+                                      ? newCurationModal(context)
+                                      : showLoginDialog(context);
+                                },
+                                child: const Row(
+                                  children: [
+                                    Text('+ New Curation',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 13)),
+                                  ],
+                                ),
+                              ))
+                          : Container(),
+                    )
                   ],
                 ),
               ],
@@ -202,10 +215,11 @@ class _TabWidgetState extends State<TabWidget> {
                                                 Radius.circular(20)),
                                           ),
                                           child: Image.asset(
-                                            CurationImages[homeController
-                                                .categories
-                                                .indexOf(homeController
-                                                    .selctedCategoryTab.value)],
+                                            homeController.CurationImages[
+                                                homeController.categories
+                                                    .indexOf(homeController
+                                                        .selctedCategoryTab
+                                                        .value)],
                                             fit: BoxFit.cover,
                                             height: 150, // Adjust the height
                                             width: double.infinity,
@@ -235,9 +249,14 @@ class _TabWidgetState extends State<TabWidget> {
                                           padding:
                                               const EdgeInsets.only(left: 5),
                                           child: Text(
-                                            homeController.curations[index]
-                                                    ['user_id']['name'] ??
-                                                "Chips.Social",
+                                            homeController.selctedCategoryTab
+                                                        .value ==
+                                                    "From our Desk"
+                                                ? ""
+                                                : homeController
+                                                            .curations[index]
+                                                        ['user_id']['name'] ??
+                                                    "Chips.Social",
                                             style: const TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.grey),

@@ -180,17 +180,36 @@ class _MainPageState extends State<MainPage> {
                                           MouseRegion(
                                             cursor: SystemMouseCursors.click,
                                             child: ListTile(
-                                              onTap: () {},
+                                              onTap: () {
+                                                String categoryName =
+                                                    Uri.encodeComponent(
+                                                        homeController
+                                                                .searchSuggestions[
+                                                            index]['category']);
+                                                String curationName =
+                                                    Uri.encodeComponent(
+                                                        homeController
+                                                                .searchSuggestions[
+                                                            index]['name']);
+                                                String gotourl =
+                                                    '/category/$categoryName/curation/$curationName/id/${homeController.searchSuggestions[index]['_id']}';
+                                                Get.toNamed(gotourl);
+                                                homeController
+                                                    .globalSearchController
+                                                    .clear();
+                                                homeController.searchSuggestions
+                                                    .value = [];
+                                              },
                                               dense: true,
                                               leading: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 child: Image.asset(
-                                                  CurationImages[homeController
-                                                      .categories
-                                                      .indexOf(homeController
-                                                              .searchSuggestions[
-                                                          index]['category'])],
+                                                  homeController.CurationImages[
+                                                      homeController.categories
+                                                          .indexOf(homeController
+                                                                  .searchSuggestions[
+                                                              index]['category'])],
                                                   fit: BoxFit.fitHeight,
                                                   height: 70,
                                                   width: 60,

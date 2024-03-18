@@ -5,6 +5,7 @@ import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/empty_chips.dart';
+import 'package:chips_demowebsite/widgets/empty_saved_curations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -44,145 +45,156 @@ class _SavedCurationsState extends State<SavedCurations> {
                 : screenWidth > 360
                     ? 2
                     : 1;
-    return Padding(
-        padding: const EdgeInsets.only(left: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Saved",
-              style: TextStyle(
-                  fontSize: getW(context) * 0.018,
-                  fontWeight: FontWeight.bold,
-                  color: ColorConst.primary),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Obx(
-              () => sidebarController.isPageLoading.value
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : sidebarController.mysavedCurations.isEmpty
-                      ? EmptyChipsCard(
-                          title: 'curation',
-                        )
-                      : Expanded(
-                          child: GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisSpacing: 0,
-                              crossAxisSpacing: 10,
-                              crossAxisCount: crossAxisCount,
-                            ),
-                            itemCount:
-                                sidebarController.mysavedCurations.length,
-                            itemBuilder: (context, index) {
-                              return MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    chipController.openCurationId.value =
-                                        sidebarController
-                                            .my3savedCurations[index]['_id'];
-                                    chipController.fetchchipsoCuration(context);
-                                    var gotourl = Uri.encodeComponent(
-                                        sidebarController
-                                            .mysavedCurations[index]['name']);
-                                    Get.toNamed(
-                                        '/savedchips/$gotourl/id/${chipController.openCurationId.value}');
-                                  },
-                                  child: Card(
-                                    clipBehavior: Clip.antiAlias,
-                                    elevation: 0,
-                                    color: Colors.transparent,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1.5,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20)),
-                                              ),
-                                              child: Image.network(
-                                                CurationImages[homeController
-                                                    .categories
-                                                    .indexOf(sidebarController
-                                                                .mysavedCurations[
-                                                            index][
-                                                        'category'])], // Replace with your image URL
-                                                fit: BoxFit.cover,
-                                                height:
-                                                    150, // Adjust the height
-                                                width: double.infinity,
+    return WillPopScope(
+      onWillPop: () async {
+        homeController.isSavedCuration.value = false;
+        Get.back();
+        return false;
+      },
+      child: Padding(
+          padding: const EdgeInsets.only(left: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Saved",
+                style: TextStyle(
+                    fontSize: getW(context) * 0.018,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConst.primary),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Obx(
+                () => sidebarController.isPageLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : sidebarController.mysavedCurations.isEmpty
+                        ? EmptySavedCurations()
+                        : Expanded(
+                            child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                mainAxisSpacing: 0,
+                                crossAxisSpacing: 10,
+                                crossAxisCount: crossAxisCount,
+                              ),
+                              itemCount:
+                                  sidebarController.mysavedCurations.length,
+                              itemBuilder: (context, index) {
+                                return MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      chipController.openCurationId.value =
+                                          sidebarController
+                                              .mysavedCurations[index]['_id'];
+                                      homeController.selctedCategoryTab.value =
+                                          sidebarController
+                                                  .mysavedCurations[index]
+                                              ['category'];
+                                      chipController
+                                          .fetchchipsoCuration(context);
+                                      var gotourl = Uri.encodeComponent(
+                                          sidebarController
+                                              .mysavedCurations[index]['name']);
+                                      Get.toNamed(
+                                          '/savedchips/$gotourl/id/${chipController.openCurationId.value}');
+                                    },
+                                    child: Card(
+                                      clipBehavior: Clip.antiAlias,
+                                      elevation: 0,
+                                      color: Colors.transparent,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          AspectRatio(
+                                            aspectRatio: 1.5,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                ),
+                                                child: Image.network(
+                                                  homeController.CurationImages[
+                                                      homeController.categories
+                                                          .indexOf(sidebarController
+                                                                      .mysavedCurations[
+                                                                  index][
+                                                              'category'])], // Replace with your image URL
+                                                  fit: BoxFit.cover,
+                                                  height:
+                                                      150, // Adjust the height
+                                                  width: double.infinity,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5, right: 5, top: 5),
-                                          child: Text(
-                                            sidebarController
-                                                    .mysavedCurations[index][
-                                                'name'], // Replace with your item title
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5, right: 5, top: 5),
+                                            child: Text(
+                                              sidebarController
+                                                      .mysavedCurations[index][
+                                                  'name'], // Replace with your item title
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Text(
-                                                sidebarController
-                                                        .mysavedCurations[index]
-                                                    ['user_id']['name'],
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.grey),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Text(
+                                                  sidebarController
+                                                          .mysavedCurations[
+                                                      index]['user_id']['name'],
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.grey),
+                                                ),
                                               ),
-                                            ),
-                                            const Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 5),
-                                              child: Text(
-                                                '', // Replace with your chips count
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.grey),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 5),
+                                                child: Text(
+                                                  '', // Replace with your chips count
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-            ),
-          ],
-        ));
+              ),
+            ],
+          )),
+    );
   }
 }

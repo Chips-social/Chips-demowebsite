@@ -435,8 +435,10 @@ class _ChipWidgetState extends State<ChipWidget> {
                                   widget.chipId;
                               if (widget.userId ==
                                   authController.currentUser['_id']) {
-                                choiceModal(context,
-                                    "You want to delete this chip.", "Chip");
+                                choiceModal(
+                                    context,
+                                    "Are you sure you want to delete this chip? Once it is deleted, you won`t be able to retrieve it back.",
+                                    "Chip");
                               } else {
                                 showErrorSnackBar(
                                     heading: "User",
@@ -450,11 +452,16 @@ class _ChipWidgetState extends State<ChipWidget> {
                         },
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
+                          PopupMenuItem<String>(
                             value: 'Delete',
                             child: Text(
                               'Delete',
-                              style: TextStyle(color: ColorConst.primary),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: widget.userId ==
+                                          authController.currentUser['_id']
+                                      ? ColorConst.primary
+                                      : Colors.grey),
                             ),
                           ),
                         ],
