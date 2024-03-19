@@ -359,29 +359,11 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                             cursor: SystemMouseCursors.click,
                                             child: GestureDetector(
                                               onTap: () {
-                                                if (finalList[index]
-                                                            ['category'] ==
-                                                        "Made by Chips" ||
+                                                chipController.selectModalCard(
+                                                    finalList[index]['name'],
+                                                    finalList[index]['_id'],
                                                     finalList[index]
-                                                            ['category'] ==
-                                                        "From our Desk") {
-                                                  showErrorSnackBar(
-                                                      heading:
-                                                          "Permision Denied",
-                                                      message:
-                                                          "Don't have permission to save chip in this curation.",
-                                                      icon: Icons.warning,
-                                                      color: Colors.white);
-                                                } else {
-                                                  chipController
-                                                      .selectModalCard(
-                                                          finalList[index]
-                                                              ['name'],
-                                                          finalList[index]
-                                                              ['_id'],
-                                                          finalList[index]
-                                                              ['category']);
-                                                }
+                                                        ['category']);
                                               },
                                               child: Card(
                                                 clipBehavior: Clip.antiAlias,
@@ -514,33 +496,16 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                             cursor: SystemMouseCursors.click,
                                             child: GestureDetector(
                                               onTap: () {
-                                                if (chipController.filteredNamesC[
-                                                                index]
-                                                            ['category'] ==
-                                                        "Made by Chips" ||
+                                                chipController.selectModalCard(
                                                     chipController
-                                                                .filteredNamesC[
-                                                            index]['category'] ==
-                                                        "From our Desk") {
-                                                  showErrorSnackBar(
-                                                      heading:
-                                                          "Permision Denied",
-                                                      message:
-                                                          "Don't have permission to save chip in this curation.",
-                                                      icon: Icons.warning,
-                                                      color: Colors.white);
-                                                } else {
-                                                  chipController.selectModalCard(
-                                                      chipController
-                                                              .filteredNamesC[
-                                                          index]['name'],
-                                                      chipController
-                                                              .filteredNamesC[
-                                                          index]['_id'],
-                                                      chipController
-                                                              .filteredNamesC[
-                                                          index]['category']);
-                                                }
+                                                            .filteredNamesC[
+                                                        index]['name'],
+                                                    chipController
+                                                            .filteredNamesC[
+                                                        index]['_id'],
+                                                    chipController
+                                                            .filteredNamesC[
+                                                        index]['category']);
                                               },
                                               child: Card(
                                                 clipBehavior: Clip.antiAlias,
@@ -670,26 +635,39 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                     Obx(
                       () => InkWell(
                         onTap: () async {
-                          if (chipController.selectedName.isNotEmpty &&
-                              chipController.selectedId.isNotEmpty) {
-                            var oldvalue =
-                                categoryController.selectedCurationName.value;
-                            categoryController.selectedCurationName.value =
-                                chipController.selectedName.value;
-                            categoryController
-                                .setCurationId(chipController.selectedId.value);
-                            if (chipController.isCreatingChip.value) {
-                              await uploadImagesToS3(
-                                  chipController.imageBytesList);
-                              await chipController.addChipToCuration(context);
-                              chipController.clearData();
+                          if (chipController.selectedChipId.value ==
+                                  'Made by Chips' ||
+                              chipController.selectedChipId.value ==
+                                  'From our Desk') {
+                            showErrorSnackBar(
+                                heading: "Permision Denied",
+                                message:
+                                    "Don't have permission to save chip in this curation.",
+                                icon: Icons.warning,
+                                color: Colors.white);
+                          } else {
+                            if (chipController.selectedName.isNotEmpty &&
+                                chipController.selectedId.isNotEmpty) {
+                              var oldvalue =
+                                  categoryController.selectedCurationName.value;
                               categoryController.selectedCurationName.value =
-                                  oldvalue;
-                            } else {
-                              await chipController.saveChipToCuration(context);
-                              chipController.clearData();
-                              categoryController.selectedCurationName.value =
-                                  oldvalue;
+                                  chipController.selectedName.value;
+                              categoryController.setCurationId(
+                                  chipController.selectedId.value);
+                              if (chipController.isCreatingChip.value) {
+                                await uploadImagesToS3(
+                                    chipController.imageBytesList);
+                                await chipController.addChipToCuration(context);
+                                chipController.clearData();
+                                categoryController.selectedCurationName.value =
+                                    oldvalue;
+                              } else {
+                                await chipController
+                                    .saveChipToCuration(context);
+                                chipController.clearData();
+                                categoryController.selectedCurationName.value =
+                                    oldvalue;
+                              }
                             }
                           }
                         },
