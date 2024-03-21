@@ -255,7 +255,7 @@ class _ChipDemoState extends State<ChipDemo> {
                                                   margin:
                                                       EdgeInsets.only(top: 6),
                                                   child: Image.asset(
-                                                    !homeController
+                                                    homeController
                                                             .isSavedCuration
                                                             .value
                                                         ? 'assets/icons/group.png'

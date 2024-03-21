@@ -28,7 +28,7 @@ String getSubdomain() {
     return parts.first;
   }
   print("");
-  return ''; // Default or main site
+  return '';
 }
 
 void main() async {
