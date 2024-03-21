@@ -33,7 +33,7 @@ Widget NavBar(context) {
           () => authController.isLoggedIn.value
               ? PopupMenuButton<String>(
                   position: PopupMenuPosition.under,
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.only(left: 5),
                   color: ColorConst.dark,
                   onSelected: (String result) {
                     switch (result) {
@@ -60,6 +60,7 @@ Widget NavBar(context) {
                     //   child: Text('Settings'),
                     // ),
                     const PopupMenuItem<String>(
+                      height: 40,
                       value: 'Logout',
                       child: Text(
                         'Logout',

@@ -11,20 +11,40 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   final TextEditingController globalSearchController = TextEditingController();
 
-  final ScrollController scrollController = ScrollController();
-  late List<GlobalKey<NavigatorState>> navigatorKeys = [];
+  late ScrollController scrollController;
   final RxList<int> navigationStack = RxList<int>();
   final CategoryController categoryController = Get.put(CategoryController());
   final AuthController authController = Get.find<AuthController>();
 
   var ownerName = "".obs;
+  var scrollPart = 0.obs;
 
   // late AnimationController animationController;
   // late Animation<Offset> animation;
 
+  void scrollToSelectedTab() {
+    int calculatedOffset = tabController.index * 15;
+    tabController.animateTo(
+      calculatedOffset,
+      duration: Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+  }
+
   var categories = [
     'From our Desk',
     'Made by Chips',
+    'Food & Drinks',
+    'Entertainment',
+    'Science & Tech',
+    'Art & Design',
+    'Interiors & Lifestyle',
+    'Travel',
+    'Fashion & Beauty',
+    'Health & Fitness',
+    "Games & Sports"
+  ].obs;
+  var interests = [
     'Food & Drinks',
     'Entertainment',
     'Science & Tech',
@@ -45,7 +65,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     "assets/website/interior_lifestyle.png",
     "assets/website/travel.png",
     "assets/website/fashion__beauty.png",
-    "assets/website/heath_fitness.png",
+    "assets/website/health_fitness.png",
     "assets/website/games__sports.png",
   ].obs;
 
@@ -83,10 +103,10 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         "assets/website/entertainment.png",
         "assets/website/science__tech.png",
         "assets/website/art__design.png",
-        "assets/website/interior__lifestyle.png",
+        "assets/website/interior_lifestyle.png",
         "assets/website/travel.png",
         "assets/website/fashion__beauty.png",
-        "assets/website/heath__fitness.png",
+        "assets/website/health_fitness.png",
         "assets/website/games__sports.png",
         "assets/website/curation_image.png",
       ];
@@ -112,10 +132,10 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         "assets/website/entertainment.png",
         "assets/website/science__tech.png",
         "assets/website/art__design.png",
-        "assets/website/interior__lifestyle.png",
+        "assets/website/interior_lifestyle.png",
         "assets/website/travel.png",
         "assets/website/fashion__beauty.png",
-        "assets/website/heath__fitness.png",
+        "assets/website/health_fitness.png",
         "assets/website/games__sports.png",
       ];
     }

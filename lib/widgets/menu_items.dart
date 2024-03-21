@@ -6,7 +6,7 @@ Widget bigText(String text) {
     text,
     style: const TextStyle(
         color: ColorConst.textFieldColor,
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: FontWeight.w700),
   );
 }

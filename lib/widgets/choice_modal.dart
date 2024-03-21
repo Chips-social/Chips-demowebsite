@@ -2,6 +2,7 @@ import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
+import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,8 @@ class ChoiceModal extends StatelessWidget {
                 width: 330,
                 color: ColorConst.primaryBackground,
                 child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: getW(context) < 330 ? 2 : 5),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +69,7 @@ class ChoiceModal extends StatelessWidget {
                               style: const TextStyle(
                                   fontFamily: 'Inter',
                                   color: ColorConst.textFieldColor,
-                                  fontSize: 17)),
+                                  fontSize: 15)),
                           const SizedBox(height: 15),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +83,8 @@ class ChoiceModal extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(25),
                                       color: ColorConst.primary),
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 12),
+                                      horizontal: getW(context) < 400 ? 15 : 24,
+                                      vertical: 12),
                                   child: Text(
                                     "Cancel",
                                     style: TextStyle(
@@ -116,7 +119,8 @@ class ChoiceModal extends StatelessWidget {
                                       border: Border.all(
                                           color: ColorConst.primary)),
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 12),
+                                      horizontal: getW(context) < 400 ? 15 : 20,
+                                      vertical: 12),
                                   child: Text(
                                     "Yes, delete",
                                     style: TextStyle(

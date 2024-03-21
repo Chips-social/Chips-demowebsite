@@ -24,17 +24,19 @@ class EmptyChipsCard extends StatelessWidget {
           children: [
             Image.asset(
               "website/no_chips.png",
-              width: 150,
-              height: 120,
+              width: 160,
+              height: 140,
             ),
             SizedBox(
               height: 4,
             ),
             Text(
               textAlign: TextAlign.center,
-              "It looks like you’ve not added anything.",
+              title == "chip"
+                  ? "It looks like you’ve not added anything."
+                  : "It looks like this category has no curations.",
               style: TextStyle(
-                  color: Color(0xFFA3A3A3), letterSpacing: 1.4, fontSize: 12),
+                  color: Color(0xFFA3A3A3), letterSpacing: 1.2, fontSize: 12),
             ),
             SizedBox(
               height: 4,
@@ -87,7 +89,9 @@ class EmptyChipsCard extends StatelessWidget {
               },
               child: Text(
                 textAlign: TextAlign.center,
-                "Start curating with a $title ->",
+                title == "chip"
+                    ? "Start curating with a chip ->"
+                    : "Start a curation",
                 style: TextStyle(color: ColorConst.primary, letterSpacing: 1.4),
               ),
             ),

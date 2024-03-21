@@ -5,7 +5,10 @@ import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/pages/page404.dart';
+import 'dart:html' as html;
+import 'dart:js' as js;
 import 'package:chips_demowebsite/routes/routes.dart';
+import 'package:chips_demowebsite/services/rest.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +20,17 @@ final GoogleSignIn googleSignIn = GoogleSignIn(
   clientId:
       '391369792833-72medeq5g0o5sklosb58k7c98ps72foj.apps.googleusercontent.com',
 );
+String getSubdomain() {
+  final hostname = html.window.location.hostname;
+  List<String> parts = hostname!.split('.');
+  if (parts.length >= 3) {
+    print(parts.first);
+    return parts.first;
+  }
+  print("");
+  return ''; // Default or main site
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init("chips_user");
@@ -28,17 +42,25 @@ void main() async {
 
   Get.put(CreateCurationController());
   Get.put(ChipController());
+  String initialRoute = '/';
+  String? subdomain = getSubdomain();
+  if (subdomain == "") {
+    initialRoute = '/'; // Route for the main site
+  } else {
+    initialRoute = '/business'; // Route for subdomain-specific pages
+  }
 
-  runApp(MyApp());
+  runApp(MyApp(initialRoute: initialRoute));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  MyApp({super.key, required this.initialRoute});
+  final String initialRoute;
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: initialRoute,
         title: 'Chips.Social',
         scrollBehavior: MaterialScrollBehavior().copyWith(
           dragDevices: {

@@ -34,10 +34,10 @@ class MyTextField extends StatelessWidget {
               floatingLabelStyle: errorText == 'null'
                   ? const TextStyle(color: ColorConst.secondaryText)
                   : const TextStyle(color: ColorConst.errorLight),
-              filled: true,
+              filled: false,
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               suffixIcon: suffixButton,
-              fillColor: ColorConst.primaryBackground,
+              // fillColor: ColorConst.primaryBackground,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
                 borderSide:
@@ -64,10 +64,10 @@ class MyTextField extends StatelessWidget {
                     const BorderSide(color: ColorConst.errorLight, width: 1.0),
               ),
               hintText: hintText,
-              label: Text(
-                hintText,
-                style: const TextStyle(fontFamily: 'Inter'),
-              ),
+              // label: Text(
+              //   hintText,
+              //   style: const TextStyle(fontFamily: 'Inter'),
+              // ),
               hintStyle: const TextStyle(
                   color: ColorConst.primaryGrey,
                   fontSize: 14,

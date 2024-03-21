@@ -92,6 +92,7 @@ class _ChipDemoState extends State<ChipDemo> {
                     ),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
                         onTap: () {
@@ -120,7 +121,7 @@ class _ChipDemoState extends State<ChipDemo> {
                           ),
                         ),
                       ),
-                      SizedBox(width: getW(context) > 700 ? 12 : 5),
+                      SizedBox(width: getW(context) > 700 ? 12 : 8),
                       Obx(
                         () => ((homeController.selctedCategoryTab.value ==
                                             "From our Desk" ||
@@ -158,18 +159,19 @@ class _ChipDemoState extends State<ChipDemo> {
                               )
                             : Container(),
                       ),
-                      SizedBox(width: getW(context) > 700 ? 12 : 0),
                       Obx(() => curationController.isCurationOwner.value
                           ? InkWell(
                               onTap: () {
                                 choiceModal(
                                     context,
-                                    "Are you sure you want to delete this curation? Once it is deleted, you won`t be able to retrieve it back.",
+                                    "Are you sure you want to delete this curation? Once it is deleted, you won't be able to retrieve it back.",
                                     "Curation");
                               },
                               child: Container(
+                                margin: EdgeInsets.only(
+                                    left: getW(context) < 700 ? 8 : 12),
                                 padding: const EdgeInsets.only(
-                                    left: 9, right: 9, top: 11, bottom: 10),
+                                    left: 7, right: 7, top: 8, bottom: 7),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: ColorConst.iconButtonColor,
@@ -218,6 +220,8 @@ class _ChipDemoState extends State<ChipDemo> {
                                       child: getW(context) > 700
                                           ? Obx(
                                               () => Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 12),
                                                 decoration: BoxDecoration(
                                                   color: curationController
                                                           .isCurationSaved.value
@@ -245,18 +249,20 @@ class _ChipDemoState extends State<ChipDemo> {
                                               ),
                                             )
                                           : Obx(
-                                              () => Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8),
-                                                child: SvgPicture.asset(
-                                                  curationController
-                                                          .isCurationSaved.value
-                                                      ? 'assets/icons/bookmark_selected2.svg'
-                                                      : 'assets/icons/bookmark_empty2.svg',
-                                                  height: 50,
-                                                  width: 50,
-                                                ),
-                                              ),
+                                              () => Container(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  margin:
+                                                      EdgeInsets.only(top: 6),
+                                                  child: Image.asset(
+                                                    !homeController
+                                                            .isSavedCuration
+                                                            .value
+                                                        ? 'assets/icons/group.png'
+                                                        : 'assets/icons/group2.png',
+                                                    width: 60,
+                                                    height: 60,
+                                                  )),
                                             ),
                                     )
                                   : Container(),

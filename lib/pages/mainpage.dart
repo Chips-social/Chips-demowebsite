@@ -1,11 +1,9 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
-import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/pages/navbar.dart';
 import 'package:chips_demowebsite/pages/sidebar.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
@@ -33,7 +31,7 @@ class _MainPageState extends State<MainPage> {
               backgroundColor: Colors.transparent,
               iconTheme: const IconThemeData(color: Colors.white),
               toolbarHeight: 85,
-              leadingWidth: getW(context) > 400 ? 70 : 0,
+              leadingWidth: 70,
               elevation: 0,
               title: NavBar(context),
             ),
@@ -42,7 +40,7 @@ class _MainPageState extends State<MainPage> {
               homeController.drawerOpen.value = isOpen;
             },
             body: Padding(
-              padding: EdgeInsets.only(right: getW(context) * 0.025),
+              padding: EdgeInsets.only(right: getW(context) * 0.03),
               child: Stack(
                 children: [
                   Positioned(
@@ -62,19 +60,14 @@ class _MainPageState extends State<MainPage> {
                 : Align(
                     alignment: Alignment.topCenter,
                     child: Column(
-                      crossAxisAlignment: getW(context) < 400
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                            margin: EdgeInsets.only(
-                                top: 20, left: getW(context) < 400 ? 70 : 0),
-                            width: getW(context) < 450
+                            margin: EdgeInsets.only(top: 20, left: 0),
+                            width: getW(context) < 600
                                 ? getW(context) * 0.5
-                                : getW(context) < 600
-                                    ? getW(context) * 0.5
-                                    : getW(context) * 0.4,
+                                : getW(context) * 0.4,
                             child: Obx(
                               () => TextField(
                                 style: const TextStyle(color: Colors.white),
@@ -87,19 +80,24 @@ class _MainPageState extends State<MainPage> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: ColorConst.dark,
-                                  hintText: 'Search',
-                                  hintStyle: const TextStyle(
-                                    color: ColorConst.textFieldColor,
-                                  ),
+                                  hintText: getW(context) < 400
+                                      ? 'search socials'
+                                      : 'Search',
+                                  hintStyle: TextStyle(
+                                      color: ColorConst.textFieldColor,
+                                      fontSize: getW(context) < 400 ? 12 : 15),
                                   prefixIcon: Padding(
                                     padding: homeController
                                             .globalSearchController.text.isEmpty
                                         ? EdgeInsets.only(
-                                            left: getW(context) < 450
-                                                ? getW(context) * 0.1
-                                                : getW(context) < 600
-                                                    ? getW(context) * 0.18
-                                                    : getW(context) * 0.14,
+                                            left: getW(context) < 400
+                                                ? 8
+                                                : getW(context) > 600 &&
+                                                        getW(context) < 700
+                                                    ? getW(context) * 0.10
+                                                    : getW(context) < 500
+                                                        ? getW(context) * 0.1
+                                                        : getW(context) * 0.13,
                                             right: 10)
                                         : EdgeInsets.zero,
                                     child: Icon(
@@ -126,21 +124,27 @@ class _MainPageState extends State<MainPage> {
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(
+                                            getW(context) < 400 ? 20 : 10),
+                                        topRight: Radius.circular(
+                                            getW(context) < 400 ? 20 : 10),
                                         bottomLeft: Radius.circular(
                                             homeController
                                                     .searchSuggestions.isEmpty
-                                                ? 10
+                                                ? getW(context) < 400
+                                                    ? 20
+                                                    : 10
                                                 : 0),
                                         bottomRight: Radius.circular(
                                             homeController
                                                     .searchSuggestions.isEmpty
-                                                ? 10
+                                                ? getW(context) < 400
+                                                    ? 20
+                                                    : 10
                                                 : 0)),
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.symmetric(vertical: 16),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: getW(context) < 400 ? 12 : 16),
                                 ),
                                 onChanged:
                                     homeController.fetchSearchSuggestions,

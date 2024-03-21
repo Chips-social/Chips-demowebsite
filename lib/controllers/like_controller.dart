@@ -26,14 +26,15 @@ class LikeController extends GetxController {
     var response = await postRequestAuthenticated(
         endpoint: '/like/unlike/chip', data: jsonEncode(data));
     if (response["success"]) {
+      return;
       // homeController.allChips();
-      showErrorSnackBar(
-          heading: 'Chip',
-          message: response['message'],
-          icon: Icons.check_circle,
-          color: ColorConst.success);
+      // showErrorSnackBar(
+      //     heading: 'Chip',
+      //     message: response['message'],
+      //     icon: Icons.check_circle,
+      //     color: ColorConst.success);
     } else {
-      showErrorSnackBar(
+      return showErrorSnackBar(
           heading: 'Error',
           message: response["message"],
           icon: Icons.error,

@@ -256,3 +256,14 @@ Future<void> uploadImagesToS3(List<Uint8List> imageBytesList) async {
     chipController.isLoading.value = false;
   }
 }
+
+// Future<dynamic> createsubDomain(String subdomain) async {
+//   final response = await http.get(
+//     Uri.parse('$hostUrl/api/subdomain'),
+//   );
+//   if (response.statusCode == 200) {
+//     return json.decode(response.body);
+//   } else {
+//     throw Exception('Failed to load organization data');
+//   }
+// }

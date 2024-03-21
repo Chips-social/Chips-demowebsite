@@ -190,11 +190,11 @@ class ChipController extends GetxController {
 
       homeController.allChips();
       Navigator.of(context).pop();
-      successChip(
-          context,
-          "You have successfully created a Chip in ${categoryController.selectedCurationName.value}. You can find it in your Saved curations.",
-          () {},
-          "Go to");
+      // successChip(
+      //     context,
+      //     "You have successfully created a Chip in ${categoryController.selectedCurationName.value}. You can find it in your Saved curations.",
+      //     () {},
+      //     "Go to");
       return {"success": true, "message": "added Chip to Curation"};
     } else {
       isLoading.value = false;

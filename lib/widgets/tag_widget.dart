@@ -34,8 +34,7 @@ class MyTags extends StatelessWidget {
           children: gridList
               .map<Widget>((chip) => Obx(
                     () => Padding(
-                      padding:
-                          EdgeInsets.only(bottom: getW(context) < 390 ? 5 : 10),
+                      padding: EdgeInsets.only(bottom: 10),
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: InkWell(

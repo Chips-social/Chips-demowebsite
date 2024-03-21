@@ -88,13 +88,9 @@ class _ModalState extends State<Modal> {
               Expanded(
                   flex: 2,
                   child: Container(
-                      decoration: const BoxDecoration(
-                        color: ColorConst.chipBackground,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(32),
-                          bottomRight: Radius.circular(32),
-                        ),
-                      ),
+                      decoration: BoxDecoration(
+                          color: ColorConst.chipBackground,
+                          borderRadius: BorderRadius.circular(32)),
                       padding: EdgeInsets.symmetric(
                           horizontal: getW(context) * 0.02, vertical: 10),
                       child: Column(
@@ -108,10 +104,10 @@ class _ModalState extends State<Modal> {
                               Obx(
                                 () => Text(
                                     authController.isVerifyPage.value
-                                        ? "Verify email"
+                                        ? "Verify it's you"
                                         : authController.isLogIn.value
                                             ? "Jump back in"
-                                            : 'Join Club',
+                                            : 'Join the club',
                                     style: const TextStyle(
                                         color: ColorConst.primaryText,
                                         fontSize: 20,

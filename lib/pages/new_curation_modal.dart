@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
@@ -19,17 +20,16 @@ class NewCurationModal extends StatelessWidget {
       Get.put(CreateCurationController());
   final ChipController chipController = Get.put(ChipController());
   final SidebarController sidebarController = Get.find<SidebarController>();
+  final CategoryController categoryController = Get.find<CategoryController>();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        contentPadding: getW(context) < 400
-            ? EdgeInsets.symmetric(horizontal: 8, vertical: 10)
-            : EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         backgroundColor: ColorConst.primaryBackground,
         surfaceTintColor: ColorConst.primaryBackground,
-        content: Stack(children: [
-          SizedBox(
+        content: SingleChildScrollView(
+          child: SizedBox(
               width: 420,
               child: Padding(
                 padding: getW(context) < 460
@@ -351,7 +351,7 @@ class NewCurationModal extends StatelessWidget {
                                       ? const SizedBox()
                                       : MyTags(
                                           labelKey: "interests",
-                                          gridList: homeController.categories,
+                                          gridList: homeController.interests,
                                           controller: curationController,
                                           selectedValue: curationController
                                               .selectedValue.value,
@@ -467,6 +467,18 @@ class NewCurationModal extends StatelessWidget {
                                                                   Colors.white);
                                                           Navigator.of(context)
                                                               .pop();
+                                                          String categoryName =
+                                                              Uri.encodeComponent(
+                                                                  curationController
+                                                                      .selectedValue
+                                                                      .value);
+                                                          String curationName =
+                                                              Uri.encodeComponent(
+                                                                  curationController
+                                                                      .curationCaptionController
+                                                                      .text);
+                                                          Get.toNamed(
+                                                              '/category/$categoryName/curation/$curationName/id/${categoryController.selectedCurationId.value}');
                                                         } else {
                                                           curationController
                                                               .isPageLoading
@@ -535,7 +547,7 @@ class NewCurationModal extends StatelessWidget {
                               ),
                       ),
                     ]),
-              ))
-        ]));
+              )),
+        ));
   }
 }

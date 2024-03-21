@@ -25,6 +25,7 @@ class CreateCurationController extends GetxController {
   final isCurationOwner = false.obs;
 
   var selectedValue = "".obs;
+  var curMadeId = "".obs;
 
   @override
   void onInit() {

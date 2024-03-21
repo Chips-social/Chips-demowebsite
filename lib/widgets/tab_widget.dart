@@ -55,15 +55,17 @@ class _TabWidgetState extends State<TabWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Obx(
-                  () => Text(
-                    homeController.selctedCategoryTab.value,
-                    style: TextStyle(
-                        fontSize: screenWidth < 360 ? 18 : 24,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConst.primary),
-                  ),
-                ),
+                getW(context) < 400
+                    ? Container()
+                    : Obx(
+                        () => Text(
+                          homeController.selctedCategoryTab.value,
+                          style: TextStyle(
+                              fontSize: screenWidth < 360 ? 18 : 24,
+                              fontWeight: FontWeight.w700,
+                              color: ColorConst.primary),
+                        ),
+                      ),
                 Row(
                   children: [
                     // Container(
@@ -120,6 +122,8 @@ class _TabWidgetState extends State<TabWidget> {
                                   homeController.selctedCategoryTab.value !=
                                       "Made by Chips")
                           ? Container(
+                              margin: EdgeInsets.only(
+                                  right: getW(context) < 450 ? 0 : 10),
                               decoration: BoxDecoration(
                                 color: ColorConst.websiteHomeBox,
                                 borderRadius: BorderRadius.circular(12),
@@ -154,7 +158,7 @@ class _TabWidgetState extends State<TabWidget> {
                     ? EmptyChipsCard(title: "curation")
                     : GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 0,
+                          mainAxisSpacing: getW(context) < 400 ? 10 : 2,
                           crossAxisSpacing: 20,
                           crossAxisCount: crossAxisCount,
                         ),
@@ -227,16 +231,23 @@ class _TabWidgetState extends State<TabWidget> {
                                         ),
                                       ),
                                     ),
-                                    Padding(
+                                    Container(
                                       padding: const EdgeInsets.only(
                                           left: 5, right: 5, top: 5),
                                       child: Text(
                                         homeController.curations[index][
                                             'name'], // Replace with your item title
-                                        style: const TextStyle(
-                                            fontSize: 15,
+                                        style: TextStyle(
+                                            fontSize: homeController
+                                                        .curations[index]
+                                                            ['name']
+                                                        .length >
+                                                    20
+                                                ? 13
+                                                : 15,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     Row(

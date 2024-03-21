@@ -187,7 +187,7 @@ class SideBar extends StatelessWidget {
                                               style: TextStyle(
                                                   color:
                                                       ColorConst.textFieldColor,
-                                                  fontSize: 14),
+                                                  fontSize: 16),
                                             ),
                                             Icon(Icons.keyboard_arrow_right,
                                                 size: 20,
@@ -317,7 +317,7 @@ class SideBar extends StatelessWidget {
                                               style: TextStyle(
                                                   color:
                                                       ColorConst.textFieldColor,
-                                                  fontSize: 14),
+                                                  fontSize: 16),
                                             ),
                                             Icon(Icons.keyboard_arrow_right,
                                                 size: 20,
@@ -339,6 +339,85 @@ class SideBar extends StatelessWidget {
                           )
                         : Container(),
                   ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  // Obx(
+                  //   () => authController.isLoggedIn.value &&
+                  //           sidebarController.my3savedCurations.isNotEmpty
+                  //       ? Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             InkWell(
+                  //               onTap: () async {},
+                  //               child: Container(
+                  //                   width: 200,
+                  //                   height: 38,
+                  //                   alignment: Alignment.centerLeft,
+                  //                   padding: EdgeInsets.only(
+                  //                       left: getW(context) * 0.03),
+                  //                   decoration: BoxDecoration(
+                  //                       color:
+                  //                           homeController.isSavedCuration.value
+                  //                               ? ColorConst.dark
+                  //                               : Colors.transparent),
+                  //                   child: bigText("Subscriptions ")),
+                  //             ),
+                  //             Container(
+                  //               // height: 150,
+                  //               padding:
+                  //                   EdgeInsets.only(left: getW(context) * 0.03),
+                  //               child: Obx(
+                  //                 () => ListView.builder(
+                  //                     itemCount: sidebarController
+                  //                         .my3savedCurations.length,
+                  //                     shrinkWrap: true,
+                  //                     itemBuilder: (context, index) {
+                  //                       return InkWell(
+                  //                         onTap: () async {},
+                  //                         child: Padding(
+                  //                           padding: const EdgeInsets.symmetric(
+                  //                               vertical: 9),
+                  //                           child: smallText(sidebarController
+                  //                               .my3savedCurations[index]
+                  //                                   ['name']
+                  //                               .toString()),
+                  //                         ),
+                  //                       );
+                  //                     }),
+                  //               ),
+                  //             ),
+                  //             const SizedBox(height: 5),
+                  //             Padding(
+                  //                 padding: EdgeInsets.only(
+                  //                     left: getW(context) * 0.03, bottom: 5),
+                  //                 child: InkWell(
+                  //                   onTap: () async {},
+                  //                   child: const Row(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.start,
+                  //                     crossAxisAlignment:
+                  //                         CrossAxisAlignment.center,
+                  //                     children: [
+                  //                       Text(
+                  //                         'view more',
+                  //                         style: TextStyle(
+                  //                             color: ColorConst.textFieldColor,
+                  //                             fontSize: 16),
+                  //                       ),
+                  //                       Icon(Icons.keyboard_arrow_right,
+                  //                           size: 20,
+                  //                           color: ColorConst.textFieldColor)
+                  //                     ],
+                  //                   ),
+                  //                 )),
+                  //             const Divider(
+                  //               color: ColorConst.dividerLine,
+                  //             ),
+                  //           ],
+                  //         )
+                  //       : Container(),
+                  // ),
                   const SizedBox(height: 10),
                 ],
               ),

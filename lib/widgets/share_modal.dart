@@ -166,9 +166,9 @@ class ShareModal extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       FontAwesomeIcons.link,
-                      size: 16,
+                      size: getW(context) < 400 ? 12 : 16,
                       color: ColorConst.primary,
                     ),
                     onPressed: () {
@@ -183,7 +183,9 @@ class ShareModal extends StatelessWidget {
                   Expanded(
                     child: Text(
                       curationLink,
-                      style: const TextStyle(color: Colors.grey, fontSize: 13),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: getW(context) < 400 ? 11 : 13),
                     ),
                   ),
                   ElevatedButton(

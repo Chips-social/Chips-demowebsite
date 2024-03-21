@@ -21,6 +21,7 @@ class _CategoryTabState extends State<CategoryTab> {
   @override
   void initState() {
     super.initState();
+    homeController.scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       homeController.getData();
       var initialCategory = Uri.decodeComponent(
@@ -35,6 +36,12 @@ class _CategoryTabState extends State<CategoryTab> {
         homeController.selctedCategoryTab.value =
             homeController.categories[initialIndex];
         homeController.tabController.animateTo(initialIndex);
+        homeController.scrollController.animateTo(
+            homeController.tabController.index * 150,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut);
+
+        // homeController.scrollToSelectedTab();
         homeController.allCurations();
       }
     });
@@ -42,18 +49,21 @@ class _CategoryTabState extends State<CategoryTab> {
 
   @override
   void dispose() {
+    homeController.scrollController.dispose();
     super.dispose();
   }
 
   void scrollTabsRight() {
+    homeController.scrollPart.value += 150;
     homeController.scrollController.animateTo(
-      homeController.scrollController.offset + 150, // Scroll by 150 pixels
+      homeController.scrollController.offset + 150,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
 
   void scrollTabsLeft() {
+    homeController.scrollPart.value -= 150;
     homeController.scrollController.animateTo(
       homeController.scrollController.offset - 150,
       duration: const Duration(milliseconds: 300),

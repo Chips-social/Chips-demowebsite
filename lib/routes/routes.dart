@@ -1,3 +1,5 @@
+import 'package:chips_demowebsite/business/home_curation.dart';
+import 'package:chips_demowebsite/business/home_mainpage.dart';
 import 'package:chips_demowebsite/pages/category_tab.dart';
 import 'package:chips_demowebsite/pages/home.dart';
 import 'package:chips_demowebsite/pages/mainpage.dart';
@@ -11,6 +13,7 @@ import 'package:get/get.dart';
 
 class AppRoutes {
   static const String routee = '/';
+  static const String routesubdom = '/business';
   static const String homeRoute = '/category/:categoryName';
   static const String curationRoute =
       '/category/:categoryName/curation/:title/id/:id';
@@ -22,6 +25,10 @@ class AppRoutes {
   // static const String categoryRoute = '/category/:categoryName';
 
   static final List<GetPage> routes = [
+    GetPage(
+      name: routesubdom,
+      page: () => const HomeMainPage(child: BusinessHomeCuration()),
+    ),
     GetPage(
       name: routee,
       page: () => const MainPage(child: CategoryTab(child: Home())),
