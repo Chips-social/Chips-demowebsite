@@ -82,7 +82,7 @@ class _ChipDemoState extends State<ChipDemo> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       title,
                       style: TextStyle(
@@ -151,7 +151,7 @@ class _ChipDemoState extends State<ChipDemo> {
                                     color: ColorConst.iconButtonColor,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add,
                                     color: ColorConst.websiteHomeBox,
                                   ),
@@ -220,20 +220,21 @@ class _ChipDemoState extends State<ChipDemo> {
                                       child: getW(context) > 700
                                           ? Obx(
                                               () => Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 12),
+                                                margin: const EdgeInsets.only(
+                                                    left: 12),
                                                 decoration: BoxDecoration(
                                                   color: curationController
                                                           .isCurationSaved.value
                                                       ? ColorConst
                                                           .chipBackground
-                                                      : Color.fromRGBO(
+                                                      : const Color.fromRGBO(
                                                           127, 62, 255, 60),
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 4),
                                                   child: Text(
@@ -252,14 +253,14 @@ class _ChipDemoState extends State<ChipDemo> {
                                               () => Container(
                                                   alignment:
                                                       Alignment.centerLeft,
-                                                  margin:
-                                                      EdgeInsets.only(top: 6),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 6),
                                                   child: Image.asset(
-                                                    homeController
-                                                            .isSavedCuration
+                                                    curationController
+                                                            .isCurationSaved
                                                             .value
-                                                        ? 'assets/icons/group.png'
-                                                        : 'assets/icons/group2.png',
+                                                        ? 'assets/icons/group2.png'
+                                                        : 'assets/icons/group.png',
                                                     width: 60,
                                                     height: 60,
                                                   )),
@@ -281,7 +282,7 @@ class _ChipDemoState extends State<ChipDemo> {
                       children: [
                         Obx(
                           () => Padding(
-                            padding: EdgeInsets.only(left: 18),
+                            padding: const EdgeInsets.only(left: 18),
                             child: Text(
                               homeController.ownerName.value,
                               style: const TextStyle(
@@ -325,7 +326,7 @@ class _ChipDemoState extends State<ChipDemo> {
               ),
               const SizedBox(height: 10),
               Obx(() => homeController.isLoading.value
-                  ? CircularProgressIndicator()
+                  ? buildShimmerCuration(8, getW(context))
                   : homeController.chips.isEmpty
                       ? EmptyChipsCard(title: 'chip')
                       : Expanded(

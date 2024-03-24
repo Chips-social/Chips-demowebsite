@@ -7,26 +7,22 @@ import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/share_modal.dart';
-//import 'package:chips_demowebsite/widgets/share_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 final HomeController homeController = Get.put(HomeController());
 Widget HomeStartCard(context) {
   return Container(
-    height: 220,
+    height: 200,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: ColorConst.websiteHomeBox),
-    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      // SlideTransition(
-      //      position: homeController.animation,
-      //     child:
+    child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Image.asset('assets/website/website_card.png',
           height: 50, width: getW(context) > 600 ? 200 : 150),
       // ),
       Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
           child: Column(
             children: [
               Row(
@@ -41,7 +37,7 @@ Widget HomeStartCard(context) {
               const SizedBox(height: 10),
               const Text('Save your favourites and Curate Your Internet.',
                   style: TextStyle(color: ColorConst.primary, fontSize: 14)),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               PillButton(
                   onTap: () async {
                     if (authController.isLoggedIn.value) {

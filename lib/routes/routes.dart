@@ -1,5 +1,3 @@
-import 'package:chips_demowebsite/business/home_curation.dart';
-import 'package:chips_demowebsite/business/home_mainpage.dart';
 import 'package:chips_demowebsite/pages/category_tab.dart';
 import 'package:chips_demowebsite/pages/home.dart';
 import 'package:chips_demowebsite/pages/mainpage.dart';
@@ -13,7 +11,7 @@ import 'package:get/get.dart';
 
 class AppRoutes {
   static const String routee = '/';
-  static const String routesubdom = '/business';
+  // static const String routesubdom = '/business';
   static const String homeRoute = '/category/:categoryName';
   static const String curationRoute =
       '/category/:categoryName/curation/:title/id/:id';
@@ -25,10 +23,10 @@ class AppRoutes {
   // static const String categoryRoute = '/category/:categoryName';
 
   static final List<GetPage> routes = [
-    GetPage(
-      name: routesubdom,
-      page: () => const HomeMainPage(child: BusinessHomeCuration()),
-    ),
+    // GetPage(
+    //   name: routesubdom,
+    //   page: () => const HomeMainPage(child: BusinessHomeCuration()),
+    // ),
     GetPage(
       name: routee,
       page: () => const MainPage(child: CategoryTab(child: Home())),
@@ -39,16 +37,15 @@ class AppRoutes {
     ),
     GetPage(
       name: curationRoute,
-      page: () => const MainPage(
-          child: CategoryTab(child: ChipDemo())), // Adjust as needed
+      page: () => const MainPage(child: CategoryTab(child: ChipDemo())),
     ),
     GetPage(
       name: mycurationRoute,
-      page: () => MainPage(child: MyCurations()), // Adjust as needed
+      page: () => const MainPage(child: MyCurations()),
     ),
     GetPage(
       name: savedCurationRoute,
-      page: () => MainPage(child: SavedCurations()), // Adjust as needed
+      page: () => const MainPage(child: SavedCurations()),
     ),
     GetPage(
       name: pageNotFoundRoute,
@@ -61,7 +58,7 @@ class AppRoutes {
     ),
     GetPage(
       name: savedCurationChipsRoute,
-      page: () => MainPage(child: SavedCurationChips()),
+      page: () => const MainPage(child: SavedCurationChips()),
     ),
     // Fallback for undefined routes
   ];

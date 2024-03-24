@@ -38,10 +38,8 @@ class _CategoryTabState extends State<CategoryTab> {
         homeController.tabController.animateTo(initialIndex);
         homeController.scrollController.animateTo(
             homeController.tabController.index * 150,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut);
-
-        // homeController.scrollToSelectedTab();
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.linear);
         homeController.allCurations();
       }
     });
@@ -58,17 +56,19 @@ class _CategoryTabState extends State<CategoryTab> {
     homeController.scrollController.animateTo(
       homeController.scrollController.offset + 150,
       duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
+      curve: Curves.easeOut,
     );
   }
 
   void scrollTabsLeft() {
-    homeController.scrollPart.value -= 150;
-    homeController.scrollController.animateTo(
-      homeController.scrollController.offset - 150,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    if (homeController.scrollPart.value > 0) {
+      homeController.scrollPart.value -= 150;
+      homeController.scrollController.animateTo(
+        homeController.scrollController.offset - 150,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   @override
@@ -105,12 +105,13 @@ class _CategoryTabState extends State<CategoryTab> {
                         children: [
                           getW(context) > 600
                               ? IconButton(
-                                  icon: Icon(Icons.navigate_before_rounded),
+                                  icon:
+                                      const Icon(Icons.navigate_before_rounded),
                                   color: ColorConst.primary,
                                   onPressed: scrollTabsLeft,
                                 )
                               : Container(),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Expanded(
@@ -124,14 +125,14 @@ class _CategoryTabState extends State<CategoryTab> {
                                 padding: EdgeInsets.zero,
                                 unselectedLabelColor: Colors.grey,
                                 labelPadding:
-                                    EdgeInsets.symmetric(horizontal: 25),
+                                    const EdgeInsets.symmetric(horizontal: 25),
                                 indicatorSize: TabBarIndicatorSize.tab,
                                 labelColor: ColorConst.primary,
                                 indicatorPadding: EdgeInsets.zero,
                                 indicatorColor: ColorConst.primary,
                                 dividerHeight: 0.3,
                                 dividerColor: Colors.grey,
-                                labelStyle: TextStyle(
+                                labelStyle: const TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 15),
                                 onTap: (index) {
                                   homeController.changeTab(index, context);
@@ -144,14 +145,14 @@ class _CategoryTabState extends State<CategoryTab> {
                           ),
                           getW(context) > 600
                               ? IconButton(
-                                  icon: Icon(Icons.navigate_next_rounded),
+                                  icon: const Icon(Icons.navigate_next_rounded),
                                   color: ColorConst.primary,
                                   onPressed: scrollTabsRight,
                                 )
                               : Container(),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       Expanded(flex: 1, child: widget.child)

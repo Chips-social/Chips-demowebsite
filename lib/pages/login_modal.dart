@@ -372,8 +372,8 @@ class _ModalState extends State<Modal> {
                                                   ? const SizedBox(
                                                       height: 20,
                                                       width: 20,
-                                                      child:
-                                                          CircularProgressIndicator(),
+                                                      child: Text(
+                                                          "Please wait..."),
                                                     )
                                                   : Text(
                                                       authController

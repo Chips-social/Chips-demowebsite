@@ -1,6 +1,7 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
 import 'package:chips_demowebsite/controllers/chip_controller.dart';
+import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
@@ -8,13 +9,14 @@ import 'package:chips_demowebsite/widgets/chip_widget.dart';
 import 'package:chips_demowebsite/widgets/empty_chips.dart';
 import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
+import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class SavedCurationChips extends StatefulWidget {
-  SavedCurationChips({super.key});
+  const SavedCurationChips({super.key});
 
   @override
   State<SavedCurationChips> createState() => _SavedCurationChipsState();
@@ -27,6 +29,8 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
 
   final SidebarController sidebarController = Get.find<SidebarController>();
   final ChipController chipController = Get.find<ChipController>();
+  final CreateCurationController curationController =
+      Get.find<CreateCurationController>();
 
   final String title = Get.parameters['chip'].toString();
 
@@ -133,7 +137,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                                     color: ColorConst.iconButtonColor,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add,
                                     color: ColorConst.websiteHomeBox,
                                   ),
@@ -142,20 +146,30 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                             )
                           : Container(),
                       const SizedBox(width: 10),
-                      Container(
-                        height: 35,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: getW(context) < 400 ? 3 : 10),
-                        decoration: BoxDecoration(
-                            color: ColorConst.chipBackground,
-                            border: Border.all(color: Colors.transparent),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text(
-                            "Remove from Saved",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: getW(context) < 400 ? 12 : 14),
+                      InkWell(
+                        onTap: () {
+                          curationController.unsaveCuration();
+                          showErrorSnackBar(
+                              heading: "Curation",
+                              message: "Unsaved curation",
+                              icon: Icons.save,
+                              color: Colors.white);
+                        },
+                        child: Container(
+                          height: 35,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: getW(context) < 400 ? 3 : 10),
+                          decoration: BoxDecoration(
+                              color: ColorConst.chipBackground,
+                              border: Border.all(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                            child: Text(
+                              "Remove from Saved",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: getW(context) < 400 ? 12 : 14),
+                            ),
                           ),
                         ),
                       ),
@@ -262,9 +276,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
               //       ),
               Obx(
                 () => chipController.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? Center(child: buildShimmerCuration(8, getW(context)))
                     : chipController.chipsofCuration.isEmpty
                         ? EmptyChipsCard(title: "chip")
                         : Expanded(

@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                            margin: EdgeInsets.only(top: 20, left: 0),
+                            margin: const EdgeInsets.only(top: 20, left: 0),
                             width: getW(context) < 600
                                 ? getW(context) * 0.5
                                 : getW(context) * 0.4,
@@ -82,7 +82,7 @@ class _MainPageState extends State<MainPage> {
                                   fillColor: ColorConst.dark,
                                   hintText: getW(context) < 400
                                       ? 'search socials'
-                                      : 'Search',
+                                      : 'Searchh',
                                   hintStyle: TextStyle(
                                       color: ColorConst.textFieldColor,
                                       fontSize: getW(context) < 400 ? 12 : 15),
@@ -100,7 +100,7 @@ class _MainPageState extends State<MainPage> {
                                                         : getW(context) * 0.13,
                                             right: 10)
                                         : EdgeInsets.zero,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.search,
                                       color: ColorConst.textFieldColor,
                                     ),
@@ -117,7 +117,7 @@ class _MainPageState extends State<MainPage> {
                                             homeController
                                                 .searchSuggestions.value = [];
                                           },
-                                          child: Icon(Icons.close,
+                                          child: const Icon(Icons.close,
                                               color: ColorConst.textFieldColor),
                                         )
                                       : null,
@@ -125,21 +125,21 @@ class _MainPageState extends State<MainPage> {
                                     borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(
-                                            getW(context) < 400 ? 20 : 10),
+                                            getW(context) < 400 ? 50 : 10),
                                         topRight: Radius.circular(
-                                            getW(context) < 400 ? 20 : 10),
+                                            getW(context) < 400 ? 50 : 10),
                                         bottomLeft: Radius.circular(
                                             homeController
                                                     .searchSuggestions.isEmpty
                                                 ? getW(context) < 400
-                                                    ? 20
+                                                    ? 50
                                                     : 10
                                                 : 0),
                                         bottomRight: Radius.circular(
                                             homeController
                                                     .searchSuggestions.isEmpty
                                                 ? getW(context) < 400
-                                                    ? 20
+                                                    ? 50
                                                     : 10
                                                 : 0)),
                                   ),

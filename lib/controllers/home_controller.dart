@@ -26,7 +26,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     int calculatedOffset = tabController.index * 15;
     tabController.animateTo(
       calculatedOffset,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
     );
   }
@@ -60,24 +60,24 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     "assets/website/curation_image.png",
     "assets/website/food_drinks.png",
     "assets/website/entertainment.png",
-    "assets/website/science__tech.png",
+    "assets/website/Science_tech.png",
     "assets/website/art__design.png",
     "assets/website/interior_lifestyle.png",
     "assets/website/travel.png",
-    "assets/website/fashion__beauty.png",
+    "assets/website/fashion_beauty.png",
     "assets/website/health_fitness.png",
-    "assets/website/games__sports.png",
+    "assets/website/sports_games.png",
   ].obs;
 
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: categories.length, vsync: this);
+    tabController = TabController(
+        length: categories.length,
+        vsync: this,
+        animationDuration: const Duration(milliseconds: 100));
     getData();
-
     // setupAnimations();
-
-    // allChips();
     allCurations();
   }
 
@@ -101,13 +101,13 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         "assets/website/curation_image.png",
         "assets/website/food_drinks.png",
         "assets/website/entertainment.png",
-        "assets/website/science__tech.png",
+        "assets/website/Science_tech.png",
         "assets/website/art__design.png",
         "assets/website/interior_lifestyle.png",
         "assets/website/travel.png",
-        "assets/website/fashion__beauty.png",
+        "assets/website/fashion_beauty.png",
         "assets/website/health_fitness.png",
-        "assets/website/games__sports.png",
+        "assets/website/sports_games.png",
         "assets/website/curation_image.png",
       ];
     } else {
@@ -130,32 +130,35 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         "assets/website/curation_image.png",
         "assets/website/food_drinks.png",
         "assets/website/entertainment.png",
-        "assets/website/science__tech.png",
+        "assets/website/Science_tech.png",
         "assets/website/art__design.png",
         "assets/website/interior_lifestyle.png",
         "assets/website/travel.png",
-        "assets/website/fashion__beauty.png",
+        "assets/website/fashion_beauty.png",
         "assets/website/health_fitness.png",
-        "assets/website/games__sports.png",
+        "assets/website/sports_games.png",
       ];
     }
+  }
+
+  @override
+  void onClose() {
+    tabController.dispose();
+    super.onClose();
   }
 
   setTabController() {
     curationListController =
         TabController(length: (curations.length + 1), vsync: this);
-
     categoryController.setSelectedCurationIndex(0);
   }
 
   void changeTab(int index, BuildContext context) {
     selctedCategoryTab.value = categories[index];
-    allCurations();
     var categoryName = Uri.encodeComponent(selctedCategoryTab.value);
     Get.toNamed('/category/$categoryName');
+    allCurations();
     navigationStack.add(index);
-    print(navigationStack);
-    update();
   }
 
   var chips = [].obs;

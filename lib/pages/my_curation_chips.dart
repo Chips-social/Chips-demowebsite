@@ -260,7 +260,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                             color: ColorConst.iconButtonColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.add,
                             color: ColorConst.websiteHomeBox,
                           ),
@@ -307,7 +307,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                             child: Center(
                               child: Text(
                                 homeController.selctedCategoryTab.value,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: ColorConst.buttonText,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -330,9 +330,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
               const SizedBox(height: 10),
               Obx(
                 () => chipController.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? Center(child: buildShimmerCuration(8, getW(context)))
                     : chipController.chipsofCuration.isEmpty
                         ? EmptyChipsCard(title: 'chip')
                         : Expanded(

@@ -48,7 +48,7 @@ class CreateChipModal extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('New Chip',
+                        const Text('New Chip',
                             style: TextStyle(
                                 fontFamily: 'Inter',
                                 color: Colors.white,
@@ -58,24 +58,24 @@ class CreateChipModal extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.close,
                             color: Colors.grey,
                           ),
                         )
                       ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
-                  Divider(color: Colors.black38),
-                  SizedBox(
+                  const Divider(color: Colors.black38),
+                  const SizedBox(
                     height: 5,
                   ),
                   Obx(
                     () => chipController.isLocation.value
                         ? Column(
                             children: [
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -84,7 +84,7 @@ class CreateChipModal extends StatelessWidget {
                                     onTap: () {
                                       chipController.isLocation.value = false;
                                     },
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_back_ios,
                                       color: Colors.grey,
                                       size: 14,
@@ -96,13 +96,13 @@ class CreateChipModal extends StatelessWidget {
                                       chipController.isLocation.value = false;
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 5),
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           color: ColorConst.websiteHomeBox),
-                                      child: Text(
+                                      child: const Text(
                                         "Use current location",
                                         style: TextStyle(
                                           color: Colors.white,
@@ -114,17 +114,17 @@ class CreateChipModal extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               TextField(
                                 controller: chipController.locationController,
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
+                                style: const TextStyle(color: Colors.white),
+                                decoration: const InputDecoration(
                                     hintText: 'Search location',
                                     hintStyle: TextStyle(color: Colors.grey)),
                                 onChanged: fetchSuggestions,
                               ),
                               Obx(
-                                () => Container(
+                                () => SizedBox(
                                   height: 240,
                                   child: ListView.builder(
                                     itemCount:
@@ -133,10 +133,11 @@ class CreateChipModal extends StatelessWidget {
                                       final suggestion =
                                           chipController.suggestions[index];
                                       return ListTile(
-                                        leading: Icon(Icons.location_on),
+                                        leading: const Icon(Icons.location_on),
                                         title: Text(
                                           suggestion['description'].toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         onTap: () {
                                           chipController.location.value =
@@ -285,14 +286,14 @@ class CreateChipModal extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("I'm sharing this coz",
+                                  const Text("I'm sharing this coz",
                                       style: TextStyle(
                                         fontFamily: 'Inter',
                                         fontWeight: FontWeight.w400,
@@ -302,7 +303,7 @@ class CreateChipModal extends StatelessWidget {
                                   Obx(
                                     () => Text(
                                         "${chipController.counter.value}/500",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Inter',
                                           color: Colors.grey,
                                           fontSize: 13,
@@ -310,7 +311,7 @@ class CreateChipModal extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               TextField(
                                   controller: chipController.captionController,
                                   maxLength: 500,
@@ -340,10 +341,10 @@ class CreateChipModal extends StatelessWidget {
                                     String text = value.trim();
                                     chipController.setCounter(text.length);
                                   }),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -361,11 +362,11 @@ class CreateChipModal extends StatelessWidget {
                                       ))
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               TagText(),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Obx(
@@ -385,7 +386,7 @@ class CreateChipModal extends StatelessWidget {
                                                   const SizedBox(width: 4),
                                                   Text(
                                                       '${chipController.formattedDate}',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: ColorConst
                                                               .primaryGrey,
                                                           fontSize: 14)),
@@ -433,10 +434,11 @@ class CreateChipModal extends StatelessWidget {
                                                     if (!await launchUrl(
                                                         Uri.parse(chipController
                                                             .locationUrl
-                                                            .value)))
+                                                            .value))) {
                                                       throw 'Could not launch';
+                                                    }
                                                   },
-                                                  child: Container(
+                                                  child: SizedBox(
                                                     width: getW(context) < 400
                                                         ? getW(context) * 0.5
                                                         : getW(context) < 500
@@ -483,7 +485,7 @@ class CreateChipModal extends StatelessWidget {
                               //     : Container()),
                               Obx(() => chipController.showUrl.value
                                   ? Padding(
-                                      padding: EdgeInsets.only(top: 4),
+                                      padding: const EdgeInsets.only(top: 4),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -536,14 +538,15 @@ class CreateChipModal extends StatelessWidget {
                                         child: MouseRegion(
                                           cursor: SystemMouseCursors.grabbing,
                                           child: Container(
-                                            margin: EdgeInsets.only(top: 5),
+                                            margin:
+                                                const EdgeInsets.only(top: 5),
                                             height: 155,
                                             width: 390,
                                             child: ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
                                                 physics:
-                                                    AlwaysScrollableScrollPhysics(),
+                                                    const AlwaysScrollableScrollPhysics(),
                                                 itemCount: chipController
                                                     .imageBytesList.length,
                                                 itemBuilder: (context, index) {
@@ -589,7 +592,7 @@ class CreateChipModal extends StatelessWidget {
                                                             },
                                                             child: Container(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(3),
                                                               decoration: BoxDecoration(
                                                                   borderRadius:
@@ -623,6 +626,8 @@ class CreateChipModal extends StatelessWidget {
                                       chipController.isCreatingChip.value =
                                           true;
                                       await sidebarController.myCurations();
+                                      print(sidebarController.mycurations);
+
                                       await sidebarController
                                           .mySavedCurations();
 
@@ -632,7 +637,7 @@ class CreateChipModal extends StatelessWidget {
                                   },
                                   child: Container(
                                     height: 40,
-                                    margin: EdgeInsets.only(top: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                         color: Colors.transparent,
@@ -710,7 +715,7 @@ void saveChipAs(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return SaveChipAsModal();
+      return const SaveChipAsModal();
     },
   );
 }

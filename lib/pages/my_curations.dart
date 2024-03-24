@@ -6,6 +6,7 @@ import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/empty_chips.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -94,9 +95,7 @@ class _MyCurationsState extends State<MyCurations> {
               ),
               Obx(
                 () => sidebarController.isPageLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? Center(child: buildShimmerCuration(8, getW(context)))
                     : sidebarController.mycurations.isEmpty
                         ? EmptyChipsCard(title: 'curation')
                         : Expanded(

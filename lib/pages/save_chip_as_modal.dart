@@ -40,7 +40,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
         backgroundColor: ColorConst.primaryBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         surfaceTintColor: ColorConst.primaryBackground,
-        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -50,7 +50,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 15,
                       ),
                       child: Column(
@@ -355,127 +355,151 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                               ? sidebarController
                                                   .mysavedCurations
                                               : sidebarController.mycurations;
-                                          return MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                chipController.selectModalCard(
-                                                    finalList[index]['name'],
-                                                    finalList[index]['_id'],
-                                                    finalList[index]
-                                                        ['category']);
-                                              },
-                                              child: Card(
-                                                clipBehavior: Clip.antiAlias,
-                                                elevation: 0,
-                                                color: Colors.transparent,
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Obx(
-                                                      () => Container(
-                                                        height: chipController
-                                                                    .selectedName
-                                                                    .value ==
-                                                                finalList[index]
-                                                                    ['name']
-                                                            ? 70
-                                                            : 66,
-                                                        width: chipController
-                                                                    .selectedName
-                                                                    .value ==
-                                                                finalList[index]
-                                                                    ['name']
-                                                            ? 70
-                                                            : 66,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          gradient: chipController
-                                                                      .selectedName
-                                                                      .value ==
-                                                                  finalList[
-                                                                          index]
-                                                                      ['name']
-                                                              ? const LinearGradient(
-                                                                  colors: [
-                                                                    ColorConst
-                                                                        .websiteHomeBox,
-                                                                    ColorConst
-                                                                        .primary,
-                                                                    Colors.white
-                                                                  ], // Your gradient colors
-                                                                  begin: Alignment
-                                                                      .topLeft,
-                                                                  end: Alignment
-                                                                      .bottomRight,
-                                                                )
-                                                              : const LinearGradient(
-                                                                  colors: [
-                                                                      Colors
-                                                                          .white,
-                                                                      Colors
-                                                                          .white
-                                                                    ]),
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          20)),
-                                                        ),
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          child: Image.asset(
-                                                            homeController
-                                                                    .CurationImages[
-                                                                homeController
-                                                                    .categories
-                                                                    .indexOf(finalList[
-                                                                            index]
-                                                                        [
-                                                                        'category'])],
-                                                            fit: BoxFit.cover,
-                                                            height:
-                                                                66, // Adjust the height
-                                                            width: 66,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 70,
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 4),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Text(
-                                                        finalList[index]
-                                                            ['name'],
-                                                        style: const TextStyle(
-                                                            // overflow: TextOverflow
-                                                            //     .ellipsis,
+                                          return finalList[index]['category'] ==
+                                                      "From our Desk" ||
+                                                  finalList[index]
+                                                          ['category'] ==
+                                                      "Made by Chips"
+                                              ? Container()
+                                              : MouseRegion(
+                                                  cursor:
+                                                      SystemMouseCursors.click,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      chipController
+                                                          .selectModalCard(
+                                                              finalList[index]
+                                                                  ['name'],
+                                                              finalList[index]
+                                                                  ['_id'],
+                                                              finalList[index]
+                                                                  ['category']);
+                                                    },
+                                                    child: Card(
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      elevation: 0,
+                                                      color: Colors.transparent,
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Obx(
+                                                            () => Container(
+                                                              height: chipController
+                                                                          .selectedName
+                                                                          .value ==
+                                                                      finalList[
+                                                                              index]
+                                                                          [
+                                                                          'name']
+                                                                  ? 70
+                                                                  : 66,
+                                                              width: chipController
+                                                                          .selectedName
+                                                                          .value ==
+                                                                      finalList[
+                                                                              index]
+                                                                          [
+                                                                          'name']
+                                                                  ? 70
+                                                                  : 66,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                gradient: chipController
+                                                                            .selectedName
+                                                                            .value ==
+                                                                        finalList[index]
+                                                                            [
+                                                                            'name']
+                                                                    ? const LinearGradient(
+                                                                        colors: [
+                                                                          ColorConst
+                                                                              .websiteHomeBox,
+                                                                          ColorConst
+                                                                              .primary,
+                                                                          Colors
+                                                                              .white
+                                                                        ], // Your gradient colors
+                                                                        begin: Alignment
+                                                                            .topLeft,
+                                                                        end: Alignment
+                                                                            .bottomRight,
+                                                                      )
+                                                                    : const LinearGradient(
+                                                                        colors: [
+                                                                            Colors.white,
+                                                                            Colors.white
+                                                                          ]),
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .all(
+                                                                        Radius.circular(
+                                                                            20)),
+                                                              ),
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                child:
+                                                                    Image.asset(
+                                                                  homeController
+                                                                          .CurationImages[
+                                                                      homeController
+                                                                          .categories
+                                                                          .indexOf(finalList[index]
+                                                                              [
+                                                                              'category'])],
 
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Colors.white),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  height:
+                                                                      66, // Adjust the height
+                                                                  width: 66,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            width: 70,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    top: 4),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              finalList[index]
+                                                                  ['name'],
+                                                              style:
+                                                                  const TextStyle(
+                                                                      // overflow: TextOverflow
+                                                                      //     .ellipsis,
+
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .white),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
+                                                  ),
+                                                );
                                         },
                                       ),
                                     )
@@ -635,9 +659,9 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                     Obx(
                       () => InkWell(
                         onTap: () async {
-                          if (chipController.selectedChipId.value ==
+                          if (chipController.selectedCategory.value ==
                                   'Made by Chips' ||
-                              chipController.selectedChipId.value ==
+                              chipController.selectedCategory.value ==
                                   'From our Desk') {
                             showErrorSnackBar(
                                 heading: "Permision Denied",
@@ -675,7 +699,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                           height: 45,
                           width: 420,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(15),
                                   bottomRight: Radius.circular(15)),
                               color: chipController.selectedId.isEmpty

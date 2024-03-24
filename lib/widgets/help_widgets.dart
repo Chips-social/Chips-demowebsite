@@ -25,47 +25,46 @@ Widget PrimaryBoldText(String text, double fontSize) {
 final ChipController chipController = Get.put(ChipController());
 Widget TagText() {
   return TextFieldTags(
-    textfieldTagsController: chipController.tagController,
-    textSeparators: const [' ', ','],
-    letterCase: LetterCase.small,
-    validator: (String tag) {
-      if (chipController.tagController.getTags!.contains(tag)) {
-        return 'you already entered that';
-      }
-      return null;
-    },
-    inputfieldBuilder: (context, tec, fn, error, onChanged, onSubmitted) {
-      return ((context, sc, tags, onTagDelete) {
+      textfieldTagsController: chipController.tagController,
+      textSeparators: const [' ', ','],
+      letterCase: LetterCase.small,
+      validator: (tag) {
+        if (chipController.tagController.getTags!.contains(tag)) {
+          return 'you already entered that';
+        }
+        return null;
+      },
+      inputFieldBuilder: (context, inputFieldValues) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
           child: TextField(
-            controller: tec,
-            focusNode: fn,
+            controller: inputFieldValues.textEditingController,
+            focusNode: inputFieldValues.focusNode,
             maxLength: 12,
-            style: TextStyle(color: Colors.white, fontSize: 13),
+            style: const TextStyle(color: Colors.white, fontSize: 13),
             decoration: InputDecoration(
               isDense: true,
               focusColor: ColorConst.primary,
               hoverColor: ColorConst.primary,
               counterText: "",
-              contentPadding: EdgeInsets.only(bottom: 5, top: 2),
+              contentPadding: const EdgeInsets.only(bottom: 5, top: 2),
               hintText: "#",
-              hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              errorText: error,
-              suffixIcon: tags.isNotEmpty
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+              errorText: inputFieldValues.error,
+              suffixIcon: inputFieldValues.tags.isNotEmpty
                   ? SingleChildScrollView(
-                      controller: sc,
+                      controller: inputFieldValues.tagScrollController,
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                          children: tags.map((String tag) {
+                          children: inputFieldValues.tags.map((tag) {
                         return Container(
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20.0),
                               ),
                               color: ColorConst.iconBackgroundColor),
-                          margin:
-                              EdgeInsets.only(left: 3.0, right: 3, bottom: 4),
+                          margin: const EdgeInsets.only(
+                              left: 3.0, right: 3, bottom: 4),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4.0),
                           child: Row(
@@ -73,7 +72,7 @@ Widget TagText() {
                             children: [
                               InkWell(
                                 child: Text(
-                                  '$tag',
+                                  tag,
                                   style: const TextStyle(
                                       color: Colors.white, fontSize: 13),
                                 ),
@@ -86,9 +85,7 @@ Widget TagText() {
                                   size: 13.0,
                                   color: Color.fromARGB(255, 233, 233, 233),
                                 ),
-                                onTap: () {
-                                  onTagDelete(tag);
-                                },
+                                onTap: () => inputFieldValues.onTagRemoved,
                               )
                             ],
                           ),
@@ -96,15 +93,13 @@ Widget TagText() {
                       }).toList()),
                     )
                   : null,
-              suffixIconConstraints: BoxConstraints(maxWidth: 290),
+              suffixIconConstraints: const BoxConstraints(maxWidth: 290),
             ),
-            onChanged: onChanged,
-            onSubmitted: onSubmitted,
+            onChanged: inputFieldValues.onTagChanged,
+            onSubmitted: inputFieldValues.onTagSubmitted,
           ),
         );
       });
-    },
-  );
 }
 
 String identifyPlatform(String url) {
@@ -133,33 +128,36 @@ Widget buildShimmerCuration(int count, double screenWidth) {
                   ? 2
                   : 1;
 
-  return GridView.builder(
-    itemCount: count, // The number of items you want to display in the grid.
-    itemBuilder: (context, index) {
-      return Shimmer.fromColors(
-        baseColor: ColorConst.dark,
-        // Lighter shade for the base.
-        highlightColor:
-            ColorConst.dividerLine, // Lighter shade for the highlight.
-        // Removed the 'loop' parameter to let it shimmer indefinitely.
-        child: Container(
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.grey, // Base color for containers.
-            borderRadius: BorderRadius.circular(
-                10), // Optional: if you want rounded corners.
+  return SizedBox(
+    height: 400,
+    child: GridView.builder(
+      itemCount: count, // The number of items you want to display in the grid.
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: ColorConst.dark,
+          // Lighter shade for the base.
+          highlightColor:
+              ColorConst.dividerLine, // Lighter shade for the highlight.
+          // Removed the 'loop' parameter to let it shimmer indefinitely.
+          child: Container(
+            height: 150,
+            decoration: BoxDecoration(
+              color: Colors.grey, // Base color for containers.
+              borderRadius: BorderRadius.circular(
+                  10), // Optional: if you want rounded corners.
+            ),
+            // Removed fixed height and width to let the grid delegate control the size.
           ),
-          // Removed fixed height and width to let the grid delegate control the size.
-        ),
-      );
-    },
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount:
-          crossAxisCount, // Adjust the number of columns as per your requirement.
-      crossAxisSpacing: 10,
-      mainAxisSpacing:
-          10, // You might want to add space between the rows as well.
-      childAspectRatio: 1.5, // Adjust the aspect ratio as needed.
+        );
+      },
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount:
+            crossAxisCount, // Adjust the number of columns as per your requirement.
+        crossAxisSpacing: 10,
+        mainAxisSpacing:
+            10, // You might want to add space between the rows as well.
+        childAspectRatio: 1.5, // Adjust the aspect ratio as needed.
+      ),
     ),
   );
 }

@@ -23,7 +23,7 @@ class EmptyChipsCard extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              "website/no_chips.png",
+              "assets/website/no_chips.png",
               width: 160,
               height: 140,
             ),

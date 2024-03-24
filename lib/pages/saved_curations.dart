@@ -6,6 +6,7 @@ import 'package:chips_demowebsite/data/data.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/empty_chips.dart';
 import 'package:chips_demowebsite/widgets/empty_saved_curations.dart';
+import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -69,9 +70,7 @@ class _SavedCurationsState extends State<SavedCurations> {
               ),
               Obx(
                 () => sidebarController.isPageLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? Center(child: buildShimmerCuration(8, getW(context)))
                     : sidebarController.mysavedCurations.isEmpty
                         ? EmptySavedCurations()
                         : Expanded(

@@ -116,11 +116,11 @@ class ChipController extends GetxController {
     update();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    tagController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   tagController.dispose();
+  // }
 
   // setSelectedSavedCurationIndex(int index) {
   //   selectedSavedCurationIndex.value = index;

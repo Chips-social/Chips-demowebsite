@@ -60,7 +60,7 @@ dependencies:
   youtube_player_iframe: ^5.1.1
   google_sign_in: ^6.1.6
   go_router: ^13.2.0
-  textfield_tags: ^2.0.2
+  textfield_tags: ^3.0.1
   flutter_inappwebview: ^6.0.0
   webview_flutter: ^4.7.0
   shimmer: ^3.0.0
@@ -93,10 +93,7 @@ flutter:
   assets:
     - assets/
     - assets/icons/
-    - assets/categories/
     - assets/fonts/rubik/
-    - assets/background/
-    - assets/subscription/
     - assets/website/
 
   # An image asset can refer to one or more resolution-specific "variants", see
