@@ -1,11 +1,11 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/main.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
@@ -75,7 +75,7 @@ class AuthController extends GetxController {
   //   return true;
   // }
 
-  Future<bool> logoutUser() async {
+  Future<bool> logoutUser(context) async {
     await googleSignIn.signOut();
     await box.remove('is_authenticated');
     await box.remove('user_data');
@@ -85,7 +85,8 @@ class AuthController extends GetxController {
     isLogIn.value = false;
     isVerifyPage.value = false;
     isButtonLoad.value = false;
-    Get.offAllNamed('/');
+    GoRouter.of(context).go('/');
+
     return true;
   }
 
@@ -132,7 +133,7 @@ class AuthController extends GetxController {
     }
   }
 
-  verifyOtp() async {
+  verifyOtp(context) async {
     try {
       var data = {
         "email": emailController.text,
@@ -152,7 +153,7 @@ class AuthController extends GetxController {
             message: response["message"],
             icon: Icons.check_circle,
             color: ColorConst.success);
-        Get.offAllNamed('/');
+        GoRouter.of(context).go('/');
 
         return {"success": true};
       } else {
@@ -164,7 +165,7 @@ class AuthController extends GetxController {
     }
   }
 
-  signInWithGoogle() async {
+  signInWithGoogle(context) async {
     try {
       final GoogleSignInAccount? account = await googleSignIn.signIn();
 
@@ -182,7 +183,8 @@ class AuthController extends GetxController {
           setCurrentUser(response['user']);
           homeController.getData();
           userId.value = response['user']['_id'];
-          Get.offAllNamed('/');
+          GoRouter.of(context).go('/');
+
           return {"success": true};
         } else {
           isLoggedIn.value = false;

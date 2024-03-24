@@ -14,9 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class SavedCurationChips extends StatefulWidget {
-  const SavedCurationChips({super.key});
+  const SavedCurationChips(
+      {super.key, required this.title, required this.curId});
+  final String title;
+  final String curId;
 
   @override
   State<SavedCurationChips> createState() => _SavedCurationChipsState();
@@ -32,17 +36,17 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
   final CreateCurationController curationController =
       Get.find<CreateCurationController>();
 
-  final String title = Get.parameters['chip'].toString();
+  // final String title = Get.parameters['chip'].toString();
 
-  final String curId = Get.parameters['id'] ?? "";
+  // final String curId = Get.parameters['id'] ?? "";
 
   @override
   void initState() {
     super.initState();
-    chipController.openCurationId.value = curId;
+    chipController.openCurationId.value = widget.curId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chipController.fetchchipsoCuration(context);
-      sidebarController.usernamefromChip(curId);
+      sidebarController.usernamefromChip(widget.curId);
     });
   }
 
@@ -74,7 +78,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                   Row(
                     children: [
                       PrimaryBoldText(
-                        title,
+                        widget.title,
                         24,
                       ),
                     ],
@@ -84,10 +88,11 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                     children: [
                       InkWell(
                         onTap: () {
-                          var title2 = Uri.encodeComponent(title.toString());
+                          var title2 =
+                              Uri.encodeComponent(widget.title.toString());
                           showShareDialog(
                               context,
-                              "http://chips.social/#/savedchips/$title2/id/$curId",
+                              "http://chips.social/#/savedchips/$title2/id/${widget.curId}",
                               "Curation");
                         },
                         child: Container(
@@ -125,8 +130,8 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                               },
                               child: GestureDetector(
                                 onTap: () {
-                                  categoryController
-                                      .selectedCurationName.value = title;
+                                  categoryController.selectedCurationName
+                                      .value = widget.title;
                                   createChip(context);
                                 },
                                 child: Container(
@@ -230,7 +235,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                         onTap: () {
                           String title2 = Uri.encodeComponent(
                               homeController.selctedCategoryTab.value);
-                          Get.toNamed('/category/$title2');
+                          GoRouter.of(context).go('/category/$title2');
                         },
                         child: Container(
                           height: 30,

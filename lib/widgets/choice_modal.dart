@@ -42,11 +42,11 @@ class ChoiceModal extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Action Confirmation',
+                                Text('Action Confirmation',
                                     style: TextStyle(
                                         fontFamily: 'Inter',
                                         color: ColorConst.textFieldColor,
@@ -85,7 +85,7 @@ class ChoiceModal extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: getW(context) < 400 ? 15 : 24,
                                       vertical: 12),
-                                  child: Text(
+                                  child: const Text(
                                     "Cancel",
                                     style: TextStyle(
                                         color: ColorConst.buttonText,
@@ -97,7 +97,8 @@ class ChoiceModal extends StatelessWidget {
                                 onTap: () async {
                                   Navigator.of(context).pop();
                                   if (title == "Curation") {
-                                    await curationController.deleteCuration();
+                                    await curationController
+                                        .deleteCuration(context);
                                     showErrorSnackBar(
                                         heading: "Deleted curation",
                                         message:
@@ -121,7 +122,7 @@ class ChoiceModal extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: getW(context) < 400 ? 15 : 20,
                                       vertical: 12),
-                                  child: Text(
+                                  child: const Text(
                                     "Yes, delete",
                                     style: TextStyle(
                                         color: ColorConst.primary,

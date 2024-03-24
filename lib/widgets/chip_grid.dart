@@ -16,7 +16,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ChipDemo extends StatefulWidget {
-  const ChipDemo({super.key});
+  const ChipDemo({super.key, required this.title, required this.curId});
+  final String title;
+  final String curId;
 
   @override
   State<ChipDemo> createState() => _ChipDemoState();
@@ -29,9 +31,9 @@ class _ChipDemoState extends State<ChipDemo> {
 
   final HomeController homeController = Get.find<HomeController>();
 
-  final String title = Get.parameters['title'] ?? "";
+  // final String title = Get.parameters['title'] ?? "";
 
-  final String curId = Get.parameters['id'] ?? "";
+  // final String curId = Get.parameters['id'] ?? "";
 
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
@@ -39,13 +41,14 @@ class _ChipDemoState extends State<ChipDemo> {
   @override
   void initState() {
     super.initState();
-    categoryController.setCurationId(curId);
+    categoryController.setCurationId(widget.curId);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await homeController.allChips();
       await homeController.allCurations();
-      categoryController.selectedCurationId.value = curId;
+      categoryController.selectedCurationId.value = widget.curId;
+      categoryController.setSelectedCurationName(widget.title);
       for (var element in homeController.curations) {
-        if (element["_id"] == curId) {
+        if (element["_id"] == widget.curId) {
           curationController.isCurationOwner.value =
               element['user_id']['_id'] == authController.currentUser['_id'];
           curationController.isCurationSaved.value =
@@ -53,7 +56,7 @@ class _ChipDemoState extends State<ChipDemo> {
           break;
         }
       }
-      await homeController.getUserName(curId);
+      await homeController.getUserName(widget.curId);
     });
   }
 
@@ -84,7 +87,7 @@ class _ChipDemoState extends State<ChipDemo> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
-                      title,
+                      widget.title,
                       style: TextStyle(
                           fontSize: screenWidth < 360 ? 18 : 24,
                           fontWeight: FontWeight.bold,
@@ -102,7 +105,7 @@ class _ChipDemoState extends State<ChipDemo> {
                           //     categoryController.selectedCurationName.value);
                           showShareDialog(
                               context,
-                              "https://chips.social/#/category/$categoryName/curation/$title/id/$curId",
+                              "https://chips.social/category/$categoryName/curation/${widget.title}/id/${widget.curId}",
                               "Curation");
                         },
                         child: Container(
@@ -338,7 +341,7 @@ class _ChipDemoState extends State<ChipDemo> {
                               return Padding(
                                 padding: const EdgeInsets.all(4),
                                 child: ChipWidget(
-                                  curId: curId,
+                                  curId: widget.curId,
                                   chipId:
                                       '${homeController.chips[index]['_id']}',
                                   text:

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/category_controller.dart';
+import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
@@ -12,11 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class MyCurationChips extends StatefulWidget {
-  const MyCurationChips({super.key});
-  // final String title;
-  // final List chipDataList;
+  const MyCurationChips({super.key, required this.title, required this.curId});
+  final String title;
+  final String curId;
 
   @override
   State<MyCurationChips> createState() => _MyCurationChipsState();
@@ -27,10 +29,11 @@ class _MyCurationChipsState extends State<MyCurationChips>
   final HomeController homeController = Get.put(HomeController());
   final CategoryController categoryController = Get.put(CategoryController());
   final SidebarController sidebarController = Get.find<SidebarController>();
+  final ChipController chipController = Get.find<ChipController>();
   var myGroup = AutoSizeGroup();
 
-  String title = Get.parameters['chip'].toString();
-  final String curId = Get.parameters['id'] ?? "";
+  // String title = Get.parameters['chip'].toString();
+  // final String curId = Get.parameters['id'] ?? "";
 
   // void getChips() async {
   //   await homeController.allChips();
@@ -46,7 +49,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
     super.initState();
     // homeController.curationListController =
     //     TabController(length: 3, vsync: this);
-    chipController.openCurationId.value = curId;
+    chipController.openCurationId.value = widget.curId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chipController.fetchchipsoCuration(context);
     });
@@ -96,7 +99,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                     child: Row(
                       children: [
                         PrimaryBoldText(
-                          title,
+                          widget.title,
                           28,
                         ),
                         getW(context) > 800
@@ -224,10 +227,11 @@ class _MyCurationChipsState extends State<MyCurationChips>
                       // : Container(),
                       InkWell(
                         onTap: () {
-                          var title2 = Uri.encodeComponent(title.toString());
+                          var title2 =
+                              Uri.encodeComponent(widget.title.toString());
                           showShareDialog(
                               context,
-                              "http://chips.social/#/curationchips/$title2/id/$curId",
+                              "http://chips.social/#/curationchips/$title2/id/${widget.curId}",
                               "Curation");
                         },
                         child: Container(
@@ -249,7 +253,8 @@ class _MyCurationChipsState extends State<MyCurationChips>
                       const SizedBox(width: 8),
                       InkWell(
                         onTap: () {
-                          categoryController.selectedCurationName.value = title;
+                          categoryController.selectedCurationName.value =
+                              widget.title;
                           createChip(context);
                         },
                         child: Container(
@@ -293,7 +298,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                             String title2 = Uri.encodeComponent(
                                 homeController.selctedCategoryTab.value);
                             // print(title2);
-                            Get.toNamed('/category/$title2');
+                            GoRouter.of(context).go('/category/$title2');
                           },
                           child: Container(
                             height: 30,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
@@ -75,7 +76,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     tabController = TabController(
         length: categories.length,
         vsync: this,
-        animationDuration: const Duration(milliseconds: 100));
+        animationDuration: const Duration(microseconds: 1));
     getData();
     // setupAnimations();
     allCurations();
@@ -156,7 +157,8 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   void changeTab(int index, BuildContext context) {
     selctedCategoryTab.value = categories[index];
     var categoryName = Uri.encodeComponent(selctedCategoryTab.value);
-    Get.toNamed('/category/$categoryName');
+    //  Get.toNamed('/category/$categoryName');
+    GoRouter.of(context).go('/category/$categoryName');
     allCurations();
     navigationStack.add(index);
   }
@@ -236,7 +238,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       'category': selctedCategoryTab.value,
     };
 
-    print(selctedCategoryTab.value);
+    // print(selctedCategoryTab.value);
     var response = await postRequestUnAuthenticated(
         endpoint: '/fetch/curations', data: data);
     if (response["success"]) {

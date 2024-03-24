@@ -13,6 +13,7 @@ import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/widgets/pill_button.dart';
 import 'package:chips_demowebsite/widgets/tag_widget.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
+import 'package:go_router/go_router.dart';
 
 class NewCurationModal extends StatelessWidget {
   NewCurationModal({super.key});
@@ -25,7 +26,8 @@ class NewCurationModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         backgroundColor: ColorConst.primaryBackground,
         surfaceTintColor: ColorConst.primaryBackground,
         content: SingleChildScrollView(
@@ -33,8 +35,8 @@ class NewCurationModal extends StatelessWidget {
               width: 420,
               child: Padding(
                 padding: getW(context) < 460
-                    ? EdgeInsets.symmetric(horizontal: 0)
-                    : EdgeInsets.symmetric(horizontal: 20),
+                    ? const EdgeInsets.symmetric(horizontal: 0)
+                    : const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -48,7 +50,7 @@ class NewCurationModal extends StatelessWidget {
                                   curationController.isAlreadyExist.value
                                       ? "Curation already exists!"
                                       : 'New Curation',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: 'Inter',
                                       color: Colors.white,
                                       fontSize: 18,
@@ -58,17 +60,17 @@ class NewCurationModal extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.close,
                                 color: Colors.grey,
                               ),
                             )
                           ]),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
-                      Divider(color: Colors.black38),
-                      SizedBox(
+                      const Divider(color: Colors.black38),
+                      const SizedBox(
                         height: 5,
                       ),
                       Obx(
@@ -77,34 +79,34 @@ class NewCurationModal extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Great minds think alike!',
+                                  const Text('Great minds think alike!',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
                                           fontStyle: FontStyle.italic,
                                           fontSize: 13)),
-                                  Text(
+                                  const Text(
                                       'There are curations that already exist with the same name. You can check em out here or search for them later.',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
                                           fontSize: 13)),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Obx(
                                     () =>
                                         curationController
                                                 .exisitingCurators.isEmpty
-                                            ? Center(
+                                            ? const Center(
                                                 child:
                                                     CircularProgressIndicator(),
                                               )
-                                            : Container(
+                                            : SizedBox(
                                                 height: 180,
                                                 child: ListView.builder(
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     physics:
-                                                        AlwaysScrollableScrollPhysics(),
+                                                        const AlwaysScrollableScrollPhysics(),
                                                     itemCount:
                                                         curationController
                                                             .exisitingCurators
@@ -112,9 +114,9 @@ class NewCurationModal extends StatelessWidget {
                                                     itemBuilder:
                                                         (context, index) {
                                                       return Container(
-                                                        margin: EdgeInsets
+                                                        margin: const EdgeInsets
                                                             .symmetric(
-                                                                vertical: 4),
+                                                            vertical: 4),
                                                         decoration: BoxDecoration(
                                                             borderRadius:
                                                                 BorderRadius
@@ -177,7 +179,7 @@ class NewCurationModal extends StatelessWidget {
                                                                             .curationCaptionController
                                                                             .text
                                                                             .toString(),
-                                                                        style: TextStyle(
+                                                                        style: const TextStyle(
                                                                             color:
                                                                                 ColorConst.primary,
                                                                             fontSize: 11)),
@@ -185,21 +187,21 @@ class NewCurationModal extends StatelessWidget {
                                                                             420
                                                                         ? Text(
                                                                             'by ${curationController.exisitingCurators[index]}',
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 color: ColorConst.primary,
                                                                                 fontStyle: FontStyle.italic,
                                                                                 fontSize: 9))
                                                                         : Container(),
                                                                   ],
                                                                 ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   width: 2,
                                                                 ),
                                                                 getW(context) >=
                                                                         420
                                                                     ? Text(
                                                                         'by ${curationController.exisitingCurators[index]}',
-                                                                        style: TextStyle(
+                                                                        style: const TextStyle(
                                                                             color:
                                                                                 ColorConst.primary,
                                                                             fontStyle: FontStyle.italic,
@@ -213,7 +215,7 @@ class NewCurationModal extends StatelessWidget {
                                                                         .existingchips
                                                                         .value
                                                                         .toString(),
-                                                                    style: TextStyle(
+                                                                    style: const TextStyle(
                                                                         color: ColorConst
                                                                             .primary,
                                                                         fontSize:
@@ -225,17 +227,17 @@ class NewCurationModal extends StatelessWidget {
                                                     }),
                                               ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
-                                  Center(
+                                  const Center(
                                     child: Text(
                                         'or create new curation from scratch?',
                                         style: TextStyle(
                                             color: ColorConst.primaryText,
                                             fontSize: 12)),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   Row(
@@ -249,9 +251,10 @@ class NewCurationModal extends StatelessWidget {
                                             onTap: () async {},
                                             child: Container(
                                                 alignment: Alignment.center,
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 10),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
                                                 decoration: BoxDecoration(
                                                     color: Colors.transparent,
                                                     borderRadius:
@@ -288,9 +291,10 @@ class NewCurationModal extends StatelessWidget {
                                             },
                                             child: Container(
                                                 alignment: Alignment.center,
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 10),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
                                                 decoration: BoxDecoration(
                                                     color: Colors.transparent,
                                                     borderRadius:
@@ -465,8 +469,7 @@ class NewCurationModal extends StatelessWidget {
                                                                   Icons.person,
                                                               color:
                                                                   Colors.white);
-                                                          Navigator.of(context)
-                                                              .pop();
+
                                                           String categoryName =
                                                               Uri.encodeComponent(
                                                                   curationController
@@ -477,7 +480,17 @@ class NewCurationModal extends StatelessWidget {
                                                                   curationController
                                                                       .curationCaptionController
                                                                       .text);
-                                                          Get.toNamed(
+                                                          Navigator.of(context)
+                                                              .pop();
+
+                                                          // homeController
+                                                          //     .tabController
+                                                          //     .animateTo(homeController
+                                                          //         .categories
+                                                          //         .indexOf(chipController
+                                                          //             .selectedCategory
+                                                          //             .value));
+                                                          GoRouter.of(context).go(
                                                               '/category/$categoryName/curation/$curationName/id/${categoryController.selectedCurationId.value}');
                                                         } else {
                                                           curationController
@@ -527,7 +540,7 @@ class NewCurationModal extends StatelessWidget {
                                                                 color: ColorConst
                                                                     .primary,
                                                                 width: 0.7)),
-                                                        child: Text(
+                                                        child: const Text(
                                                           "Create and Save",
                                                           style: TextStyle(
                                                               fontFamily:

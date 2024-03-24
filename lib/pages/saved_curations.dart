@@ -9,6 +9,7 @@ import 'package:chips_demowebsite/widgets/empty_saved_curations.dart';
 import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class SavedCurations extends StatefulWidget {
   const SavedCurations({super.key});
@@ -100,7 +101,7 @@ class _SavedCurationsState extends State<SavedCurations> {
                                       var gotourl = Uri.encodeComponent(
                                           sidebarController
                                               .mysavedCurations[index]['name']);
-                                      Get.toNamed(
+                                      GoRouter.of(context).go(
                                           '/savedchips/$gotourl/id/${chipController.openCurationId.value}');
                                     },
                                     child: Card(

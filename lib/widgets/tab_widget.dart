@@ -10,6 +10,7 @@ import 'package:chips_demowebsite/widgets/empty_chips.dart';
 import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class TabWidget extends StatefulWidget {
   const TabWidget({
@@ -173,19 +174,19 @@ class _TabWidgetState extends State<TabWidget> {
                                 categoryController.setCurationId(
                                     homeController.curations[index]["_id"]);
 
-                                await homeController.allChips();
-                                if (homeController.curations[index]['saved_by']
-                                    .contains(
-                                        authController.currentUser['_id'])) {
-                                  curationController.isCurationSaved.value =
-                                      true;
-                                }
-                                if (homeController.curations[index]['user_id']
-                                        ['_id'] ==
-                                    authController.currentUser['_id']) {
-                                  curationController.isCurationOwner.value =
-                                      true;
-                                }
+                                // await homeController.allChips();
+                                // if (homeController.curations[index]['saved_by']
+                                //     .contains(
+                                //         authController.currentUser['_id'])) {
+                                //   curationController.isCurationSaved.value =
+                                //       true;
+                                // }
+                                // if (homeController.curations[index]['user_id']
+                                //         ['_id'] ==
+                                //     authController.currentUser['_id']) {
+                                //   curationController.isCurationOwner.value =
+                                //       true;
+                                // }
 
                                 homeController.ownerName.value = homeController
                                     .curations[index]["user_id"]["name"];
@@ -193,9 +194,10 @@ class _TabWidgetState extends State<TabWidget> {
                                     homeController.selctedCategoryTab.value);
                                 var title = Uri.encodeComponent(
                                     homeController.curations[index]['name']);
-                                Get.toNamed(
-                                  '/category/$categoryName/curation/$title/id/${categoryController.selectedCurationId.value}',
-                                );
+                                // print(
+                                //     '/category/$categoryName/curation/$title/id/${categoryController.selectedCurationId.value}');
+                                GoRouter.of(context).go(
+                                    '/category/$categoryName/curation/$title/id/${categoryController.selectedCurationId.value}');
                               },
                               child: Card(
                                 clipBehavior: Clip.antiAlias,

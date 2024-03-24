@@ -9,11 +9,14 @@ import 'package:chips_demowebsite/widgets/empty_chips.dart';
 import 'package:chips_demowebsite/widgets/help_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class MyCurations extends StatefulWidget {
   const MyCurations({
     super.key,
+    required this.title,
   });
+  final String title;
 
   @override
   State<MyCurations> createState() => _MyCurationsState();
@@ -34,7 +37,7 @@ class _MyCurationsState extends State<MyCurations> {
 
   final HomeController homeController = Get.find<HomeController>();
 
-  String title = Get.parameters['title'] ?? 'abcde';
+  // String title = Get.parameters['title'] ?? 'abcde';
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,7 @@ class _MyCurationsState extends State<MyCurations> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                         fontSize: screenWidth < 360 ? 18 : 24,
                         fontWeight: FontWeight.bold,
@@ -120,9 +123,8 @@ class _MyCurationsState extends State<MyCurations> {
                                       var gotourl = Uri.encodeComponent(
                                           sidebarController.mycurations[index]
                                               ['name']);
-                                      print(
-                                          '/curationchips/$gotourl/id/${chipController.openCurationId.value}');
-                                      Get.toNamed(
+
+                                      GoRouter.of(context).go(
                                           '/curationchips/$gotourl/id/${chipController.openCurationId.value}');
                                     },
                                     child: Card(

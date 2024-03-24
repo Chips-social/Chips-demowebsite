@@ -5,6 +5,7 @@ import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateCurationController extends GetxController {
   final HomeController homeController = Get.find<HomeController>();
@@ -72,9 +73,9 @@ class CreateCurationController extends GetxController {
           endpoint: '/unsave/curation', data: data);
       if (response["success"]) {
         isCurationSaved.value = false;
-        print(sidebarController.my3savedCurations);
+        // print(sidebarController.my3savedCurations);
         await sidebarController.my3SavedCurations();
-        print(sidebarController.my3savedCurations);
+        // print(sidebarController.my3savedCurations);
       } else {
         showErrorSnackBar(
             heading: 'Error',
@@ -115,7 +116,7 @@ class CreateCurationController extends GetxController {
     }
   }
 
-  deleteCuration() async {
+  deleteCuration(context) async {
     setPageLoading(true);
     var data = {
       "curation_id": categoryController.selectedCurationId.value,
@@ -125,8 +126,9 @@ class CreateCurationController extends GetxController {
     if (response["success"]) {
       setPageLoading(false);
       homeController.allCurations();
-      Get.offAllNamed(
+      GoRouter.of(context).go(
           '/category/${Uri.encodeComponent(homeController.selctedCategoryTab.value)}');
+
       return "exist";
     } else {
       setPageLoading(false);

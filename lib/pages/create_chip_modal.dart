@@ -14,19 +14,44 @@ import 'package:chips_demowebsite/pages/save_chip_as_modal.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 
-class CreateChipModal extends StatelessWidget {
-  CreateChipModal({
+class CreateChipModal extends StatefulWidget {
+  const CreateChipModal({
     super.key,
   });
+
+  @override
+  State<CreateChipModal> createState() => _CreateChipModalState();
+}
+
+class _CreateChipModalState extends State<CreateChipModal> {
   final CategoryController categoryController = Get.find<CategoryController>();
+
   final LocationController locationController = Get.put(LocationController());
-  final ChipController chipController = Get.put(ChipController());
+
+  final ChipController chipController = Get.find<ChipController>();
+
   final AuthController authController = Get.find<AuthController>();
+
   final SidebarController sidebarController = Get.find<SidebarController>();
+
+  @override
+  void initState() {
+    chipController.tagController = TextfieldTagsController();
+    chipController.tagController.addListener(chipController.updateHasTags);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    chipController.tagController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -365,7 +390,123 @@ class CreateChipModal extends StatelessWidget {
                               const SizedBox(
                                 height: 8,
                               ),
-                              TagText(),
+                              TextFieldTags(
+                                  textfieldTagsController:
+                                      chipController.tagController,
+                                  textSeparators: const [' ', ','],
+                                  letterCase: LetterCase.small,
+                                  validator: (tag) {
+                                    if (chipController.tagController.getTags!
+                                        .contains(tag)) {
+                                      return 'you already entered that';
+                                    }
+                                    return null;
+                                  },
+                                  inputFieldBuilder:
+                                      (context, inputFieldValues) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 2),
+                                      child: TextField(
+                                        controller: inputFieldValues
+                                            .textEditingController,
+                                        focusNode: inputFieldValues.focusNode,
+                                        maxLength: 12,
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 13),
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          focusColor: ColorConst.primary,
+                                          hoverColor: ColorConst.primary,
+                                          counterText: "",
+                                          contentPadding: const EdgeInsets.only(
+                                              bottom: 5, top: 2),
+                                          hintText: "#",
+                                          hintStyle: const TextStyle(
+                                              color: Colors.grey, fontSize: 14),
+                                          errorText: inputFieldValues.error,
+                                          suffixIcon: inputFieldValues
+                                                  .tags.isNotEmpty
+                                              ? SingleChildScrollView(
+                                                  controller: inputFieldValues
+                                                      .tagScrollController,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                      children: inputFieldValues
+                                                          .tags
+                                                          .map((tag) {
+                                                    return Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    20.0),
+                                                              ),
+                                                              color: ColorConst
+                                                                  .iconBackgroundColor),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 3.0,
+                                                              right: 3,
+                                                              bottom: 4),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 8.0,
+                                                          vertical: 4.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          InkWell(
+                                                            child: Text(
+                                                              tag,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 13),
+                                                            ),
+                                                            onTap: () {},
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 3.0),
+                                                          InkWell(
+                                                            child: const Icon(
+                                                              Icons.cancel,
+                                                              size: 13.0,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      233,
+                                                                      233,
+                                                                      233),
+                                                            ),
+                                                            onTap: () =>
+                                                                inputFieldValues
+                                                                    .onTagRemoved,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }).toList()),
+                                                )
+                                              : null,
+                                          suffixIconConstraints:
+                                              const BoxConstraints(
+                                                  maxWidth: 290),
+                                        ),
+                                        onChanged:
+                                            inputFieldValues.onTagChanged,
+                                        onSubmitted:
+                                            inputFieldValues.onTagSubmitted,
+                                        onTap: () =>
+                                            inputFieldValues.onTagRemoved,
+                                      ),
+                                    );
+                                  }),
                               const SizedBox(
                                 height: 8,
                               ),
@@ -626,7 +767,7 @@ class CreateChipModal extends StatelessWidget {
                                       chipController.isCreatingChip.value =
                                           true;
                                       await sidebarController.myCurations();
-                                      print(sidebarController.mycurations);
+                                      // print(sidebarController.mycurations);
 
                                       await sidebarController
                                           .mySavedCurations();

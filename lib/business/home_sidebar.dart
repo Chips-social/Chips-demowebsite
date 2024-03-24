@@ -7,6 +7,7 @@ import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeSidebar extends StatelessWidget {
@@ -44,7 +45,8 @@ class HomeSidebar extends StatelessWidget {
                         homeController.isExplore.value = true;
                         homeController.isSavedCuration.value = false;
                         homeController.isMyCuration.value = false;
-                        Get.offAllNamed('/');
+
+                        GoRouter.of(context).go('/');
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,

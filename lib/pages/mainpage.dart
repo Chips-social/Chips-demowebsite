@@ -5,6 +5,7 @@ import 'package:chips_demowebsite/pages/sidebar.dart';
 import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.child});
@@ -197,7 +198,8 @@ class _MainPageState extends State<MainPage> {
                                                             index]['name']);
                                                 String gotourl =
                                                     '/category/$categoryName/curation/$curationName/id/${homeController.searchSuggestions[index]['_id']}';
-                                                Get.toNamed(gotourl);
+                                                GoRouter.of(context)
+                                                    .go(gotourl);
                                                 homeController
                                                     .globalSearchController
                                                     .clear();

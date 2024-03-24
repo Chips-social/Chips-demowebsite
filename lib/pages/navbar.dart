@@ -44,7 +44,7 @@ Widget NavBar(context) {
                       //   // Handle settings action
                       //   break;
                       case 'Logout':
-                        authController.logoutUser();
+                        authController.logoutUser(context);
                         break;
                       // Add more cases for other menu options
                     }

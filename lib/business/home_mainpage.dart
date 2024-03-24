@@ -8,6 +8,7 @@ import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeMainPage extends StatefulWidget {
   const HomeMainPage({super.key, required this.child});
@@ -103,7 +104,7 @@ class _HomeMainPageState extends State<HomeMainPage> {
                                                     : getW(context) * 0.14,
                                             right: 10)
                                         : EdgeInsets.zero,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.search,
                                       color: ColorConst.textFieldColor,
                                     ),
@@ -120,15 +121,15 @@ class _HomeMainPageState extends State<HomeMainPage> {
                                             homeController
                                                 .searchSuggestions.value = [];
                                           },
-                                          child: Icon(Icons.close,
+                                          child: const Icon(Icons.close,
                                               color: ColorConst.textFieldColor),
                                         )
                                       : null,
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10),
+                                        topLeft: const Radius.circular(10),
+                                        topRight: const Radius.circular(10),
                                         bottomLeft: Radius.circular(
                                             homeController
                                                     .searchSuggestions.isEmpty
@@ -194,12 +195,14 @@ class _HomeMainPageState extends State<HomeMainPage> {
                                                             index]['name']);
                                                 String gotourl =
                                                     '/category/$categoryName/curation/$curationName/id/${homeController.searchSuggestions[index]['_id']}';
-                                                Get.toNamed(gotourl);
+
                                                 homeController
                                                     .globalSearchController
                                                     .clear();
                                                 homeController.searchSuggestions
                                                     .value = [];
+                                                GoRouter.of(context)
+                                                    .go(gotourl);
                                               },
                                               dense: true,
                                               leading: ClipRRect(

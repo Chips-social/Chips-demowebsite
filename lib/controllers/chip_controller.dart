@@ -8,6 +8,7 @@ import 'package:chips_demowebsite/services/rest.dart';
 import 'package:chips_demowebsite/widgets/my_snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
@@ -18,19 +19,9 @@ class ChipController extends GetxController {
   TextEditingController searchSaveController = TextEditingController();
 
   final SidebarController sidebarController = Get.find<SidebarController>();
-  ChipController() {
-    tagController.addListener(_updateHasTags);
-    //  if (selectedSavedCurationIndex.value == false) {
-    //    allCurations.value = sidebarController.mycurations;
-    //  } else if (selectedSavedCurationIndex.value == true) {
-    //    allCurations.value = sidebarController.mysavedCurations;
-    //  }
-  }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-
+  // ChipController() {
+  //   tagController.addListener(_updateHasTags);
   // }
 
   final showPreview = false.obs;
@@ -77,12 +68,24 @@ class ChipController extends GetxController {
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
   RxList<Map<String, String>> suggestions = RxList<Map<String, String>>();
+  late TextfieldTagsController tagController;
 
-  final TextfieldTagsController tagController = TextfieldTagsController();
-
-  void _updateHasTags() {
+  void updateHasTags() {
     hasTags.value = tagController.getTags!.isNotEmpty;
   }
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   tagController.addListener(_updateHasTags);
+  // }
+
+  // @override
+  // void onClose() {
+  //   tagController.dispose();
+  //   tagController.removeListener(_updateHasTags);
+  //   super.onClose();
+  // }
 
   // void getCurationsList() {
   //   if (selectedSavedCurationIndex.value == false) {
@@ -102,7 +105,7 @@ class ChipController extends GetxController {
     List allCurations = selectedSavedCurationIndex.value
         ? sidebarController.mysavedCurations
         : sidebarController.mycurations;
-    print(allCurations);
+    // print(allCurations);
     if (query.isEmpty) {
       filteredNamesC.assignAll(allCurations);
     } else {
@@ -189,7 +192,6 @@ class ChipController extends GetxController {
       isLoading.value = false;
 
       homeController.allChips();
-      Navigator.of(context).pop();
       // successChip(
       //     context,
       //     "You have successfully created a Chip in ${categoryController.selectedCurationName.value}. You can find it in your Saved curations.",
@@ -215,8 +217,6 @@ class ChipController extends GetxController {
       "category": selectedCategory.value,
       'origin_id': selectedCurationId.value
     };
-    print(data);
-    print(authController.currentUser['_id']);
 
     var response =
         await postRequestAuthenticated(endpoint: '/save/chip', data: data);
@@ -224,7 +224,6 @@ class ChipController extends GetxController {
       isLoading.value = false;
       homeController.allChips();
       Navigator.of(context).pop();
-
       successChip(
           context,
           "You have successfully saved a Chip in ${selectedName.value}. You can find it in your Saved curations.",
@@ -247,7 +246,7 @@ class ChipController extends GetxController {
     var data = {"curation_id": openCurationId.value};
     var response = await postRequestAuthenticated(
         endpoint: '/fetch/all/chips/of/curation', data: data);
-    print(response);
+    // print(response);
     if (response["success"]) {
       isLoading.value = false;
       chipsofCuration = List.from(response["chips"]).obs;
@@ -275,6 +274,8 @@ class ChipController extends GetxController {
     urlController.clear();
     formattedDate.value = "";
     counter.value = 0;
+    tagController.clearTags();
+    // tagController.dispose();
   }
 
   unsaveChip(String curId) async {
@@ -283,7 +284,7 @@ class ChipController extends GetxController {
       "origin_id": curId,
       "user_id": authController.currentUser['_id'],
     };
-    print(data);
+    // print(data);
     var response =
         await postRequestAuthenticated(endpoint: '/unsave/chip', data: data);
     if (response["success"]) {

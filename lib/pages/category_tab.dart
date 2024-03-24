@@ -7,8 +7,10 @@ import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:get/get.dart';
 
 class CategoryTab extends StatefulWidget {
-  const CategoryTab({super.key, required this.child});
+  const CategoryTab(
+      {super.key, required this.child, required this.categoryName});
   final Widget child;
+  final String categoryName;
 
   @override
   State<CategoryTab> createState() => _CategoryTabState();
@@ -24,32 +26,36 @@ class _CategoryTabState extends State<CategoryTab> {
     homeController.scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       homeController.getData();
-      var initialCategory = Uri.decodeComponent(
-          Get.parameters['categoryName'] ??
-              Uri.encodeComponent("From our Desk"));
+      var initialCategory = Uri.decodeComponent(widget.categoryName.isEmpty
+          ? Uri.encodeComponent("From our Desk")
+          : widget.categoryName);
       if (authController.isLoggedIn.value) {
-        initialCategory = Uri.decodeComponent(Get.parameters['categoryName'] ??
-            Uri.encodeComponent("Made by Chips"));
+        initialCategory = Uri.decodeComponent(widget.categoryName.isEmpty
+            ? Uri.encodeComponent("Made by Chips")
+            : widget.categoryName);
       }
       final initialIndex = homeController.categories.indexOf(initialCategory);
       if (initialIndex != -1) {
         homeController.selctedCategoryTab.value =
             homeController.categories[initialIndex];
-        homeController.tabController.animateTo(initialIndex);
-        homeController.scrollController.animateTo(
-            homeController.tabController.index * 150,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear);
-        homeController.allCurations();
+        Future.microtask(() => homeController.allCurations()).then((_) {
+          if (mounted) {
+            homeController.tabController.animateTo(initialIndex);
+            homeController.scrollController.animateTo(
+                homeController.tabController.index * 150,
+                duration: const Duration(milliseconds: 1),
+                curve: Curves.linear);
+          }
+        });
       }
     });
   }
 
-  @override
-  void dispose() {
-    homeController.scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   homeController.scrollController.dispose();
+  //   super.dispose();
+  // }
 
   void scrollTabsRight() {
     homeController.scrollPart.value += 150;

@@ -70,9 +70,7 @@ class Page404 extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
                     PillButton(
-                      onTap: () async {
-                        Get.offAllNamed('/');
-                      },
+                      onTap: () async {},
                       text: 'Return to Home',
                       textColor: ColorConst.buttonText,
                       backGroundColor: ColorConst.primary,

@@ -5,10 +5,8 @@ import 'package:chips_demowebsite/controllers/create_curation_controller.dart';
 import 'package:chips_demowebsite/controllers/home_controller.dart';
 import 'package:chips_demowebsite/controllers/sidebar_controller.dart';
 import 'package:chips_demowebsite/pages/page404.dart';
-import 'dart:html' as html;
-import 'dart:js' as js;
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:chips_demowebsite/routes/routes.dart';
-import 'package:chips_demowebsite/services/rest.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,6 +40,7 @@ void main() async {
 
   Get.put(CreateCurationController());
   Get.put(ChipController());
+  setUrlStrategy(PathUrlStrategy());
   String initialRoute = '/';
   // String? subdomain = getSubdomain();
   // if (subdomain == "") {
@@ -51,7 +50,6 @@ void main() async {
   // }
 
   runApp(MyApp(initialRoute: initialRoute));
-  setUrlStrategy(PathUrlStrategy());
 }
 
 class MyApp extends StatelessWidget {
@@ -59,37 +57,39 @@ class MyApp extends StatelessWidget {
   final String initialRoute;
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        title: 'Chips.Social',
-        scrollBehavior: const MaterialScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.touch,
-            PointerDeviceKind.stylus,
-            PointerDeviceKind.unknown
-          },
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      title: 'Chips.Social',
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.unknown
+        },
+      ),
+      // onUnknownRoute: (settings) =>
+      //     MaterialPageRoute(builder: (context) => const Page404()),
+      // unknownRoute: GetPage(
+      //   name: '/page-not-found',
+      //   page: () => const Page404(),
+      // ),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
+        useMaterial3: true,
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(
+              Colors.grey), // Customize scrollbar thumb color
+          thickness: MaterialStateProperty.all(
+              8.0), // Optional: Customize scrollbar thickness
+          radius:
+              const Radius.circular(8), // Optional: Customize scrollbar radius
         ),
-        onUnknownRoute: (settings) =>
-            MaterialPageRoute(builder: (context) => const Page404()),
-        unknownRoute: GetPage(
-          name: '/page-not-found',
-          page: () => const Page404(),
-        ),
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
-          useMaterial3: true,
-          scrollbarTheme: ScrollbarThemeData(
-            thumbColor: MaterialStateProperty.all(
-                Colors.grey), // Customize scrollbar thumb color
-            thickness: MaterialStateProperty.all(
-                8.0), // Optional: Customize scrollbar thickness
-            radius: const Radius.circular(
-                8), // Optional: Customize scrollbar radius
-          ),
-        ),
-        getPages: AppRoutes.routes);
+      ),
+    );
   }
 }

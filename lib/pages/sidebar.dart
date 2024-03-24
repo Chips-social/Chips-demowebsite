@@ -8,6 +8,7 @@ import 'package:chips_demowebsite/widgets/home_start_card.dart';
 import 'package:chips_demowebsite/widgets/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SideBar extends StatelessWidget {
@@ -47,7 +48,7 @@ class SideBar extends StatelessWidget {
                         homeController.isExplore.value = true;
                         homeController.isSavedCuration.value = false;
                         homeController.isMyCuration.value = false;
-                        Get.offAllNamed('/');
+                        GoRouter.of(context).go('/');
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,
@@ -100,7 +101,8 @@ class SideBar extends StatelessWidget {
                                   homeController.isSavedCuration.value = false;
                                   homeController.isMyCuration.value = true;
                                   await sidebarController.myCurations();
-                                  Get.toNamed('/mycuration/MyCurations');
+                                  GoRouter.of(context)
+                                      .go('/mycuration/MyCurations');
                                 },
                                 child: Container(
                                     width: 200,
@@ -145,7 +147,7 @@ class SideBar extends StatelessWidget {
                                                 .value = sidebarController
                                                     .my3curations[index]
                                                 ['category'];
-                                            Get.toNamed(
+                                            GoRouter.of(context).go(
                                                 '/curationchips/$urltogo/id/${chipController.openCurationId.value}');
                                           },
                                           child: Padding(
@@ -173,8 +175,8 @@ class SideBar extends StatelessWidget {
                                           homeController.isMyCuration.value =
                                               true;
                                           await sidebarController.myCurations();
-                                          Get.toNamed(
-                                              '/mycuration/MyCurations');
+                                          GoRouter.of(context)
+                                              .go('/mycuration/MyCurations');
                                         },
                                         child: const Row(
                                           mainAxisAlignment:
@@ -223,7 +225,8 @@ class SideBar extends StatelessWidget {
                                   homeController.isSavedCuration.value = true;
                                   homeController.isMyCuration.value = false;
                                   await sidebarController.mySavedCurations();
-                                  Get.toNamed('/savedcuration/saved');
+                                  GoRouter.of(context)
+                                      .go('/savedcuration/saved');
                                 },
                                 child: Container(
                                     width: 200,
@@ -272,8 +275,7 @@ class SideBar extends StatelessWidget {
                                                     .my3savedCurations[index]
                                                         ['name']
                                                     .toString());
-
-                                            Get.toNamed(
+                                            GoRouter.of(context).go(
                                                 '/savedchips/$urltogo/id/${chipController.openCurationId.value}');
                                           },
                                           child: Padding(
@@ -304,7 +306,8 @@ class SideBar extends StatelessWidget {
                                               false;
                                           await sidebarController
                                               .mySavedCurations();
-                                          Get.toNamed('/savedcuration/saved');
+                                          GoRouter.of(context)
+                                              .go('/savedcuration/saved');
                                         },
                                         child: const Row(
                                           mainAxisAlignment:
@@ -339,7 +342,7 @@ class SideBar extends StatelessWidget {
                           )
                         : Container(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   // Obx(

@@ -4,6 +4,7 @@ import 'package:chips_demowebsite/utils/utils.dart';
 import 'package:chips_demowebsite/widgets/pin_widgets.dart';
 import 'package:chips_demowebsite/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:get/get.dart';
 import 'package:chips_demowebsite/constants/color_constants.dart';
@@ -24,7 +25,7 @@ class _ModalState extends State<Modal> {
   final SidebarController sidebarController = Get.find<SidebarController>();
 
   Future getofftoHome() async {
-    var response = await authController.verifyOtp();
+    var response = await authController.verifyOtp(context);
     if (response['success']) {
       await sidebarController.my3Curations();
       await sidebarController.my3SavedCurations();
@@ -32,7 +33,7 @@ class _ModalState extends State<Modal> {
   }
 
   Future getOfftoHomefromGoogle() async {
-    var response = await authController.signInWithGoogle();
+    var response = await authController.signInWithGoogle(context);
     if (response['success']) {
       await sidebarController.my3Curations();
       await sidebarController.my3SavedCurations();
@@ -41,7 +42,8 @@ class _ModalState extends State<Modal> {
           message: response["message"],
           icon: Icons.check_circle,
           color: ColorConst.success);
-      Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
+      GoRouter.of(context).go('/');
+      // Get.offAllNamed('/category/${Uri.encodeComponent("Food & Drinks")}');
     }
   }
 

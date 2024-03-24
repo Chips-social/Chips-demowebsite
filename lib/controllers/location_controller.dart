@@ -33,7 +33,7 @@ class LocationController extends GetxController {
   openGoogleMaps() async {
     try {
       await getCurrentLocation();
-      print("location done");
+      // print("location done");
       chipController.location.value =
           await getAddressFromBackend(latitude.value, longitude.value);
       chipController.locationUrl.value =

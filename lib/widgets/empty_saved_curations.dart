@@ -2,6 +2,7 @@ import 'package:chips_demowebsite/constants/color_constants.dart';
 import 'package:chips_demowebsite/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class EmptySavedCurations extends StatelessWidget {
   EmptySavedCurations({super.key});
@@ -35,7 +36,7 @@ class EmptySavedCurations extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.toNamed('/');
+                GoRouter.of(context).go('/');
               },
               child: const Text(
                 textAlign: TextAlign.center,
