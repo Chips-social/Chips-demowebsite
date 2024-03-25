@@ -24,6 +24,7 @@ class CurationTabHeading extends StatelessWidget {
         child: Text(
           curationName,
           style: TextStyle(
+              fontFamily: 'Inter',
               color: isSelected ? ColorConst.buttonText : ColorConst.primary),
         ),
       ),

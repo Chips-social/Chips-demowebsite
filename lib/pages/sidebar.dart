@@ -64,6 +64,7 @@ class SideBar extends StatelessWidget {
                           child: const Text(
                             'Explore\n',
                             style: TextStyle(
+                                fontFamily: 'Inter',
                                 color: ColorConst.textFieldColor,
                                 letterSpacing: 1.2,
                                 fontSize: 18,
@@ -187,6 +188,7 @@ class SideBar extends StatelessWidget {
                                             Text(
                                               'view more',
                                               style: TextStyle(
+                                                  fontFamily: 'Inter',
                                                   color:
                                                       ColorConst.textFieldColor,
                                                   fontSize: 16),
@@ -203,8 +205,9 @@ class SideBar extends StatelessWidget {
                                       padding: EdgeInsets.only(
                                           left: getW(context) * 0.03),
                                       child: const Text("No Curations!",
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                          style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              color: Colors.white)),
                                     ),
                               const Divider(
                                 color: ColorConst.dividerLine,
@@ -318,6 +321,7 @@ class SideBar extends StatelessWidget {
                                             Text(
                                               'view more',
                                               style: TextStyle(
+                                                  fontFamily: 'Inter',
                                                   color:
                                                       ColorConst.textFieldColor,
                                                   fontSize: 16),

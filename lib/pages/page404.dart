@@ -9,16 +9,19 @@ class Page404 extends StatelessWidget {
   final TextStyle normalTextStyle = const TextStyle(
     fontSize: 45,
     color: ColorConst.primary,
+    fontFamily: 'Inter',
     fontWeight: FontWeight.w700,
   );
   final TextStyle italicBoldTextStyle = const TextStyle(
       fontSize: 45,
       color: ColorConst.primary,
+      fontFamily: 'Inter',
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.italic);
   final italicTextStyle = const TextStyle(
     fontSize: 45,
     color: ColorConst.primary,
+    fontFamily: 'Inter',
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.italic,
   );
@@ -56,7 +59,7 @@ class Page404 extends StatelessWidget {
                       text: TextSpan(children: <TextSpan>[
                         TextSpan(
                             text: "#404 ¯\(°_o)/¯ \n \n",
-                            style: TextStyle(color: Color(0xFFF2B8B5))),
+                            style: TextStyle(fontFamily: 'Inter',color: Color(0xFFF2B8B5))),
                         TextSpan(text: "Looks like\n", style: normalTextStyle),
                         TextSpan(text: "you've  ", style: italicTextStyle),
                         TextSpan(text: "ventured\n", style: normalTextStyle),

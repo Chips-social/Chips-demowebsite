@@ -52,6 +52,7 @@ class ShareModal extends StatelessWidget {
                 const Text(
                   'Spread the Magic',
                   style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
@@ -76,6 +77,7 @@ class ShareModal extends StatelessWidget {
             Text(
               'Share this $type via',
               style: const TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.white),
@@ -154,7 +156,8 @@ class ShareModal extends StatelessWidget {
               padding: EdgeInsets.only(left: 10),
               child: Text(
                 'Or',
-                style: TextStyle(color: Colors.grey, fontSize: 13),
+                style: TextStyle(
+                    fontFamily: 'Inter', color: Colors.grey, fontSize: 13),
               ),
             ),
             const SizedBox(height: 16),
@@ -184,6 +187,7 @@ class ShareModal extends StatelessWidget {
                     child: Text(
                       curationLink,
                       style: TextStyle(
+                          fontFamily: 'Inter',
                           color: Colors.grey,
                           fontSize: getW(context) < 400 ? 11 : 13),
                     ),
@@ -205,7 +209,8 @@ class ShareModal extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10))),
                       child: const Text(
                         'Copy',
-                        style: TextStyle(color: Colors.white),
+                        style:
+                            TextStyle(fontFamily: 'Inter', color: Colors.white),
                       )),
                 ],
               ),

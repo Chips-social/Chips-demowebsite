@@ -32,10 +32,13 @@ class MyTextField extends StatelessWidget {
               color: ColorConst.primaryText, fontFamily: 'Inter'),
           decoration: InputDecoration(
               floatingLabelStyle: errorText == 'null'
-                  ? const TextStyle(color: ColorConst.secondaryText)
-                  : const TextStyle(color: ColorConst.errorLight),
+                  ? const TextStyle(
+                      fontFamily: 'Inter', color: ColorConst.secondaryText)
+                  : const TextStyle(
+                      fontFamily: 'Inter', color: ColorConst.errorLight),
               filled: false,
-              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               suffixIcon: suffixButton,
               // fillColor: ColorConst.primaryBackground,
               border: OutlineInputBorder(
@@ -73,7 +76,8 @@ class MyTextField extends StatelessWidget {
                   fontSize: 14,
                   fontFamily: 'Inter'),
               errorText: errorText == 'null' ? null : errorText,
-              errorStyle: const TextStyle(color: ColorConst.errorLight)),
+              errorStyle: const TextStyle(
+                  fontFamily: 'Inter', color: ColorConst.errorLight)),
           onChanged: onChanged),
     );
   }

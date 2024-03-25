@@ -14,9 +14,9 @@ import 'package:go_router/go_router.dart';
 class MyCurations extends StatefulWidget {
   const MyCurations({
     super.key,
-    required this.title,
+    // required this.title,
   });
-  final String title;
+  // final String title;
 
   @override
   State<MyCurations> createState() => _MyCurationsState();
@@ -67,9 +67,10 @@ class _MyCurationsState extends State<MyCurations> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.title,
+                    "My Curations",
                     style: TextStyle(
                         fontSize: screenWidth < 360 ? 18 : 24,
+                        fontFamily: 'Inter',
                         fontWeight: FontWeight.bold,
                         color: ColorConst.primary),
                   ),
@@ -87,7 +88,9 @@ class _MyCurationsState extends State<MyCurations> {
                           children: [
                             Text('+ New Curation',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 13)),
+                                    fontFamily: 'Inter',
+                                    color: Colors.white,
+                                    fontSize: 13)),
                           ],
                         ),
                       ))
@@ -170,6 +173,7 @@ class _MyCurationsState extends State<MyCurations> {
                                                   .mycurations[index]['name'],
                                               style: const TextStyle(
                                                   fontSize: 15,
+                                                  fontFamily: 'Inter',
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             ),
@@ -188,6 +192,7 @@ class _MyCurationsState extends State<MyCurations> {
                                                           .mycurations[index]
                                                       ['user_id']['name'],
                                                   style: const TextStyle(
+                                                      fontFamily: 'Inter',
                                                       fontSize: 13,
                                                       color: Colors.grey),
                                                 ),
@@ -199,6 +204,7 @@ class _MyCurationsState extends State<MyCurations> {
                                                   '',
                                                   style: TextStyle(
                                                       fontSize: 12,
+                                                      fontFamily: 'Inter',
                                                       color: Colors.grey),
                                                 ),
                                               ),

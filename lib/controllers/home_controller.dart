@@ -19,6 +19,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
   var ownerName = "".obs;
   var scrollPart = 0.obs;
+  var isSelectedTab = false.obs;
 
   // late AnimationController animationController;
   // late Animation<Offset> animation;
@@ -157,6 +158,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   void changeTab(int index, BuildContext context) {
     selctedCategoryTab.value = categories[index];
     var categoryName = Uri.encodeComponent(selctedCategoryTab.value);
+    isSelectedTab.value = true;
     //  Get.toNamed('/category/$categoryName');
     GoRouter.of(context).go('/category/$categoryName');
     allCurations();
@@ -213,23 +215,16 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   allChips() async {
     isLoading.value = true;
     var data = {'curation_id': categoryController.selectedCurationId.value};
-
     var response = await postRequestUnAuthenticated(
         endpoint: '/fetch/all/chips/of/curation', data: data);
     if (response["success"]) {
       chips = List.from(response["chips"]).obs;
-      update();
       isLoading.value = false;
+      update();
     } else {
-      // showErrorSnackBar(
-      //     heading: 'Error',
-      //     message: response["message"],
-      //     icon: Icons.error,
-      //     color: Colors.redAccent);
       chips = List.from([]).obs;
       isLoading.value = false;
     }
-    update();
   }
 
   allCurations() async {

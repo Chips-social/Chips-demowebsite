@@ -82,12 +82,14 @@ class NewCurationModal extends StatelessWidget {
                                   const Text('Great minds think alike!',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
+                                          fontFamily: 'Inter',
                                           fontStyle: FontStyle.italic,
                                           fontSize: 13)),
                                   const Text(
                                       'There are curations that already exist with the same name. You can check em out here or search for them later.',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
+                                          fontFamily: 'Inter',
                                           fontSize: 13)),
                                   const SizedBox(
                                     height: 10,
@@ -180,14 +182,18 @@ class NewCurationModal extends StatelessWidget {
                                                                             .text
                                                                             .toString(),
                                                                         style: const TextStyle(
-                                                                            color:
-                                                                                ColorConst.primary,
-                                                                            fontSize: 11)),
+                                                                            color: ColorConst
+                                                                                .primary,
+                                                                            fontFamily:
+                                                                                'Inter',
+                                                                            fontSize:
+                                                                                11)),
                                                                     getW(context) <
                                                                             420
                                                                         ? Text(
                                                                             'by ${curationController.exisitingCurators[index]}',
                                                                             style: const TextStyle(
+                                                                                fontFamily: 'Inter',
                                                                                 color: ColorConst.primary,
                                                                                 fontStyle: FontStyle.italic,
                                                                                 fontSize: 9))
@@ -202,6 +208,8 @@ class NewCurationModal extends StatelessWidget {
                                                                     ? Text(
                                                                         'by ${curationController.exisitingCurators[index]}',
                                                                         style: const TextStyle(
+                                                                            fontFamily:
+                                                                                'Inter',
                                                                             color:
                                                                                 ColorConst.primary,
                                                                             fontStyle: FontStyle.italic,
@@ -216,6 +224,8 @@ class NewCurationModal extends StatelessWidget {
                                                                         .value
                                                                         .toString(),
                                                                     style: const TextStyle(
+                                                                        fontFamily:
+                                                                            'Inter',
                                                                         color: ColorConst
                                                                             .primary,
                                                                         fontSize:
@@ -235,6 +245,7 @@ class NewCurationModal extends StatelessWidget {
                                         'or create new curation from scratch?',
                                         style: TextStyle(
                                             color: ColorConst.primaryText,
+                                            fontFamily: 'Inter',
                                             fontSize: 12)),
                                   ),
                                   const SizedBox(
@@ -331,14 +342,16 @@ class NewCurationModal extends StatelessWidget {
                                   Text('What are you curating here?',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
+                                          fontFamily: 'Inter',
                                           fontSize:
                                               getW(context) < 390 ? 13 : 16)),
                                   TextField(
                                     maxLength: 25,
                                     controller: curationController
                                         .curationCaptionController,
-                                    style:
-                                        const TextStyle(color: Colors.white70),
+                                    style: const TextStyle(
+                                        fontFamily: 'Inter',
+                                        color: Colors.white70),
                                     decoration: const InputDecoration(
                                         hintText: 'Name of this curation',
                                         hintStyle: TextStyle(
@@ -349,6 +362,7 @@ class NewCurationModal extends StatelessWidget {
                                   const Text('Select Category',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
+                                          fontFamily: 'Inter',
                                           fontSize: 16)),
                                   //list of categories to be appeared here.
                                   Obx(() => curationController.isLoading.value
@@ -371,6 +385,7 @@ class NewCurationModal extends StatelessWidget {
                                   Text('Who can see and add more to curation?',
                                       style: TextStyle(
                                           color: ColorConst.primaryText,
+                                          fontFamily: 'Inter',
                                           fontSize:
                                               getW(context) < 390 ? 12 : 16)),
                                   const SizedBox(height: 10),
@@ -401,6 +416,7 @@ class NewCurationModal extends StatelessWidget {
                                         'Anyone',
                                         style: TextStyle(
                                           color: ColorConst.primary,
+                                          fontFamily: 'Inter',
                                           fontSize: 14,
                                         ),
                                       ),

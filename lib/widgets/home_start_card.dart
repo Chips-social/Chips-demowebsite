@@ -30,13 +30,17 @@ Widget HomeStartCard(context) {
                   Text('Welcome to Chips 👋',
                       style: TextStyle(
                           color: Colors.white,
+                          fontFamily: 'Inter',
                           fontSize: getW(context) > 600 ? 16 : 12,
                           fontWeight: FontWeight.w700)),
                 ],
               ),
               const SizedBox(height: 10),
               const Text('Save your favourites and Curate Your Internet.',
-                  style: TextStyle(color: ColorConst.primary, fontSize: 14)),
+                  style: TextStyle(
+                      fontFamily: 'Inter',
+                      color: ColorConst.primary,
+                      fontSize: 14)),
               const SizedBox(height: 20),
               PillButton(
                   onTap: () async {

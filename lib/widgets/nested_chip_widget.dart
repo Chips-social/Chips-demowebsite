@@ -73,7 +73,9 @@ class _NestedChipState extends State<NestedChip> {
                         child: Text(
                           widget.url,
                           style: const TextStyle(
-                              color: Colors.white54, fontSize: 13),
+                              fontFamily: 'Inter',
+                              color: Colors.white54,
+                              fontSize: 13),
                         ),
                       )
                     ])
@@ -91,6 +93,7 @@ class _NestedChipState extends State<NestedChip> {
                             Text(
                               title,
                               style: const TextStyle(
+                                fontFamily: 'Inter',
                                 color: Color(
                                     0xFF02a6f7), // Adjust according to your color constants
                                 fontSize: 16,
@@ -102,6 +105,7 @@ class _NestedChipState extends State<NestedChip> {
                             Text(
                               description,
                               style: const TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 13,
                                 color: Colors
                                     .white, // Adjust according to your ColorConst.primaryText
@@ -131,6 +135,7 @@ class _NestedChipState extends State<NestedChip> {
                                 child: Text(
                                   'Source: $siteName',
                                   style: const TextStyle(
+                                    fontFamily: 'Inter',
                                     color: Colors
                                         .white70, // Adjust according to your color constants
                                     fontSize: 12,

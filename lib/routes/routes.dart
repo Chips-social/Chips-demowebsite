@@ -65,63 +65,171 @@ import 'package:go_router/go_router.dart';
 //   ];
 // }
 
+// final GoRouter router = GoRouter(
+//   routes: [
+//     GoRoute(
+//       path: '/',
+//       builder: (BuildContext context, GoRouterState state) =>
+//           const MainPage(child: CategoryTab(categoryName: "", child: Home())),
+//     ),
+//     GoRoute(
+//       path: '/category/:categoryName',
+//       builder: (BuildContext context, GoRouterState state) {
+//         final categoryName = state.pathParameters['categoryName'] ?? "";
+//         return MainPage(
+//             child:
+//                 CategoryTab(categoryName: categoryName, child: const Home()));
+//       },
+//     ),
+//     GoRoute(
+//       path: '/category/:categoryName/curation/:title/id/:id',
+//       builder: (BuildContext context, GoRouterState state) {
+//         final categoryName = state.pathParameters['categoryName'] ?? "";
+//         final title = state.pathParameters['title'] ?? "";
+//         final id = state.pathParameters['id'] ?? "";
+
+//         return MainPage(
+//             child: CategoryTab(
+//                 categoryName: categoryName,
+//                 child: ChipDemo(title: title, curId: id)));
+//       },
+//     ),
+//     GoRoute(
+//       path: '/mycuration/:title',
+//       builder: (BuildContext context, GoRouterState state) {
+//         final title = state.pathParameters['title'] ?? "";
+//         return MainPage(child: MyCurations(title: title));
+//       },
+//     ),
+//     GoRoute(
+//       path: '/savedcuration/saved',
+//       builder: (BuildContext context, GoRouterState state) {
+//         return const MainPage(child: SavedCurations());
+//       },
+//     ),
+//     GoRoute(
+//       path: '/curationchips/:chip/id/:id',
+//       builder: (BuildContext context, GoRouterState state) {
+//         final title = state.pathParameters['chip'] ?? "";
+//         final curId = state.pathParameters['id'] ?? "";
+//         return MainPage(child: MyCurationChips(title: title, curId: curId));
+//       },
+//     ),
+//     GoRoute(
+//       path: '/savedchips/:chip/id/:id',
+//       builder: (BuildContext context, GoRouterState state) {
+//         final title = state.pathParameters['chip'] ?? "";
+//         final curId = state.pathParameters['id'] ?? "";
+//         return MainPage(child: SavedCurationChips(title: title, curId: curId));
+//       },
+//     ),
+//   ],
+//   errorBuilder: (context, state) => const Page404(),
+// );
+
 final GoRouter router = GoRouter(
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) =>
-          const MainPage(child: CategoryTab(categoryName: "", child: Home())),
-    ),
-    GoRoute(
-      path: '/category/:categoryName',
-      builder: (BuildContext context, GoRouterState state) {
-        final categoryName = state.pathParameters['categoryName'] ?? "";
-        return MainPage(
-            child:
-                CategoryTab(categoryName: categoryName, child: const Home()));
-      },
-    ),
-    GoRoute(
-      path: '/category/:categoryName/curation/:title/id/:id',
-      builder: (BuildContext context, GoRouterState state) {
-        final categoryName = state.pathParameters['categoryName'] ?? "";
-        final title = state.pathParameters['title'] ?? "";
-        final id = state.pathParameters['id'] ?? "";
-
-        return MainPage(
-            child: CategoryTab(
-                categoryName: categoryName,
-                child: ChipDemo(title: title, curId: id)));
-      },
-    ),
-    GoRoute(
-      path: '/mycuration/:title',
-      builder: (BuildContext context, GoRouterState state) {
-        final title = state.pathParameters['title'] ?? "";
-        return MainPage(child: MyCurations(title: title));
-      },
-    ),
-    GoRoute(
-      path: '/savedcuration/saved',
-      builder: (BuildContext context, GoRouterState state) {
-        return const MainPage(child: SavedCurations());
-      },
-    ),
-    GoRoute(
-      path: '/curationchips/:chip/id/:id',
-      builder: (BuildContext context, GoRouterState state) {
-        final title = state.pathParameters['chip'] ?? "";
-        final curId = state.pathParameters['id'] ?? "";
-        return MainPage(child: MyCurationChips(title: title, curId: curId));
-      },
-    ),
-    GoRoute(
-      path: '/savedchips/:chip/id/:id',
-      builder: (BuildContext context, GoRouterState state) {
-        final title = state.pathParameters['chip'] ?? "";
-        final curId = state.pathParameters['id'] ?? "";
-        return MainPage(child: SavedCurationChips(title: title, curId: curId));
-      },
+    ShellRoute(
+      builder: (context, state, child) => MainPage(child: child),
+      routes: [
+        GoRoute(
+          path: '/',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const CategoryTab(categoryName: "", child: Home()),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+          ),
+        ),
+        GoRoute(
+          path: '/category/:categoryName',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            final categoryName = state.pathParameters['categoryName'] ?? "";
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child:
+                  CategoryTab(categoryName: categoryName, child: const Home()),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                // No animation: child is returned directly
+                return child;
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: '/category/:categoryName/curation/:title/id/:id',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            final categoryName = state.pathParameters['categoryName'] ?? "";
+            final title = state.pathParameters['title'] ?? "";
+            final id = state.pathParameters['id'] ?? "";
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: CategoryTab(
+                  categoryName: categoryName,
+                  child: ChipDemo(title: title, curId: id)),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: '/mycuration/MyCurations',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const MyCurations(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+          ),
+        ),
+        GoRoute(
+          path: '/savedcuration/saved',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const SavedCurations(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+          ),
+        ),
+        GoRoute(
+          path: '/curationchips/:chip/id/:id',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            final title = state.pathParameters['chip'] ?? "";
+            final curId = state.pathParameters['id'] ?? "";
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: MyCurationChips(title: title, curId: curId),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: '/savedchips/:chip/id/:id',
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            final title = state.pathParameters['chip'] ?? "";
+            final curId = state.pathParameters['id'] ?? "";
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: SavedCurationChips(title: title, curId: curId),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          },
+        ),
+      ],
     ),
   ],
   errorBuilder: (context, state) => const Page404(),

@@ -5,6 +5,7 @@ Widget bigText(String text) {
   return Text(
     text,
     style: const TextStyle(
+        fontFamily: 'Inter',
         color: ColorConst.textFieldColor,
         fontSize: 16,
         fontWeight: FontWeight.w700),
@@ -15,6 +16,7 @@ Widget smallText(String text) {
   return Text(
     text,
     style: const TextStyle(
+        fontFamily: 'Inter',
         color: ColorConst.textFieldColor,
         fontSize: 14,
         fontWeight: FontWeight.w500),

@@ -5,8 +5,11 @@ import 'package:pinput/pinput.dart';
 final defaultPinTheme = PinTheme(
   width: 33,
   height: 38,
-  textStyle:
-      TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
+  textStyle: const TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 16,
+      color: Colors.white,
+      fontWeight: FontWeight.w600),
   decoration: BoxDecoration(
     color: ColorConst.dark,
     borderRadius: BorderRadius.circular(5),

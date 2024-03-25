@@ -131,6 +131,7 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                         "Use current location",
                                         style: TextStyle(
                                           color: Colors.white,
+                                          fontFamily: 'Inter',
                                           fontSize: 15,
                                           decorationColor: ColorConst.primary,
                                         ),
@@ -142,7 +143,8 @@ class _CreateChipModalState extends State<CreateChipModal> {
                               const SizedBox(height: 12),
                               TextField(
                                 controller: chipController.locationController,
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(
+                                    fontFamily: 'Inter', color: Colors.white),
                                 decoration: const InputDecoration(
                                     hintText: 'Search location',
                                     hintStyle: TextStyle(color: Colors.grey)),
@@ -162,6 +164,7 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                         title: Text(
                                           suggestion['description'].toString(),
                                           style: const TextStyle(
+                                              fontFamily: 'Inter',
                                               color: Colors.white),
                                         ),
                                         onTap: () {
@@ -413,7 +416,9 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                         focusNode: inputFieldValues.focusNode,
                                         maxLength: 12,
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 13),
+                                            fontFamily: 'Inter',
+                                            color: Colors.white,
+                                            fontSize: 13),
                                         decoration: InputDecoration(
                                           isDense: true,
                                           focusColor: ColorConst.primary,
@@ -465,6 +470,8 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                                             child: Text(
                                                               tag,
                                                               style: const TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
                                                                   color: Colors
                                                                       .white,
                                                                   fontSize: 13),
@@ -528,6 +535,7 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                                   Text(
                                                       '${chipController.formattedDate}',
                                                       style: const TextStyle(
+                                                          fontFamily: 'Inter',
                                                           color: ColorConst
                                                               .primaryGrey,
                                                           fontSize: 14)),
@@ -589,6 +597,7 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                                     child: Text(
                                                         '${chipController.location}',
                                                         style: TextStyle(
+                                                            fontFamily: 'Inter',
                                                             color: ColorConst
                                                                 .primary,
                                                             fontSize:
@@ -639,7 +648,7 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                                   chipController.urlController,
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontFamily: "Rubik",
+                                                fontFamily: "Inter",
                                                 fontSize: 13,
                                               ),
                                               decoration: const InputDecoration(
@@ -772,8 +781,12 @@ class _CreateChipModalState extends State<CreateChipModal> {
                                       await sidebarController
                                           .mySavedCurations();
 
+                                      await uploadImagesToS3(
+                                          chipController.imageBytesList);
+                                      chipController.addChipToCuration(context);
                                       Navigator.of(context).pop();
-                                      saveChipAs(context);
+
+                                      // saveChipAs(context);
                                     }
                                   },
                                   child: Container(

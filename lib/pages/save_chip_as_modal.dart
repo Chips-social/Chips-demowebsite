@@ -214,6 +214,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                           controller: chipController
                                               .searchSaveController,
                                           style: const TextStyle(
+                                              fontFamily: 'Inter',
                                               color: Colors.white),
                                           decoration: InputDecoration(
                                             filled: true,
@@ -277,6 +278,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                         child: Text(
                                           "My Curation",
                                           style: TextStyle(
+                                              fontFamily: 'Inter',
                                               fontWeight: FontWeight.w400,
                                               color: chipController
                                                       .selectedSavedCurationIndex
@@ -316,6 +318,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                           "Saved",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
+                                              fontFamily: 'Inter',
                                               color: chipController
                                                       .selectedSavedCurationIndex
                                                       .value
@@ -463,6 +466,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                         finalList[index]
                                                             ['name'],
                                                         style: const TextStyle(
+                                                            fontFamily: 'Inter',
                                                             // overflow: TextOverflow
                                                             //     .ellipsis,
 
@@ -613,6 +617,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                                                 .filteredNamesC[
                                                             index]['name'],
                                                         style: const TextStyle(
+                                                            fontFamily: 'Inter',
                                                             // overflow: TextOverflow
                                                             //     .ellipsis,
 
@@ -694,6 +699,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                                 ? "Please Wait..."
                                 : "Save",
                             style: TextStyle(
+                                fontFamily: 'Inter',
                                 color: chipController.selectedId.isEmpty
                                     ? Colors.grey
                                     : Colors.white),
@@ -731,6 +737,7 @@ class _SaveChipAsModalState extends State<SaveChipAsModal> {
                     Text(curationName,
                         style: const TextStyle(
                             color: ColorConst.subscriptionSubtext,
+                            fontFamily: 'Inter',
                             fontSize: 16)),
                     const Spacer(),
                     const Icon(Icons.arrow_forward, color: ColorConst.primary),

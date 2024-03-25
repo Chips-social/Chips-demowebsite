@@ -184,7 +184,8 @@ class _ChipWidgetState extends State<ChipWidget> {
                   child: Text(
                     widget.text,
                     textAlign: TextAlign.justify,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(
+                        fontFamily: 'Inter', color: Colors.white),
                   ),
                 ),
 
@@ -220,6 +221,7 @@ class _ChipWidgetState extends State<ChipWidget> {
                                         child: Text(
                                           widget.date,
                                           style: const TextStyle(
+                                              fontFamily: 'Inter',
                                               color: Colors.white54),
                                         ),
                                       ),
@@ -267,7 +269,9 @@ class _ChipWidgetState extends State<ChipWidget> {
                                     child: Text(
                                       widget.url,
                                       style: const TextStyle(
-                                          color: Colors.white54, fontSize: 13),
+                                          fontFamily: 'Inter',
+                                          color: Colors.white54,
+                                          fontSize: 13),
                                     ),
                                   )
                                 ]),
@@ -383,6 +387,7 @@ class _ChipWidgetState extends State<ChipWidget> {
                             // likeCount.toString(),
                             style: const TextStyle(
                               fontSize: 16,
+                              fontFamily: 'Inter',
                               color: Colors.white54,
                             ),
                           ),
@@ -414,6 +419,7 @@ class _ChipWidgetState extends State<ChipWidget> {
                             // likeCount.toString(),
                             style: TextStyle(
                               fontSize: 16,
+                              fontFamily: 'Inter',
                               color: Colors.white54,
                             ),
                           ),
@@ -457,6 +463,7 @@ class _ChipWidgetState extends State<ChipWidget> {
                               'Delete',
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                  fontFamily: 'Inter',
                                   color: widget.userId ==
                                           authController.currentUser['_id']
                                       ? ColorConst.primary

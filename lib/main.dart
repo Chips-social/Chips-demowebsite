@@ -78,8 +78,16 @@ class MyApp extends StatelessWidget {
       //   page: () => const Page404(),
       // ),
       theme: ThemeData(
+        fontFamily: 'Inter',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontFamily: 'Inter'),
+          displayMedium: TextStyle(fontFamily: 'Inter'),
+          displaySmall: TextStyle(fontFamily: 'Inter'),
+          bodyLarge: TextStyle(fontFamily: 'Inter'),
+          bodyMedium: TextStyle(fontFamily: 'Inter'),
+          bodySmall: TextStyle(fontFamily: 'Inter'),
+        ),
         useMaterial3: true,
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: MaterialStateProperty.all(

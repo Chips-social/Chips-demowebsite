@@ -26,7 +26,7 @@ class MyTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: GetBuilder(
         init: controller,
         builder: (value) => Wrap(
@@ -34,7 +34,7 @@ class MyTags extends StatelessWidget {
           children: gridList
               .map<Widget>((chip) => Obx(
                     () => Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: InkWell(
@@ -48,11 +48,12 @@ class MyTags extends StatelessWidget {
                                 ? MaterialStatePropertyAll(textColor)
                                 : MaterialStateProperty.all(backgroundColor),
                             side: BorderSide.none,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 2, vertical: 1),
                             label: Text(
                               chip,
                               style: TextStyle(
+                                  fontFamily: 'Inter',
                                   color: createCurationController
                                               .selectedValue.value ==
                                           chip

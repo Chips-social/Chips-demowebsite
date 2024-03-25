@@ -31,9 +31,10 @@ class _BusinessHomeCurationState extends State<BusinessHomeCuration> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xFF4F4C58), width: 0.6),
+                  border:
+                      Border.all(color: const Color(0xFF4F4C58), width: 0.6),
                   borderRadius: BorderRadius.circular(16)),
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -45,7 +46,7 @@ class _BusinessHomeCurationState extends State<BusinessHomeCuration> {
                           child: Container(
                             width: 50,
                             height: 50,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image:
                                     AssetImage("assets/website/whats_app.png"),
@@ -53,10 +54,10 @@ class _BusinessHomeCurationState extends State<BusinessHomeCuration> {
                               ),
                             ),
                           )),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      const Text(
                         "Name",
                         style: TextStyle(
                           color: Colors.white,
@@ -65,44 +66,48 @@ class _BusinessHomeCurationState extends State<BusinessHomeCuration> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         decoration: BoxDecoration(
                           color: ColorConst.dark,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Padding(
+                        child: const Padding(
                           padding:
                               EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                           child: Text("Unsubscribe",
-                              style: const TextStyle(
-                                  color: ColorConst.primary, fontSize: 12)),
+                              style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  color: ColorConst.primary,
+                                  fontSize: 12)),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  Row(children: [
-                    const Icon(
+                  const Row(children: [
+                    Icon(
                       Icons.link,
                       color: ColorConst.primary,
                       size: 18,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Flexible(
                       child: Text(
                         "https://wework.co.in/labs/",
-                        style: const TextStyle(
-                            color: ColorConst.primary, fontSize: 13),
+                        style: TextStyle(
+                            fontFamily: 'Inter',
+                            color: ColorConst.primary,
+                            fontSize: 13),
                       ),
                     )
                   ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
-                  Text(
+                  const Text(
                     "WeWork Labs aims to streamline the early-stage for both founders and investors. Through our varied offerings, we systematically eliminate barriers to growth, so that founders can focus on building sustainable, valuable companies of the future.",
                     style: TextStyle(
                       color: Colors.white,
@@ -114,7 +119,7 @@ class _BusinessHomeCurationState extends State<BusinessHomeCuration> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 28,
             ),
             Expanded(
@@ -158,12 +163,13 @@ class _BusinessHomeCurationState extends State<BusinessHomeCuration> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 5, top: 5),
+                            const Padding(
+                              padding:
+                                  EdgeInsets.only(left: 5, right: 5, top: 5),
                               child: Text(
                                 "name", // Replace with your item title
-                                style: const TextStyle(
+                                style: TextStyle(
+                                    fontFamily: 'Inter',
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),

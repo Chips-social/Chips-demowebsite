@@ -60,6 +60,7 @@ class _TabWidgetState extends State<TabWidget> {
                         () => Text(
                           homeController.selctedCategoryTab.value,
                           style: TextStyle(
+                            fontFamily: 'Inter',
                               fontSize: screenWidth < 360 ? 18 : 24,
                               fontWeight: FontWeight.w700,
                               color: ColorConst.primary),
@@ -138,6 +139,7 @@ class _TabWidgetState extends State<TabWidget> {
                                   children: [
                                     Text('+ New Curation',
                                         style: TextStyle(
+                                          fontFamily: 'Inter',
                                             color: Colors.white, fontSize: 13)),
                                   ],
                                 ),
@@ -238,6 +240,7 @@ class _TabWidgetState extends State<TabWidget> {
                                         homeController.curations[index][
                                             'name'], // Replace with your item title
                                         style: TextStyle(
+                                          fontFamily: 'Inter',
                                             fontSize: homeController
                                                         .curations[index]
                                                             ['name']
@@ -269,6 +272,7 @@ class _TabWidgetState extends State<TabWidget> {
                                                         ['user_id']['name'] ??
                                                     "Chips.Social",
                                             style: const TextStyle(
+                                              fontFamily: 'Inter',
                                                 fontSize: 13,
                                                 color: Colors.grey),
                                           ),
@@ -278,6 +282,7 @@ class _TabWidgetState extends State<TabWidget> {
                                           child: Text(
                                             '', // Replace with your chips count
                                             style: TextStyle(
+                                              fontFamily: 'Inter',
                                                 fontSize: 12,
                                                 color: Colors.grey),
                                           ),
@@ -302,7 +307,7 @@ void createChip(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return CreateChipModal();
+      return const CreateChipModal();
     },
   );
 }

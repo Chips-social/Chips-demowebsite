@@ -29,6 +29,7 @@ class _ModalState extends State<Modal> {
     if (response['success']) {
       await sidebarController.my3Curations();
       await sidebarController.my3SavedCurations();
+      GoRouter.of(context).go('/');
     }
   }
 
@@ -112,6 +113,7 @@ class _ModalState extends State<Modal> {
                                             : 'Join the club',
                                     style: const TextStyle(
                                         color: ColorConst.primaryText,
+                                        fontFamily: 'Inter',
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600)),
                               ),
@@ -132,6 +134,7 @@ class _ModalState extends State<Modal> {
                                           : 'ʕノ•ᴥ•ʔノ',
                                   style: const TextStyle(
                                       color: ColorConst.primaryGrey,
+                                      fontFamily: 'Inter',
                                       fontSize: 12)),
                             ),
                           ),
@@ -151,6 +154,7 @@ class _ModalState extends State<Modal> {
                                           "Enter the verification code we just sent to your email Id ${authController.emailController.text}",
                                           style: const TextStyle(
                                               color: Colors.white,
+                                              fontFamily: 'Inter',
                                               fontSize: 13),
                                         ),
                                         const SizedBox(
@@ -195,6 +199,7 @@ class _ModalState extends State<Modal> {
                                                 "Didn't received code?   ",
                                                 style: TextStyle(
                                                   color: Colors.grey,
+                                                  fontFamily: 'Inter',
                                                   fontSize: 10,
                                                 )),
                                             MouseRegion(
@@ -207,6 +212,7 @@ class _ModalState extends State<Modal> {
                                                   child: const Text("Resend",
                                                       style: TextStyle(
                                                           fontSize: 11,
+                                                          fontFamily: 'Inter',
                                                           color: Color.fromRGBO(
                                                               173,
                                                               168,
@@ -396,6 +402,7 @@ class _ModalState extends State<Modal> {
                                       const Center(
                                           child: Text("or",
                                               style: TextStyle(
+                                                  fontFamily: 'Inter',
                                                   color: Colors.white))),
                                       const SizedBox(height: 15),
                                       Center(
@@ -433,6 +440,7 @@ class _ModalState extends State<Modal> {
                                                 const Text(
                                                   "Sign in with google",
                                                   style: TextStyle(
+                                                      fontFamily: 'Inter',
                                                       color: Colors.white,
                                                       fontSize: 12),
                                                 ),
@@ -460,6 +468,7 @@ class _ModalState extends State<Modal> {
                                                   ? "Already have an account?  "
                                                   : "Don't have a account?   ",
                                       style: const TextStyle(
+                                        fontFamily: 'Inter',
                                         color: Colors.white,
                                         fontSize: 11,
                                       )),
@@ -490,6 +499,7 @@ class _ModalState extends State<Modal> {
                                                         ? "Login"
                                                         : "Register ",
                                             style: const TextStyle(
+                                                fontFamily: 'Inter',
                                                 fontSize: 13,
                                                 color: Color.fromRGBO(
                                                     173, 168, 245, 1.0),

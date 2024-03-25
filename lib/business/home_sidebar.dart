@@ -64,6 +64,7 @@ class HomeSidebar extends StatelessWidget {
                             style: TextStyle(
                                 color: ColorConst.textFieldColor,
                                 letterSpacing: 1.2,
+                                fontFamily: 'Inter',
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700),
                           ),

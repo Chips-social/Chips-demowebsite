@@ -30,11 +30,6 @@ class _ChipDemoState extends State<ChipDemo> {
   final CategoryController categoryController = Get.find<CategoryController>();
 
   final HomeController homeController = Get.find<HomeController>();
-
-  // final String title = Get.parameters['title'] ?? "";
-
-  // final String curId = Get.parameters['id'] ?? "";
-
   final CreateCurationController curationController =
       Get.put(CreateCurationController());
 
@@ -89,6 +84,7 @@ class _ChipDemoState extends State<ChipDemo> {
                     child: Text(
                       widget.title,
                       style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: screenWidth < 360 ? 18 : 24,
                           fontWeight: FontWeight.bold,
                           color: ColorConst.primary),
@@ -247,6 +243,7 @@ class _ChipDemoState extends State<ChipDemo> {
                                                           ? 'Remove from saved'
                                                           : 'Save to my curation',
                                                       style: const TextStyle(
+                                                          fontFamily: 'Inter',
                                                           color: Colors.white,
                                                           fontSize: 13)),
                                                 ),
@@ -289,6 +286,7 @@ class _ChipDemoState extends State<ChipDemo> {
                             child: Text(
                               homeController.ownerName.value,
                               style: const TextStyle(
+                                  fontFamily: 'Inter',
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
@@ -309,6 +307,7 @@ class _ChipDemoState extends State<ChipDemo> {
                             child: Text(
                               "Subscribed",
                               style: TextStyle(
+                                  fontFamily: 'Inter',
                                   color: Color.fromARGB(198, 255, 255, 255),
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold),

@@ -29,7 +29,10 @@ class EmptySavedCurations extends StatelessWidget {
               textAlign: TextAlign.center,
               "It looks like you’ve not saved anything.",
               style: TextStyle(
-                  color: Color(0xFFA3A3A3), letterSpacing: 1.4, fontSize: 12),
+                  fontFamily: 'Inter',
+                  color: Color(0xFFA3A3A3),
+                  letterSpacing: 1.4,
+                  fontSize: 12),
             ),
             const SizedBox(
               height: 4,
@@ -41,7 +44,10 @@ class EmptySavedCurations extends StatelessWidget {
               child: const Text(
                 textAlign: TextAlign.center,
                 "Start Exploring ->",
-                style: TextStyle(color: ColorConst.primary, letterSpacing: 1.4),
+                style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: ColorConst.primary,
+                    letterSpacing: 1.4),
               ),
             ),
           ],

@@ -88,6 +88,7 @@ class ChoiceModal extends StatelessWidget {
                                   child: const Text(
                                     "Cancel",
                                     style: TextStyle(
+                                        fontFamily: 'Inter',
                                         color: ColorConst.buttonText,
                                         fontSize: 14),
                                   ),
@@ -125,6 +126,7 @@ class ChoiceModal extends StatelessWidget {
                                   child: const Text(
                                     "Yes, delete",
                                     style: TextStyle(
+                                        fontFamily: 'Inter',
                                         color: ColorConst.primary,
                                         fontSize: 14),
                                   ),

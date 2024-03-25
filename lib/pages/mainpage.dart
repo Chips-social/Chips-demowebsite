@@ -71,7 +71,8 @@ class _MainPageState extends State<MainPage> {
                                 : getW(context) * 0.4,
                             child: Obx(
                               () => TextField(
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(
+                                    fontFamily: 'Inter', color: Colors.white),
                                 controller:
                                     homeController.globalSearchController,
                                 // textAlign:
@@ -227,6 +228,7 @@ class _MainPageState extends State<MainPage> {
                                                     index]['name'],
                                                 style: TextStyle(
                                                     color: Colors.white,
+                                                    fontFamily: 'Inter',
                                                     fontSize:
                                                         getW(context) < 450
                                                             ? 12
@@ -238,6 +240,7 @@ class _MainPageState extends State<MainPage> {
                                                     index]['user_id']['name'],
                                                 style: TextStyle(
                                                     color: Colors.grey,
+                                                    fontFamily: 'Inter',
                                                     fontSize:
                                                         getW(context) < 450
                                                             ? 10

@@ -36,7 +36,10 @@ class EmptyChipsCard extends StatelessWidget {
                   ? "It looks like you’ve not added anything."
                   : "It looks like this category has no curations.",
               style: TextStyle(
-                  color: Color(0xFFA3A3A3), letterSpacing: 1.2, fontSize: 12),
+                  fontFamily: 'Inter',
+                  color: Color(0xFFA3A3A3),
+                  letterSpacing: 1.2,
+                  fontSize: 12),
             ),
             SizedBox(
               height: 4,
@@ -92,7 +95,10 @@ class EmptyChipsCard extends StatelessWidget {
                 title == "chip"
                     ? "Start curating with a chip ->"
                     : "Start a curation",
-                style: TextStyle(color: ColorConst.primary, letterSpacing: 1.4),
+                style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: ColorConst.primary,
+                    letterSpacing: 1.4),
               ),
             ),
           ],

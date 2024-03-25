@@ -1,14 +1,12 @@
 import 'package:chips_demowebsite/constants/color_constants.dart';
-import 'package:chips_demowebsite/controllers/chip_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 Widget PrimaryText(String text, double fontSize) {
   return Text(
     text,
-    style: TextStyle(fontSize: fontSize, color: ColorConst.primary),
+    style: TextStyle(
+        fontFamily: 'Inter', fontSize: fontSize, color: ColorConst.primary),
   );
 }
 
@@ -17,6 +15,7 @@ Widget PrimaryBoldText(String text, double fontSize) {
     text,
     style: TextStyle(
         fontSize: fontSize,
+        fontFamily: 'Inter',
         fontWeight: FontWeight.bold,
         color: ColorConst.primary),
   );

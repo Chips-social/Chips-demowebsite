@@ -153,8 +153,6 @@ class AuthController extends GetxController {
             message: response["message"],
             icon: Icons.check_circle,
             color: ColorConst.success);
-        GoRouter.of(context).go('/');
-
         return {"success": true};
       } else {
         isLoggedIn.value = false;

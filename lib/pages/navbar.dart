@@ -64,7 +64,8 @@ Widget NavBar(context) {
                       value: 'Logout',
                       child: Text(
                         'Logout',
-                        style: TextStyle(color: ColorConst.primary),
+                        style: TextStyle(
+                            fontFamily: 'Inter', color: ColorConst.primary),
                       ),
                     ),
                     // Add more PopupMenuItems for other options

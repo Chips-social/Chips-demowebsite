@@ -172,6 +172,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                             child: Text(
                               "Remove from Saved",
                               style: TextStyle(
+                                  fontFamily: 'Inter',
                                   color: Colors.white,
                                   fontSize: getW(context) < 400 ? 12 : 14),
                             ),
@@ -192,6 +193,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                         () => Text(
                           sidebarController.savedOwnerName.value,
                           style: TextStyle(
+                              fontFamily: 'Inter',
                               fontSize: getW(context) < 400 ? 11 : 16,
                               fontWeight: FontWeight.w400,
                               color: Colors.white),
@@ -212,6 +214,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                           child: Text(
                             "Subscribed",
                             style: TextStyle(
+                                fontFamily: 'Inter',
                                 color: Color.fromARGB(198, 255, 255, 255),
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold),
@@ -224,6 +227,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                       Text(
                         "Category",
                         style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: getW(context) < 400 ? 11 : 16,
                             fontWeight: FontWeight.w400,
                             color: Colors.white),
@@ -249,6 +253,7 @@ class _SavedCurationChipsState extends State<SavedCurationChips> {
                             child: Text(
                               homeController.selctedCategoryTab.value,
                               style: TextStyle(
+                                  fontFamily: 'Inter',
                                   color: ColorConst.buttonText,
                                   fontSize: getW(context) < 400 ? 11 : 12,
                                   fontWeight: FontWeight.bold),

@@ -287,6 +287,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                           "Category",
                           style: TextStyle(
                               fontSize: 16,
+                              fontFamily: 'Inter',
                               fontWeight: FontWeight.w400,
                               color: Colors.white),
                         ),
@@ -314,6 +315,7 @@ class _MyCurationChipsState extends State<MyCurationChips>
                                 homeController.selctedCategoryTab.value,
                                 style: const TextStyle(
                                     color: ColorConst.buttonText,
+                                    fontFamily: 'Inter',
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
                               ),

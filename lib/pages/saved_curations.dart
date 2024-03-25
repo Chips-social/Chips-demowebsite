@@ -62,6 +62,7 @@ class _SavedCurationsState extends State<SavedCurations> {
               Text(
                 "Saved",
                 style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: getW(context) * 0.018,
                     fontWeight: FontWeight.bold,
                     color: ColorConst.primary),
@@ -149,6 +150,7 @@ class _SavedCurationsState extends State<SavedCurations> {
                                                       .mysavedCurations[index][
                                                   'name'], // Replace with your item title
                                               style: const TextStyle(
+                                                  fontFamily: 'Inter',
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
@@ -168,6 +170,7 @@ class _SavedCurationsState extends State<SavedCurations> {
                                                           .mysavedCurations[
                                                       index]['user_id']['name'],
                                                   style: const TextStyle(
+                                                      fontFamily: 'Inter',
                                                       fontSize: 13,
                                                       color: Colors.grey),
                                                 ),
@@ -178,6 +181,7 @@ class _SavedCurationsState extends State<SavedCurations> {
                                                 child: Text(
                                                   '', // Replace with your chips count
                                                   style: TextStyle(
+                                                      fontFamily: 'Inter',
                                                       fontSize: 12,
                                                       color: Colors.grey),
                                                 ),

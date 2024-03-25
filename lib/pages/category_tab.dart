@@ -39,7 +39,7 @@ class _CategoryTabState extends State<CategoryTab> {
         homeController.selctedCategoryTab.value =
             homeController.categories[initialIndex];
         Future.microtask(() => homeController.allCurations()).then((_) {
-          if (mounted) {
+          if (mounted && !homeController.isSelectedTab.value) {
             homeController.tabController.animateTo(initialIndex);
             homeController.scrollController.animateTo(
                 homeController.tabController.index * 150,
@@ -139,7 +139,9 @@ class _CategoryTabState extends State<CategoryTab> {
                                 dividerHeight: 0.3,
                                 dividerColor: Colors.grey,
                                 labelStyle: const TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 15),
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15),
                                 onTap: (index) {
                                   homeController.changeTab(index, context);
                                 },
